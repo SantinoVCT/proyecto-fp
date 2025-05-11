@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductoRepository::class)]
@@ -30,6 +32,28 @@ class Producto
 
     #[ORM\Column]
     private ?float $Precio = null;
+
+    #[ORM\ManyToOne(inversedBy: 'productos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Categoria $Categoria = null;
+
+    /**
+     * @var Collection<int, Carrito>
+     */
+    #[ORM\OneToMany(targetEntity: Carrito::class, mappedBy: 'Producto')]
+    private Collection $carritos;
+
+    /**
+     * @var Collection<int, Pedidos>
+     */
+    #[ORM\OneToMany(targetEntity: Pedidos::class, mappedBy: 'Producto')]
+    private Collection $pedidos;
+
+    public function __construct()
+    {
+        $this->carritos = new ArrayCollection();
+        $this->pedidos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,6 +128,78 @@ class Producto
     public function setPrecio(float $Precio): static
     {
         $this->Precio = $Precio;
+
+        return $this;
+    }
+
+    public function getCategoria(): ?Categoria
+    {
+        return $this->Categoria;
+    }
+
+    public function setCategoria(?Categoria $Categoria): static
+    {
+        $this->Categoria = $Categoria;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Carrito>
+     */
+    public function getCarritos(): Collection
+    {
+        return $this->carritos;
+    }
+
+    public function addCarrito(Carrito $carrito): static
+    {
+        if (!$this->carritos->contains($carrito)) {
+            $this->carritos->add($carrito);
+            $carrito->setProducto($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCarrito(Carrito $carrito): static
+    {
+        if ($this->carritos->removeElement($carrito)) {
+            // set the owning side to null (unless already changed)
+            if ($carrito->getProducto() === $this) {
+                $carrito->setProducto(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Pedidos>
+     */
+    public function getPedidos(): Collection
+    {
+        return $this->pedidos;
+    }
+
+    public function addPedido(Pedidos $pedido): static
+    {
+        if (!$this->pedidos->contains($pedido)) {
+            $this->pedidos->add($pedido);
+            $pedido->setProducto($this);
+        }
+
+        return $this;
+    }
+
+    public function removePedido(Pedidos $pedido): static
+    {
+        if ($this->pedidos->removeElement($pedido)) {
+            // set the owning side to null (unless already changed)
+            if ($pedido->getProducto() === $this) {
+                $pedido->setProducto(null);
+            }
+        }
 
         return $this;
     }

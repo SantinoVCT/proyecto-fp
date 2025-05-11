@@ -16,6 +16,14 @@ class Carrito
     #[ORM\Column]
     private ?int $Cantidad = null;
 
+    #[ORM\ManyToOne(inversedBy: 'carritos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Usuario $Usuario = null;
+
+    #[ORM\ManyToOne(inversedBy: 'carritos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Producto $Producto = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +37,30 @@ class Carrito
     public function setCantidad(int $Cantidad): static
     {
         $this->Cantidad = $Cantidad;
+
+        return $this;
+    }
+
+    public function getUsuario(): ?Usuario
+    {
+        return $this->Usuario;
+    }
+
+    public function setUsuario(?Usuario $Usuario): static
+    {
+        $this->Usuario = $Usuario;
+
+        return $this;
+    }
+
+    public function getProducto(): ?Producto
+    {
+        return $this->Producto;
+    }
+
+    public function setProducto(?Producto $Producto): static
+    {
+        $this->Producto = $Producto;
 
         return $this;
     }

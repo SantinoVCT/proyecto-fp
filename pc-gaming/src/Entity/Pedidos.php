@@ -23,6 +23,14 @@ class Pedidos
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $FechaPedido = null;
 
+    #[ORM\ManyToOne(inversedBy: 'pedidos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Usuario $Usuario = null;
+
+    #[ORM\ManyToOne(inversedBy: 'pedidos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Producto $Producto = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +68,30 @@ class Pedidos
     public function setFechaPedido(\DateTime $FechaPedido): static
     {
         $this->FechaPedido = $FechaPedido;
+
+        return $this;
+    }
+
+    public function getUsuario(): ?Usuario
+    {
+        return $this->Usuario;
+    }
+
+    public function setUsuario(?Usuario $Usuario): static
+    {
+        $this->Usuario = $Usuario;
+
+        return $this;
+    }
+
+    public function getProducto(): ?Producto
+    {
+        return $this->Producto;
+    }
+
+    public function setProducto(?Producto $Producto): static
+    {
+        $this->Producto = $Producto;
 
         return $this;
     }
