@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pedidos index
+{% endblock %}
+
+{% block body %}
+	<h1>Pedidos index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Cantidad</th>
+				<th>Estado</th>
+				<th>FechaPedido</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for pedido in pedidos %}
+				<tr>
+					<td>{{ pedido.id }}</td>
+					<td>{{ pedido.Cantidad }}</td>
+					<td>{{ pedido.Estado }}</td>
+					<td>{{ pedido.FechaPedido ? pedido.FechaPedido|date('Y-m-d') : '' }}</td>
+					<td>
+						<a href="{{ path('app_pedidos_show', {'id': pedido.id}) }}">show</a>
+						<a href="{{ path('app_pedidos_edit', {'id': pedido.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	{# Este bloque es para el mensaje de error #}
+	{% for label, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="alert alert-{{ label }} mt-4">
+				{{ message }}
+			</div>
+		{% endfor %}
+	{% endfor %}
+
+	<a href="{{ path('app_pedidos_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Carrito index
+{% endblock %}
+
+{% block body %}
+	<h1>Carrito index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Cantidad</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for carrito in carritos %}
+				<tr>
+					<td>{{ carrito.id }}</td>
+					<td>{{ carrito.Cantidad }}</td>
+					<td>
+						<a href="{{ path('app_carrito_show', {'id': carrito.id}) }}">show</a>
+						<a href="{{ path('app_carrito_edit', {'id': carrito.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="3">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	{# Este bloque es para el mensaje de error #}
+	{% for label, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="alert alert-{{ label }} mt-4">
+				{{ message }}
+			</div>
+		{% endfor %}
+	{% endfor %}
+
+	<a href="{{ path('app_carrito_new') }}">Create new</a>
+{% endblock %}
