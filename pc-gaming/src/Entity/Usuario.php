@@ -22,7 +22,7 @@ class Usuario
     private ?string $Apellidos = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Contraseña = null;
+    private ?string $Password = null;
 
     #[ORM\Column(length: 255)]
     private ?string $Email = null;
@@ -78,14 +78,14 @@ class Usuario
         return $this;
     }
 
-    public function getContraseña(): ?string
+    public function getPassword(): ?string
     {
-        return $this->Contraseña;
+        return $this->Password;
     }
 
-    public function setContraseña(string $Contraseña): static
+    public function setPassword(string $Password): static
     {
-        $this->Contraseña = $Contraseña;
+        $this->Password = $Password;
 
         return $this;
     }

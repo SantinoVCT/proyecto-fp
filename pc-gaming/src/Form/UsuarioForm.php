@@ -16,7 +16,7 @@ class UsuarioForm extends AbstractType
         $builder
             ->add('Nombre')
             ->add('Apellidos')
-            ->add('Contraseña')
+            ->add('Password')
             ->add('Email')
             ->add('Tipo', EntityType::class, [
                 'class' => Tipo::class,

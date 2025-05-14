@@ -14,8 +14,8 @@ class TipoFixtures extends Fixture
         // $product = new Product();
         // $manager->persist($product);
 
-        $admin = new Rol();
-        $usuario = new Rol();
+        $admin = new Tipo();
+        $usuario = new Tipo();
 
         $admin->setNombre("Admin");
         $usuario->setNombre("Usuario");

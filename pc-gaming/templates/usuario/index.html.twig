@@ -4,48 +4,72 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Usuario index</h1>
-
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Nombre</th>
-				<th>Apellidos</th>
-				<th>Contraseña</th>
-				<th>Email</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for usuario in usuarios %}
-				<tr>
-					<td>{{ usuario.id }}</td>
-					<td>{{ usuario.Nombre }}</td>
-					<td>{{ usuario.Apellidos }}</td>
-					<td>{{ usuario.Contraseña }}</td>
-					<td>{{ usuario.Email }}</td>
-					<td>
-						<a href="{{ path('app_usuario_show', {'id': usuario.id}) }}">show</a>
-						<a href="{{ path('app_usuario_edit', {'id': usuario.id}) }}">edit</a>
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="6">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
+	<div class="bg-gray-900 py-16">
+		<div class="container mx-auto px-4">
+			<h1 class="text-6xl text-white text-center">
+				Usuario
+			</h1>
+		</div>
+	</div>
 	{# Este bloque es para el mensaje de error #}
 	{% for label, messages in app.flashes %}
 		{% for message in messages %}
-			<div class="alert alert-{{ label }} mt-4">
-				{{ message }}
+			<div class="bg-white rounded-lg shadow-lg overflow-hidden relative">
+				<div class="px-6 py-4 mb-2">
+					<p class="text-gray-700 text-base">
+						{{ message }}
+					</p>
+				</div>
 			</div>
 		{% endfor %}
 	{% endfor %}
+
+	<div class="container mx-auto px-4 py-8">
+		{% if usuarios is empty%}
+			<div class="bg-white rounded-lg shadow-lg overflow-hidden relative">
+				<div class="px-6 py-4">
+					<div class="font-bold text-xl mb-2">No users found</div>
+					<p class="text-gray-700 text-base">
+						There are no users in the database.
+						<a href="{{ path('app_usuario_new') }}" class="text-blue-500">Add one</a>
+					</p>
+				</div>
+			</div>
+
+		{% else %}
+			<div class="grid gap-4">
+				<div class="bg-white rounded-lg shadow-lg overflow-hidden relative">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Id</th>
+								<th>Nombre</th>
+								<th>Apellidos</th>
+								<th>Contraseña</th>
+								<th>Email</th>
+								<th>actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for usuario in usuarios %}
+								<tr>
+									<td>{{ usuario.id }}</td>
+									<td>{{ usuario.Nombre }}</td>
+									<td>{{ usuario.Apellidos }}</td>
+									<td>{{ usuario.Password }}</td>
+									<td>{{ usuario.Email }}</td>
+									<td>
+										<a href="{{ path('app_usuario_show', {'id': usuario.id}) }}">show</a>
+										<a href="{{ path('app_usuario_edit', {'id': usuario.id}) }}">edit</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</div>
+				</div>
+			</tbody>
+		</table>
+		{% endif %}
 
 	<a href="{{ path('app_usuario_new') }}">Create new</a>
 {% endblock %}

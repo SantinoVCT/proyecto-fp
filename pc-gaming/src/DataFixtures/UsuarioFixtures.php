@@ -17,13 +17,13 @@ class UsuarioFixtures extends Fixture implements DependentFixtureInterface
         // $product = new Product();
         // $manager->persist($product);
 
-        $adminUser = new User();
+        $adminUser = new Usuario();
 
         $adminUser->setNombre("Admin");
-        $adminUser->setApellido("host");
+        $adminUser->setApellidos("host");
         $adminUser->setEmail("admin@gmail.com");
         $adminUser->setPassword("1234");
-        $adminUser->setRol($this->getReference('admin', Tipo::class));
+        $adminUser->setTipo($this->getReference('admin', Tipo::class));
 
         $manager->persist($adminUser);
 
