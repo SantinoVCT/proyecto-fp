@@ -1,0 +1,39 @@
+<nav class="flex items-center justify-between flex-wrap bg-blue-500 p-6">
+    <div class="flex items-center flex-shrink-0 m-5 mr-6">
+        <span class="font-semibold text-xl tracking-tight">PC GAMING Database</span>
+    </div>
+    <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+        <div class="text-sm lg:flex-grow">
+            <a
+                href="{{ path('app_usuario_index') }}"
+                class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-white mt-4 lg:mt-0 m-5"
+            >
+                Usuario
+            </a>
+            <a
+                href="{{ path('app_producto_index') }}"
+                class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-white mt-4 lg:mt-0 m-5"
+            >
+                Producto
+            </a>
+            <a
+                href="{{ path('app_categoria_index') }}"
+                class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-white mt-4 lg:mt-0 m-5"
+            >
+                Categoria
+            </a>
+            <a
+                href="{{ path('app_carrito_index') }}"
+                class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-white mt-4 lg:mt-0 m-5"
+            >
+                Carrito
+            </a>
+            <a
+                href="{{ path('app_pedidos_index') }}"
+                class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-white mt-4 lg:mt-0 m-5"
+            >
+                Pedidos
+            </a>
+        </div>
+    </div>
+</nav>

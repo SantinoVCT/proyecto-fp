@@ -1,9 +1,14 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+{% endblock %}
 
 {% block title %}Usuario index
 {% endblock %}
 
 {% block body %}
+	{% include 'partials/navbar.html.twig' %}
 	<div class="bg-gray-900 py-16">
 		<div class="container mx-auto px-4">
 			<h1 class="text-6xl text-white text-center">
@@ -11,6 +16,7 @@
 			</h1>
 		</div>
 	</div>
+	
 	{# Este bloque es para el mensaje de error #}
 	{% for label, messages in app.flashes %}
 		{% for message in messages %}

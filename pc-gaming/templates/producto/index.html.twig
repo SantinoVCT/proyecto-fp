@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+	{% include 'partials/navbar.html.twig' %}
 	<div class="bg-gray-900 py-16">
 		<div class="container mx-auto px-4">
 			<h1 class="text-6xl text-white text-center">
@@ -39,7 +40,7 @@
 		{% else %}
 			<div class="bg-blue-500 hover:bg-blue-700 rounded-lg shadow-lg overflow-hidden relative mx-6 my-4 w-3xs text-center text-xl">
 				<div class="px-6 py-4">
-					<a href="{{ path('app_producto_show') }}" class="text-white">Add One</a>
+					<a href="{{ path('app_producto_new') }}" class="text-white">Add One</a>
 				</div>
 			</div>
 			<br>
@@ -51,11 +52,9 @@
 								<th>Id</th>
 								<th>Nombre</th>
 								<th>Descripcion</th>
-								<th>Caracteristicas</th>
-								<th>Requisitos</th>
 								<th>Disponible</th>
 								<th>Precio</th>
-								<th>actions</th>
+								<th>Actions</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -64,8 +63,6 @@
 									<td>{{ producto.id }}</td>
 									<td>{{ producto.Nombre }}</td>
 									<td>{{ producto.Descripcion }}</td>
-									<td>{{ producto.Caracteristicas }}</td>
-									<td>{{ producto.Requisitos }}</td>
 									<td>{{ producto.Disponible ? 'Yes' : 'No' }}</td>
 									<td>{{ producto.Precio }}</td>
 									<td>

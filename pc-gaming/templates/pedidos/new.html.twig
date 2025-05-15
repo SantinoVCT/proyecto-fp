@@ -3,9 +3,16 @@
 {% block title %}New Pedidos{% endblock %}
 
 {% block body %}
-    <h1>Create new Pedidos</h1>
-
+    <div class="bg-gray-900 py-16">
+		<div class="container mx-auto px-2">
+			<h1 class="text-6xl text-white text-center">Create new Pedidos</h1>
+		</div>
+	</div>
+<div class="container mx-auto px-4 py-8">
+		<div class="w-auto">
+			<div class="bg-white rounded-lg shadow-lg  overflow-hidden relative px-6 py-4">
     {{ include('pedidos/_form.html.twig') }}
-
-    <a href="{{ path('app_pedidos_index') }}">back to list</a>
+</div>
+		</div>
+	</div>
 {% endblock %}

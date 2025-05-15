@@ -1,13 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Pedidos{% endblock %}
+{% block title %}Edit Pedidos
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Pedidos</h1>
-
-    {{ include('pedidos/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_pedidos_index') }}">back to list</a>
-
-    {{ include('pedidos/_delete_form.html.twig') }}
+	<div class="bg-gray-900 py-16">
+		<div class="container mx-auto px-2">
+			<h1 class="text-6xl text-white text-center">
+				Edit Pedido de
+				{{pedido.Usuario.nombre }}. Producto:
+				{{ pedido.Producto.nombre }}
+			</h1>
+		</div>
+	</div>
+	<div class="container mx-auto px-4 py-8">
+		<div class="w-auto">
+			<div class="bg-white rounded-lg shadow-lg  overflow-hidden relative px-6 py-4">
+				{{ include('pedidos/_form.html.twig', {'button_label': 'Update'}) }}
+			</div>
+		</div>
+	</div>
 {% endblock %}
