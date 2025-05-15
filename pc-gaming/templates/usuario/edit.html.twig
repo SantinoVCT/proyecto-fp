@@ -4,7 +4,13 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Edit Usuario</h1>
+	<div class="bg-gray-900 py-16">
+		<div class="container mx-auto px-2">
+			<h1 class="text-6xl text-white text-center">
+				Edit Usuario: {{ usuario.nombre }}
+			</h1>
+		</div>
+	</div>
 	<div class="container mx-auto px-4 py-8">
 		<div class="w-auto">
 			<div class="bg-white rounded-lg shadow-lg  overflow-hidden relative px-6 py-4">
@@ -12,8 +18,4 @@
 			</div>
 		</div>
 	</div>
-
-	<a href="{{ path('app_usuario_index') }}">back to list</a>
-
-	{{ include('usuario/_delete_form.html.twig') }}
 {% endblock %}
