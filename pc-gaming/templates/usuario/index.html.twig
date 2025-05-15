@@ -37,16 +37,23 @@
 			</div>
 
 		{% else %}
-			<div class="grid gap-4">
-				<div class="bg-white rounded-lg shadow-lg overflow-hidden relative">
-					<table class="table">
+			<div class="bg-green-500 rounded-lg shadow-lg overflow-hidden relative mx-6 my-4 w-3xs text-center">
+				<div class="px-6 py-4">
+					<a href="{{ path('app_usuario_new') }}" class="text-white">Add one</a>
+				</div>
+			</div>
+			<br>
+			<div class="w-auto">
+				<div class="bg-white rounded-lg shadow-lg flex flex-row justify-center items-center overflow-hidden relative px-6 py-4">
+					<table class="table border-separate border-spacing-3">
 						<thead>
-							<tr>
+							<tr class="border-dashed">
 								<th>Id</th>
 								<th>Nombre</th>
 								<th>Apellidos</th>
-								<th>Contraseña</th>
+								<th>Password</th>
 								<th>Email</th>
+								<th>Tipo</th>
 								<th>actions</th>
 							</tr>
 						</thead>
@@ -58,9 +65,22 @@
 									<td>{{ usuario.Apellidos }}</td>
 									<td>{{ usuario.Password }}</td>
 									<td>{{ usuario.Email }}</td>
+									<td>{{ usuario.Tipo.Nombre }}</td>
 									<td>
-										<a href="{{ path('app_usuario_show', {'id': usuario.id}) }}">show</a>
-										<a href="{{ path('app_usuario_edit', {'id': usuario.id}) }}">edit</a>
+										<div class="flex justify-center my-3">
+											<div class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-l">
+												<a href="{{path('app_usuario_show', {id: usuario.id})}}" class="font-bold py-2 px-4">
+													<i class="fas fa-eye"></i>
+													View
+												</a>
+											</div>
+											<div class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-r">
+												<a href="{{path('app_usuario_edit', {id: usuario.id})}}" class="font-bold py-2 px-4">
+													<i class="fas fa-edit"></i>
+													Edit
+												</a>
+											</div>
+										</div>
 									</td>
 								</tr>
 							{% endfor %}
@@ -69,7 +89,6 @@
 				</div>
 			</tbody>
 		</table>
-		{% endif %}
+	{% endif %}
 
-	<a href="{{ path('app_usuario_new') }}">Create new</a>
 {% endblock %}
