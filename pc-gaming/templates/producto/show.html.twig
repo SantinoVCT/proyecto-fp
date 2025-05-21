@@ -36,7 +36,12 @@
 						</tr>
 						<tr>
 							<th>Requisitos</th>
-							<td>{{ producto.Requisitos }}</td>
+							{% if producto.Requisitos is empty%}
+								<td>No hay requisitos</td>
+							{% else %}
+								<td>{{ producto.Requisitos }}</td>
+							{% endif %}
+							
 						</tr>
 						<tr>
 							<th>Disponible</th>
