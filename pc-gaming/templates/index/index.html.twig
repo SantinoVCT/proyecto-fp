@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello IndexController!
+{% block title %}PC Gaminng
 {% endblock %}
 
 {% block body %}
-	{% include 'partials/navbar.html.twig' %}
+	{% include 'partials/navbar_logout.html.twig' %}
 
 	<div class="container mx-auto px-4 py-8">
 
 		{% for producto in productos %}
-			<div class="bg-white rounded-lg shadow-lg overflow-hidden relative">
+			<div class="bg-white rounded-lg shadow-lg overflow-hidden relative m-5">
 				<div class="px-4 py-4">
 					<div class="font-bold text-xl mb-2">{{ producto.Nombre }}</div>
 					<p class="text-gray-700 text-base">{{ producto.Descripcion|slice(0,100) }}...</p>
@@ -30,24 +30,6 @@
 					</div>
 				</div>
 			</div>
-			<tr>
-				<td>{{ producto.Nombre }}</td>
-				<td>
-					
-				</td>
-			</tr>
 		{% endfor %}
 	</div>
-	<h1>Hello
-						✅</h1>
-
-	This friendly message is coming from:
-	<ul>
-		<li>Your controller at
-			<code>C:/xampp/htdocs/Proyecto-FP/proyecto-fp/pc-gaming/src/Controller/IndexController.php</code>
-		</li>
-		<li>Your template at
-			<code>C:/xampp/htdocs/Proyecto-FP/proyecto-fp/pc-gaming/templates/index/index.html.twig</code>
-		</li>
-	</ul>
 {% endblock %}
