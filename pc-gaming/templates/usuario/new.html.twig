@@ -1,19 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Usuario
-{% endblock %}
+{% block title %}New Usuario{% endblock %}
 
 {% block body %}
-	<div class="bg-gray-900 py-16">
-		<div class="container mx-auto px-2">
-			<h1 class="text-6xl text-white text-center">Create new Usuario</h1>
-		</div>
-	</div>
-	<div class="container mx-auto px-4 py-8">
-		<div class="w-auto">
-			<div class="bg-white rounded-lg shadow-lg  overflow-hidden relative px-6 py-4">
-				{{ include('usuario/_form.html.twig') }}
-			</div>
-		</div>
-	</div>
+    <h1>Create new Usuario</h1>
+
+    {{ include('usuario/_form.html.twig') }}
+
+    <a href="{{ path('app_usuario_index') }}">back to list</a>
 {% endblock %}

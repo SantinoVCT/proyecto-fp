@@ -3,55 +3,114 @@
 namespace App\Entity;
 
 use App\Repository\UsuarioRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsuarioRepository::class)]
-class Usuario
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 180)]
+    private ?string $email = null;
+
+    /**
+     * @var list<string> The user roles
+     */
+    #[ORM\Column]
+    private array $roles = [];
+
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
+
+    #[ORM\Column(length: 150)]
     private ?string $Nombre = null;
 
     #[ORM\Column(length: 255)]
     private ?string $Apellidos = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Password = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $Email = null;
-
-    #[ORM\ManyToOne(inversedBy: 'usuarios')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Tipo $Tipo = null;
-
-    /**
-     * @var Collection<int, Carrito>
-     */
-    #[ORM\OneToMany(targetEntity: Carrito::class, mappedBy: 'Usuario')]
-    private Collection $carritos;
-
-    /**
-     * @var Collection<int, Pedidos>
-     */
-    #[ORM\OneToMany(targetEntity: Pedidos::class, mappedBy: 'Usuario')]
-    private Collection $pedidos;
-
-    public function __construct()
-    {
-        $this->carritos = new ArrayCollection();
-        $this->pedidos = new ArrayCollection();
-    }
+    private ?string $Direccion = null;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    /**
+     * @param list<string> $roles
+     */
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getNombre(): ?string
@@ -78,98 +137,14 @@ class Usuario
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getDireccion(): ?string
     {
-        return $this->Password;
+        return $this->Direccion;
     }
 
-    public function setPassword(string $Password): static
+    public function setDireccion(string $Direccion): static
     {
-        $this->Password = $Password;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->Email;
-    }
-
-    public function setEmail(string $Email): static
-    {
-        $this->Email = $Email;
-
-        return $this;
-    }
-
-    public function getTipo(): ?Tipo
-    {
-        return $this->Tipo;
-    }
-
-    public function setTipo(?Tipo $Tipo): static
-    {
-        $this->Tipo = $Tipo;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Carrito>
-     */
-    public function getCarritos(): Collection
-    {
-        return $this->carritos;
-    }
-
-    public function addCarrito(Carrito $carrito): static
-    {
-        if (!$this->carritos->contains($carrito)) {
-            $this->carritos->add($carrito);
-            $carrito->setUsuario($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCarrito(Carrito $carrito): static
-    {
-        if ($this->carritos->removeElement($carrito)) {
-            // set the owning side to null (unless already changed)
-            if ($carrito->getUsuario() === $this) {
-                $carrito->setUsuario(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Pedidos>
-     */
-    public function getPedidos(): Collection
-    {
-        return $this->pedidos;
-    }
-
-    public function addPedido(Pedidos $pedido): static
-    {
-        if (!$this->pedidos->contains($pedido)) {
-            $this->pedidos->add($pedido);
-            $pedido->setUsuario($this);
-        }
-
-        return $this;
-    }
-
-    public function removePedido(Pedidos $pedido): static
-    {
-        if ($this->pedidos->removeElement($pedido)) {
-            // set the owning side to null (unless already changed)
-            if ($pedido->getUsuario() === $this) {
-                $pedido->setUsuario(null);
-            }
-        }
+        $this->Direccion = $Direccion;
 
         return $this;
     }

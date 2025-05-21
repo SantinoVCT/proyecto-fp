@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250514194505 extends AbstractMigration
+final class Version20250521215840 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -33,10 +33,7 @@ final class Version20250514194505 extends AbstractMigration
             CREATE TABLE producto (id INT AUTO_INCREMENT NOT NULL, categoria_id INT NOT NULL, nombre VARCHAR(255) NOT NULL, descripcion VARCHAR(255) NOT NULL, caracteristicas VARCHAR(255) NOT NULL, requisitos VARCHAR(255) DEFAULT NULL, disponible TINYINT(1) NOT NULL, precio DOUBLE PRECISION NOT NULL, INDEX IDX_A7BB06153397707A (categoria_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE tipo (id INT AUTO_INCREMENT NOT NULL, nombre VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
-        SQL);
-        $this->addSql(<<<'SQL'
-            CREATE TABLE usuario (id INT AUTO_INCREMENT NOT NULL, tipo_id INT NOT NULL, nombre VARCHAR(255) NOT NULL, apellidos VARCHAR(255) NOT NULL, contraseña VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, INDEX IDX_2265B05DA9276E6C (tipo_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+            CREATE TABLE usuario (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL COMMENT '(DC2Type:json)', password VARCHAR(255) NOT NULL, nombre VARCHAR(150) NOT NULL, apellidos VARCHAR(255) NOT NULL, direccion VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE carrito ADD CONSTRAINT FK_77E6BED5DB38439E FOREIGN KEY (usuario_id) REFERENCES usuario (id)
@@ -52,9 +49,6 @@ final class Version20250514194505 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE producto ADD CONSTRAINT FK_A7BB06153397707A FOREIGN KEY (categoria_id) REFERENCES categoria (id)
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE usuario ADD CONSTRAINT FK_2265B05DA9276E6C FOREIGN KEY (tipo_id) REFERENCES tipo (id)
         SQL);
     }
 
@@ -77,9 +71,6 @@ final class Version20250514194505 extends AbstractMigration
             ALTER TABLE producto DROP FOREIGN KEY FK_A7BB06153397707A
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE usuario DROP FOREIGN KEY FK_2265B05DA9276E6C
-        SQL);
-        $this->addSql(<<<'SQL'
             DROP TABLE carrito
         SQL);
         $this->addSql(<<<'SQL'
@@ -90,9 +81,6 @@ final class Version20250514194505 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE producto
-        SQL);
-        $this->addSql(<<<'SQL'
-            DROP TABLE tipo
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE usuario

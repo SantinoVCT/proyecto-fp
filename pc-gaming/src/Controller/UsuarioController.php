@@ -6,7 +6,6 @@ use App\Entity\Usuario;
 use App\Form\UsuarioForm;
 use App\Repository\UsuarioRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
