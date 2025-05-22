@@ -30,6 +30,7 @@ class UsuarioFixtures extends Fixture
         $clienteUser->setApellidos("Pepe");
         $clienteUser->setEmail("cliente@gmail.com");
         $clienteUser->setPassword("1234");
+        $adminUser->setRoles(['Cliente']);
         $clienteUser->setDireccion('Direccion 2');
 
 
