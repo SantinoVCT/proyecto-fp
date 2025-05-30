@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Log in!
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white rounded-lg shadow-lg overflow-hidden relative m-5 w-xl">
+		<div class="px-4 py-4">
+			<form method="post">
+				{% if error %}
+					<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+				{% endif %}
+
+				{% if app.user %}
+					<div class="mb-3">
+						You are logged in as
+						{{ app.user.userIdentifier }},
+						<a href="{{ path('app_logout') }}">Logout</a>
+					</div>
+				{% endif %}
+
+
+				<h1 class="text-lg m-5">Please sign in</h1>
+				<div class="m-5">
+					<label for="inputEmail">Email</label>
+					<input class="block w-full px-4 py-2 mt-2 mb-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+				</div>
+				<div class="m-5">
+					<label for="inputPassword">Password</label>
+					<input class="block w-full px-4 py-2 mt-2 mb-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+				</div>
+				<input class="block  size-6" type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+
+				<div class="checkbox m-5">
+					<label>
+						<input type="checkbox" name="_remember_me">
+						Remember me
+					</label>
+				</div>
+				<div class="m-5">
+					<button class="inline-block text-sm px-4 py-2 leading-none border bg-green-500 rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-green-400 mt-4 lg:mt-0" type="submit">
+						Sign in
+					</button>
+					<a href="{{ path('app_index') }}" class="inline-block text-sm px-4 py-2 leading-none border bg-red-500 rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-red-400 mt-4 lg:mt-0 m-5">
+						Go Back
+					</a>
+				</div>
+
+			</form>
+		</div>
+	</div>
+{% endblock %}
