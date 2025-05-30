@@ -23,14 +23,13 @@ class UsuarioFixtures extends Fixture
         $adminUser->setApellidos("host");
         $adminUser->setEmail("admin@gmail.com");
         $adminUser->setPassword("1234");
-        $adminUser->setRoles(['Administrador']);
+        $adminUser->setRoles(["ROLE_ADMIN"]);
         $adminUser->setDireccion('Direccion 1');
 
         $clienteUser->setNombre("Cliente");
         $clienteUser->setApellidos("Pepe");
         $clienteUser->setEmail("cliente@gmail.com");
         $clienteUser->setPassword("1234");
-        $adminUser->setRoles(['Cliente']);
         $clienteUser->setDireccion('Direccion 2');
 
 

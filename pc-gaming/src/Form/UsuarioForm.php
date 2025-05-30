@@ -18,6 +18,7 @@ class UsuarioForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $textInputCss = 'block w-full px-4 py-2 mt-1 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm';
         $builder
             ->add('email', TextType::class, [
                 'label' => 'email',
@@ -27,11 +28,24 @@ class UsuarioForm extends AbstractType
                 ],
             ])
             ->add('roles', ChoiceType::class, [
-                'label' => 'Estado',
-                'required' => true,
+                'label' => 'roles',
+                'required' => false,
+                'multiple' => true,
                 'choices'  => [
-                    'Administrador' => 'Administrador',
-                    'Cliente' => 'Cliente',
+                    'Administrador' => "ROLE_ADMIN",
+                ],
+                'attr' => [
+                    'class' => $textInputCss,
+                ],
+            ])
+            ->add('roles', ChoiceType::class, [
+                'label' => 'roles',
+                'required' => false,
+                'multiple' => true,
+                'expanded' => true,
+                'choices'  => [
+                    'Administrador' => "ROLE_ADMIN",
+                    'Cliente' => [],
                 ],
                 'attr' => [
                     'class' => $textInputCss,
