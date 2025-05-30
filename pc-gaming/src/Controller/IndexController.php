@@ -21,4 +21,5 @@ final class IndexController extends AbstractController
             'productos' => $productoRepository->findAll(),
         ]);
     }
+    
 }

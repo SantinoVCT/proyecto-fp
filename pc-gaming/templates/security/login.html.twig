@@ -1,34 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Log in!
+{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-    <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
-
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Remember me
-        </label>
+<nav class="flex items-center justify-between flex-wrap bg-blue-500 p-6">
+    <div class="flex items-center flex-shrink-0 m-5 mr-6">
+        <span class="font-semibold text-xl tracking-tight">PC GAMING</span>
     </div>
+</nav>
+	<div class="container mx-auto px-4 py-8">
+		<div class="flex items-center content-center justify-center">
+			<div class=" bg-white rounded-lg shadow-lg  overflow-hidden relative px-6 py-4 w-xl">
+				<form method="post">
+					{% if error %}
+						<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+					{% endif %}
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+					{% if app.user %}
+						<div class="mb-3">
+							You are logged in as
+							{{ app.user.userIdentifier }},
+							<a href="{{ path('app_logout') }}">Logout</a>
+						</div>
+					{% endif %}
+					<h1 class="text-xl">Please sign in</h1>
+					<label for="inputEmail">Email</label>
+					<input class='block w-full px-4 py-2 mt-2 mb-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+					<label for="inputPassword">Password</label>
+					<input class='block w-full px-4 py-2 mt-2 mb-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+					<input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+
+					<div class="checkbox mb-3">
+						<label>
+							<input class='m-1 size-5' type="checkbox" name="_remember_me">
+							Remember me?
+						</label>
+					</div>
+
+					<button class="bg-green-500 hover:bg-green-700 mt-4 mb-2 text-white font-bold py-2 px-4 rounded" type="submit">
+						Sign in
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
 {% endblock %}
