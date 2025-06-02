@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Producto
+{% endblock %}
+
+{% block body %}
+	{% include 'partials/navbar.html.twig' %}
+
+	<div class="bg-gray-900 py-16">
+		<div class="container mx-auto px-2">
+			<h1 class="text-6xl text-white text-center">
+				Producto:
+				{{ producto.Nombre }}
+			</h1>
+		</div>
+	</div>
+
+	<div class="container mx-auto px-4 py-8">
+		<div class="w-auto">
+			<div class="bg-white rounded-lg shadow-lg  relative px-6 py-4">
+				<table class="table border-separate border-spacing-3">
+					<tbody>
+						<tr>
+							<th>Nombre</th>
+							<td>{{ producto.Nombre }}</td>
+						</tr>
+						<tr>
+							<th>Descripcion</th>
+							<td>{{ producto.Descripcion }}</td>
+						</tr>
+						<tr>
+							<th>Caracteristicas</th>
+							<td>{{ producto.Caracteristicas }}</td>
+						</tr>
+						<tr>
+							<th>Requisitos</th>
+							{% if producto.Requisitos is empty%}
+								<td>No hay requisitos</td>
+							{% else %}
+								<td>{{ producto.Requisitos }}</td>
+							{% endif %}
+							
+						</tr>
+						<tr>
+							<th>Disponible</th>
+							<td>{{ producto.Disponible ? 'Yes' : 'No' }}</td>
+						</tr>
+						<tr>
+							<th>Precio</th>
+							<td>{{ producto.Precio }}</td>
+						</tr>
+                        <tr>
+							<th>Categoria</th>
+							<td>{{ producto.Categoria.Nombre }}</td>
+						</tr>
+					</tbody>
+					<div class="flex justify-center my-3">
+						<div class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+							<a href="{{ path('app_homepage') }}" class="font-bold py-2 px-4">
+								<i class="fas fa-eye"></i>
+								Go Back
+							</a>
+						</div>
+						
+					</div>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock %}

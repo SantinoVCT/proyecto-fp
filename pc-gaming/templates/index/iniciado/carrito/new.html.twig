@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Carrito
+{% endblock %}
+
+{% block body %}
+	<div class="bg-gray-900 py-16">
+		<div class="container mx-auto px-2">
+			<h1 class="text-6xl text-white text-center">Create new Carrito</h1>
+		</div>
+	</div>
+	<div class="container mx-auto px-4 py-8">
+		<div class="w-auto">
+			<div class="bg-white rounded-lg shadow-lg  overflow-hidden relative px-6 py-4">
+				{{ form_start(form) }}
+				{{ form_widget(form) }}
+				<button class="bg-green-500 hover:bg-green-700 mt-4 mb-2 text-white font-bold py-2 px-4 rounded">{{ button_label|default('Save') }}</button>
+				<a class="bg-orange-500 hover:bg-orange-700 mt-4 mb-2 text-white font-bold py-2 px-4 rounded" href="{{ path('carrito_online') }}">Volver al Carrito</a>
+
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

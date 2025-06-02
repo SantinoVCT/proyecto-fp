@@ -1,6 +1,6 @@
 <nav class="flex items-center justify-between flex-wrap bg-blue-500 p-6">
 	<div class="flex items-center flex-shrink-0 m-5 mr-6">
-		<a href="{{ path('app_index') }}">
+		<a href="{{ path('app_homepage') }}">
 			<span class="font-semibold text-xl tracking-tight">PC GAMING</span>
 		</a>
 	</div>
@@ -25,11 +25,13 @@
 	</div>
 	<div class="w-full block lg:items-center lg:w-auto">
 		<div class="text-sm flex justify-end">
-			
-			<a href="{{ path('app_pedidos_index') }}" class="inline-block text-sm px-4 py-2 leading-none border bg-green-500 rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-green-400 mt-4 lg:mt-0 m-5">
+			<a href="{{ path('pedidos_online') }}" class="inline-block text-sm px-4 py-2 leading-none border bg-yellow-500 rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-yellow-400 mt-4 lg:mt-0 m-5">
+				Pedidos
+			</a>
+			<a href="{{ path('carrito_online') }}" class="inline-block text-sm px-4 py-2 leading-none border bg-green-500 rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-green-400 mt-4 lg:mt-0 m-5">
 				Carrito
 			</a>
-			<a href="{{ path('app_pedidos_index') }}" class="inline-block text-sm px-4 py-2 leading-none border bg-red-500 rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-red-400 mt-4 lg:mt-0 m-5">
+			<a href="{{ path('app_index') }}" class="inline-block text-sm px-4 py-2 leading-none border bg-red-500 rounded text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-red-400 mt-4 lg:mt-0 m-5">
 				Logout
 			</a>
 		</div>

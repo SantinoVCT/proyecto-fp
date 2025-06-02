@@ -31,7 +31,7 @@ class PedidosForm extends AbstractType
             ])
             ->add('Estado', ChoiceType::class, [
                 'label' => 'Estado',
-                'required' => true,
+                'required' => false,
                 'choices'  => [
                     'Preparando' => 0,
                     'En Reparto' => 1,

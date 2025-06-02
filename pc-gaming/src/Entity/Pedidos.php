@@ -18,7 +18,7 @@ class Pedidos
     private ?int $Cantidad = null;
 
     #[ORM\Column]
-    private ?int $Estado = null;
+    private ?int $Estado = 0;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $FechaPedido = null;
@@ -30,6 +30,12 @@ class Pedidos
     #[ORM\ManyToOne(inversedBy: 'pedidos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Producto $Producto = null;
+
+    public function __construct()
+    {
+        $this->FechaPedido = new \DateTime('now');
+        $this->Estado = 0;
+    }
 
     public function getId(): ?int
     {
