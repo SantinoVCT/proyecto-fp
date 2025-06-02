@@ -22,4 +22,20 @@ final class IndexController extends AbstractController
         ]);
     }
     
+    #[Route('/vista/{id}', name: 'producto_offline', methods: ['GET'])]
+    public function show(Producto $producto): Response
+    {
+        return $this->render('index/vista.html.twig', [
+            'producto' => $producto,
+        ]);
+    }
+
+    #[Route('/homepage', name: 'app_homepage', methods: ['GET'])]
+    public function homepage(ProductoRepository $productoRepository): Response
+    {
+        return $this->render('index/iniciado/index.html.twig', [
+            'user' => $this->getUser(),
+            'productos' => $productoRepository->findAll(),
+        ]);
+    }
 }
