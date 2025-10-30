@@ -25,10 +25,10 @@
 						</div>
 					{% endif %}
 					<h1 class="text-xl">Please sign in</h1>
-					<label for="inputEmail">Email</label>
-					<input class='block w-full px-4 py-2 mt-2 mb-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-					<label for="inputPassword">Password</label>
-					<input class='block w-full px-4 py-2 mt-2 mb-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+					<label for="email">Email</label>
+					<input type="email" value="{{ last_username }}" name="email" id="email" class="form-control block w-full px-4 py-2 mt-2 mb-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" autocomplete="email" required autofocus>
+					<label for="password">Password</label>
+					<input type="password" name="password" id="password" class="form-control block w-full px-4 py-2 mt-2 mb-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" autocomplete="current-password" required>
 					<input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
 					<div class="checkbox mb-3">

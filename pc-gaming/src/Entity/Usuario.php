@@ -32,13 +32,13 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 150)]
-    private ?string $Nombre = null;
+    private ?string $nombre = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Apellidos = null;
+    private ?string $apellidos = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Direccion = null;
+    private ?string $direccion = null;
 
     public function getId(): ?int
     {
@@ -115,36 +115,36 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getNombre(): ?string
     {
-        return $this->Nombre;
+        return $this->nombre;
     }
 
-    public function setNombre(string $Nombre): static
+    public function setNombre(string $nombre): static
     {
-        $this->Nombre = $Nombre;
+        $this->nombre = $nombre;
 
         return $this;
     }
 
     public function getApellidos(): ?string
     {
-        return $this->Apellidos;
+        return $this->apellidos;
     }
 
-    public function setApellidos(string $Apellidos): static
+    public function setApellidos(string $apellidos): static
     {
-        $this->Apellidos = $Apellidos;
+        $this->apellidos = $apellidos;
 
         return $this;
     }
 
     public function getDireccion(): ?string
     {
-        return $this->Direccion;
+        return $this->direccion;
     }
 
-    public function setDireccion(string $Direccion): static
+    public function setDireccion(string $direccion): static
     {
-        $this->Direccion = $Direccion;
+        $this->direccion = $direccion;
 
         return $this;
     }
