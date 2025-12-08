@@ -52,16 +52,16 @@ class UsuarioForm extends AbstractType
                     'class' => $textInputCss,
                 ],
             ])
-            ->add('roles', ChoiceType::class, [
-                'choices'  => [
-                    'Administrador' => "ROLE_ADMIN",
-                    'Gestor' => "ROLE_GESTOR",
-                    'Cliente' => "ROLE_USER",
-                ],
-                'attr' => [
-                    'class' => $textInputCss,
-                ],
-            ])
+            // ->add('roles', ChoiceType::class, [
+            //     'choices'  => [
+            //         'Administrador' => "ROLE_ADMIN",
+            //         'Gestor' => "ROLE_GESTOR",
+            //         'Cliente' => "ROLE_USER",
+            //     ],
+            //     'attr' => [
+            //         'class' => $textInputCss,
+            //     ],
+            // ])
             ->add('password', TextType::class, [
                 'label' => 'Password',
                 'required' => false,

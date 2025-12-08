@@ -4,16 +4,17 @@
 {% endblock %}
 
 {% block body %}
-	<div class="bg-gray-900 py-16">
-		<div class="container mx-auto px-2">
-			<h1 class="text-6xl text-white text-center">Create new Pedidos</h1>
+	{% include 'partials/navbar.html.twig' %}
+	<div class="bg-dark py-4">
+		<div class="container mx-auto px-4">
+			<h1 class="text-6xl text-white text-center">
+				Create new Pedidos
+            </h1>
 		</div>
 	</div>
-	<div class="container mx-auto px-4 py-8">
-		<div class="w-auto">
-			<div class="bg-white rounded-lg shadow-lg  overflow-hidden relative px-6 py-4">
-				{{ include('pedidos/_form.html.twig') }}
-			</div>
+    <div class="container mx-auto px-4 py-8 m-3">
+		<div class="bg-white rounded shadow relative p-3">
+			{{ include('pedidos/_form.html.twig') }}
 		</div>
 	</div>
 {% endblock %}

@@ -5,7 +5,7 @@
 
 {% block body %}
 	{% include 'partials/navbar.html.twig' %}
-	<div class="bg-gray-900 py-16">
+	<div class="bg-info py-4">
 		<div class="container mx-auto px-4">
 			<h1 class="text-6xl text-white text-center">
 				Pedidos
@@ -15,40 +15,35 @@
 
 	<div class="container mx-auto px-4 py-8">
 		{% if pedidos is empty%}
-			<div class="bg-white rounded-lg shadow-lg overflow-hidden relative">
+			<div class="bg-white rounded shadow overflow-hidden relative">
 				<div class="px-6 py-4">
 					<div class="font-bold text-xl mb-2">No hay pedidos</div>
 				</div>
 			</div>
 
 		{% else %}
-			
-			<div class="w-auto">
-				<div class="bg-white rounded-lg shadow-lg flex flex-row justify-center items-center overflow-hidden relative px-6 py-4">
-					<table class="table border-separate border-spacing-3">
-						<thead>
-							<tr class="border-dashed">
-								<th>Producto</th>
-								<th>Cliente</th>
-								<th>Cantidad</th>
-								<th>Estado</th>
-								<th>FechaPedido</th>
+			<div class="table-responsive bg-white rounded shadow relative p-2 mt-4">
+				<table class="table border-separate border-spacing-3 text-center">
+					<thead>
+						<tr class="border-dashed">
+							<th>Producto</th>
+							<th>Cantidad</th>
+							<th>Estado</th>
+							<th>Fecha Pedido</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for pedido in pedidos %}
+							<tr>
+								<td>{{ pedido.Producto.Nombre }}</td>
+								<td>{{ pedido.Cantidad }}</td>
+								<td>{{ pedido.Estado == 0 ? 'Preparando' : pedido.Estado == 1 ? 'En Reparto' : 'Enviado' }}</td>
+								<td>{{ pedido.FechaPedido ? pedido.FechaPedido|date('Y-m-d') : '' }}</td>
+
 							</tr>
-						</thead>
-						<tbody>
-							{% for pedido in pedidos %}
-								<tr>
-									<td>{{ pedido.Producto.Nombre }}</td>
-									<td>{{ pedido.Usuario.Nombre }}</td>
-									<td>{{ pedido.Cantidad }}</td>
-									<td>{{ pedido.Estado == 0 ? 'Preparando' : pedido.Estado == 1 ? 'En Reparto' : 'Enviado' }}</td>
-									<td>{{ pedido.FechaPedido ? pedido.FechaPedido|date('Y-m-d') : '' }}</td>
-									
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		{% endif %}
 	</div>

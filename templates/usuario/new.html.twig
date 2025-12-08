@@ -3,9 +3,18 @@
 {% block title %}New Usuario{% endblock %}
 
 {% block body %}
-    <h1>Create new Usuario</h1>
+	{% include 'partials/navbar.html.twig' %}
+	<div class="bg-dark py-4">
+		<div class="container mx-auto px-4">
+			<h1 class="text-6xl text-white text-center">
+                Create new Usuario
+            </h1>
+		</div>
+	</div>
+    <div class="container mx-auto px-4 py-8 m-3">
+		<div class="bg-white rounded shadow relative p-3">
+            {{ include('usuario/_form.html.twig') }}
+        </div>
+	</div>
 
-    {{ include('usuario/_form.html.twig') }}
-
-    <a href="{{ path('app_usuario_index') }}">back to list</a>
 {% endblock %}

@@ -1,6 +1,5 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-        <button class="bg-green-500 hover:bg-green-700 mt-4 mb-2 text-white font-bold py-2 px-4 rounded">{{ button_label|default('Save') }}</button>
-    <a class="bg-orange-500 hover:bg-orange-700 mt-4 mb-2 text-white font-bold py-2 px-4 rounded" href="{{ path('app_usuario_index') }}">Back to the list</a>
-
+    <a class="btn btn-warning" href="{{ path('app_usuario_index') }}">Back to the list</a>
+    <button class="btn btn-success">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
