@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PC Gaminng
+{% endblock %}
+
+{% block body %}
+	{% include 'partials/navbar.html.twig' %}
+	{% for message in app.flashes('error') %}
+		<div class="alert alert-danger">
+			{{ message }}
+		</div>
+	{% endfor %}
+	<ul class=""></ul>
+
+	<div class="container-fluid px-3 py-4">
+		<div class="row g-3 justify-content-center">
+			<div class="col-12 col-sm-6 col-md-4 col-lg-2">
+				<a class="btn btn-light w-100 h-100 d-flex flex-column align-items-center justify-content-center text-decoration-none" href="{{ path('app_usuario_index') }}">
+					<img class="img-fluid mb-2" style="max-width: 50px;" src="https://cdn-icons-png.flaticon.com/512/1077/1077063.png" alt="Usuario">
+					<span>Usuario</span>
+				</a>
+			</div>
+			<div class="col-12 col-sm-6 col-md-4 col-lg-2">
+				<a class="btn btn-light w-100 h-100 d-flex flex-column align-items-center justify-content-center text-decoration-none" href="{{ path('app_categoria_index') }}">
+					<img class="img-fluid mb-2" style="max-width: 50px;" src="https://cdn-icons-png.flaticon.com/512/5665/5665189.png" alt="Categoria">
+					<span>Categoria</span>
+				</a>
+			</div>
+			<div class="col-12 col-sm-6 col-md-4 col-lg-2">
+				<a class="btn btn-light w-100 h-100 d-flex flex-column align-items-center justify-content-center text-decoration-none" href="{{ path('app_producto_index') }}">
+					<img class="img-fluid mb-2" style="max-width: 50px;" src="https://cdn-icons-png.flaticon.com/512/1170/1170679.png" alt="Producto">
+					<span>Producto</span>
+				</a>
+			</div>
+			<div class="col-12 col-sm-6 col-md-4 col-lg-2">
+				<a class="btn btn-light w-100 h-100 d-flex flex-column align-items-center justify-content-center text-decoration-none" href="{{ path('app_carrito_index') }}">
+					<img class="img-fluid mb-2" style="max-width: 50px;" src="https://cdn-icons-png.flaticon.com/512/4305/4305700.png" alt="Carrito">
+					<span>Carrito</span>
+				</a>
+			</div>
+			<div class="col-12 col-sm-6 col-md-4 col-lg-2">
+				<a class="btn btn-light w-100 h-100 d-flex flex-column align-items-center justify-content-center text-decoration-none" href="{{ path('app_pedidos_index') }}">
+					<img class="img-fluid mb-2" style="max-width: 50px;" src="https://cdn-icons-png.flaticon.com/512/814/814995.png" alt="Pedidos">
+					<span>Pedidos</span>
+				</a>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+

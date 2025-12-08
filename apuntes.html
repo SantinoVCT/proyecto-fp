@@ -13,9 +13,9 @@ symfony serve -d
 
 <!-- Para instalar ORM 
  (sirve para crear la database del proyecto) -->
-composer require orm
+ composer require orm
 <!-- Tras la instalacion tendras que ir al .env y buscar lasiguiente linea  --> 
-DATABASE_URL="mysql://root:@127.0.0.1:3306/[nombre_de_la_database]]?serverVersion=10.4.32-MariaDB&charset=utf8mb4"
+DATABASE_URL="mysql://root:@127.0.0.1:3306/[nombre_de_la_database]?serverVersion=10.4.32-MariaDB&charset=utf8mb4"
 <!-- Tras tener la linea editada usaremos este comando para crear la database -->
  symfony console doctrine:database:create
 

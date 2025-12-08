@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PC Gaminng
+{% endblock %}
+
+{% block body %}
+	{% include 'partials/navbar_logout.html.twig' %}
+
+	<div class="container-fluid px-3 py-4">
+
+		{% for message in app.flashes('¡Acceso Denegado!') %}
+			<div class="alert alert-danger">
+				{{ message }}
+			</div>
+		{% endfor %}
+
+		{% for producto in productos %}
+			<div class="bg-white rounded shadow overflow-hidden relative p-2 m-5 text-center row g-3 justify-content-center">
+				<div class="col-12 col-sm-6 col-md-4 col-lg-2">
+					<h4>{{ producto.Nombre }}</h4>
+					<p>{{ producto.Descripcion|slice(0,100) }}...</p>
+					<h5>{{ producto.Precio }}€</h5>
+					<div class="flex justify-center my-3">
+						<a href="{{ path('producto_offline', {id: producto.id}) }}" class="btn btn-info">
+							View
+						</a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

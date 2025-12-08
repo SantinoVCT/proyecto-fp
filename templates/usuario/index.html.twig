@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Usuario index
+{% endblock %}
+
+{% block body %}
+	{% include 'partials/navbar.html.twig' %}
+	<div class="bg-dark py-4">
+		<div class="container mx-auto px-4">
+			<h1 class="text-6xl text-white text-center">
+				Usuario
+			</h1>
+		</div>
+	</div>
+	{# Este bloque es para el mensaje de error #}
+	{% for label, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="bg-white rounded shadow overflow-hidden relative">
+				<div class="px-6 py-4 mb-2">
+					<p class="text-gray-700 text-base">
+						{{ message }}
+					</p>
+				</div>
+			</div>
+		{% endfor %}
+	{% endfor %}
+	
+	<div class="container mx-auto px-4 py-8">
+		{% if usuarios is empty%}
+			<div class="bg-white rounded shadow overflow-hidden relative">
+				<div class="px-6 py-4">
+					<div class="font-bold text-xl mb-2">No users found</div>
+					<p class="text-gray-700 text-base">
+						There are no users in the database.
+						<a href="{{ path('app_usuario_new') }}" class="text-blue-500">Add one</a>
+					</p>
+				</div>
+			</div>
+	
+		{% else %}
+			<div class="px-6 py-4">
+				<a href="{{ path('app_usuario_new') }}" class="btn btn-primary px-4 py-2">Add one +</a>
+			</div>
+			<div class="table-responsive bg-white rounded shadow relative p-2">
+				<table class="table border-separate border-spacing-3 text-center">
+					<thead>
+						<tr class="border-dashed">
+							<th>Id</th>
+							<th>Nombre</th>
+							<th>Apellidos</th>
+							<th>Email</th>
+							<th>Tipo</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for usuario in usuarios %}
+							<tr>
+								<td>{{ usuario.id }}</td>
+								<td>{{ usuario.Nombre }}</td>
+								<td>{{ usuario.Apellidos }}</td>
+								<td>{{ usuario.Email }}</td>
+								<td>{{ usuario.roles[0] }}</td>
+								<td>
+									<div class="row g-3 justify-content-center">
+										<a href="{{path('app_usuario_show', {id: usuario.id})}}" class="btn btn-info mx-2 w-25 col-12">
+											View
+										</a>
+										<a href="{{path('app_usuario_edit', {id: usuario.id})}}" class="btn btn-warning mx-2 w-25 col-12">
+											Edit
+										</a>
+										<form method="post" action="{{ path('app_usuario_delete', {'id': usuario.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" class="w-25 col-12 mx-2">
+											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ usuario.id) }}">
+											<button class="btn btn-danger w-100">Delete</button>
+										</form>
+									</div>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}
