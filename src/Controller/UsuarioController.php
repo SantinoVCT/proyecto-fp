@@ -6,6 +6,7 @@ use App\Entity\Usuario;
 use App\Form\UsuarioForm;
 use App\Repository\UsuarioRepository;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,13 +25,19 @@ final class UsuarioController extends AbstractController
     }
 
     #[Route('/new', name: 'app_usuario_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $usuario = new Usuario();
         $form = $this->createForm(UsuarioForm::class, $usuario);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // If password field was filled, hash and set it
+            $plain = $form->get('password')->getData();
+            if (!empty($plain)) {
+                $usuario->setPassword($passwordHasher->hashPassword($usuario, $plain));
+            }
+
             $entityManager->persist($usuario);
             $entityManager->flush();
 
@@ -52,12 +59,18 @@ final class UsuarioController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_usuario_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Usuario $usuario, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Usuario $usuario, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $form = $this->createForm(UsuarioForm::class, $usuario);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // If password field was filled, hash and set it
+            $plain = $form->get('password')->getData();
+            if (!empty($plain)) {
+                $usuario->setPassword($passwordHasher->hashPassword($usuario, $plain));
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_usuario_index', [], Response::HTTP_SEE_OTHER);

@@ -49,6 +49,7 @@ DATABASE_URL="mysql://root:@127.0.0.1:3306/[nombre_de_la_database]?serverVersion
  symfony console doctrine:schema:drop --force
  symfony console doctrine:schema:update --force
  symfony console doctrine:fixtures:load -n
+ symfony console doctrine:schema:create --force
 
 {# Crear todo el crud #}
 symfony console make:crud

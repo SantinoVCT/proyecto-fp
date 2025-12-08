@@ -14,7 +14,7 @@
 					<p>{{ producto.Descripcion|slice(0,100) }}...</p>
 					<h5>{{ producto.Precio }}€</h5>
 					<div class="flex justify-center my-3">
-						<a href="{{ path('producto_offline', {id: producto.id}) }}" class="btn btn-info">
+						<a href="{{ path('producto_online', {id: producto.id}) }}" class="btn btn-info">
 							View
 						</a>
 					</div>
