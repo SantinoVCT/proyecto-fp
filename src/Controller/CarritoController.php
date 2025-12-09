@@ -69,7 +69,7 @@ final class CarritoController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_carrito_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_carrito_delete', methods: ['POST'])]
     public function delete(Request $request, Carrito $carrito, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$carrito->getId(), $request->getPayload()->getString('_token'))) {

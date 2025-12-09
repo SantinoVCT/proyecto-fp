@@ -3,10 +3,11 @@
 		<div class="m-3">
 			<a class="navbar-brand" href="{{ path('app_homepage') }}">PC GAMING</a>
 		</div>
+		{{ app.user.userIdentifier }}
     	<div class="m-3">
 	        <a href="{{ path('app_index_crud') }}" class="btn btn-dark">Tablas Crud</a>	
 	        <a href="{{ path('pedidos_online') }}" class="btn btn-info">Tus Pedidos</a>	
-	        <a href="{{ path('carrito_online') }}" class="btn btn-warning">Tu Carrito</a>
+	        <a href="{{ path('carrito_online', {idUser:  app.user.id}) }}" class="btn btn-warning">Tu Carrito</a>
 	        <a href="{{ path('app_logout') }}" class="btn btn-danger">Logout</a>
 		</div>
     </div>

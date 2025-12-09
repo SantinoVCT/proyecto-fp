@@ -16,7 +16,7 @@
 	{% for label, messages in app.flashes %}
 		{% for message in messages %}
 			<div class="bg-white rounded shadow overflow-hidden relative">
-				<div class="px-6 py-4 mb-2">
+				<div class="px-6 py-4 mx-2">
 					<p class="text-gray-700 text-base">
 						{{ message }}
 					</p>
@@ -29,7 +29,7 @@
 		{% if productos is empty%}
 			<div class="bg-white rounded shadow overflow-hidden relative">
 				<div class="px-6 py-4">
-					<div class="font-bold text-xl mb-2">No Products found</div>
+					<div class="font-bold text-xl mx-2">No Products found</div>
 					<p class="text-gray-700 text-base">
 						There are no porducts in the database.
 						<a href="{{ path('app_producto_new') }}" class="text-blue-500">Add one</a>

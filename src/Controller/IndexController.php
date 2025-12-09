@@ -94,7 +94,7 @@ final class IndexController extends AbstractController
         ]);
     }
 
-    #[Route('/homepage/carrito/comprar/cambiar/{id}', name: 'app_cambiar', methods: ['GET', 'POST'])]
+    #[Route('/homepage/carrito/cambiar/{id}', name: 'app_cambiar', methods: ['GET', 'POST'])]
     public function cambiar(Request $request, Carrito $carrito, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CarritoForm::class, $carrito);
