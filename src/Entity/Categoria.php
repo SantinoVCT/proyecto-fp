@@ -24,6 +24,12 @@ class Categoria
     #[ORM\OneToMany(targetEntity: Producto::class, mappedBy: 'Categoria')]
     private Collection $productos;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $FechaCreada = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $FechaUpdate = null;
+
     public function __construct()
     {
         $this->productos = new ArrayCollection();
@@ -72,6 +78,30 @@ class Categoria
                 $producto->setCategoria(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFechaCreada(): ?\DateTime
+    {
+        return $this->FechaCreada;
+    }
+
+    public function setFechaCreada(?\DateTime $FechaCreada): static
+    {
+        $this->FechaCreada = $FechaCreada;
+
+        return $this;
+    }
+
+    public function getFechaUpdate(): ?\DateTime
+    {
+        return $this->FechaUpdate;
+    }
+
+    public function setFechaUpdate(?\DateTime $FechaUpdate): static
+    {
+        $this->FechaUpdate = $FechaUpdate;
 
         return $this;
     }

@@ -40,6 +40,12 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $direccion = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $FechaCreada = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $FechaUpdate = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -145,6 +151,30 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDireccion(string $direccion): static
     {
         $this->direccion = $direccion;
+
+        return $this;
+    }
+
+    public function getFechaCreada(): ?\DateTime
+    {
+        return $this->FechaCreada;
+    }
+
+    public function setFechaCreada(?\DateTime $FechaCreada): static
+    {
+        $this->FechaCreada = $FechaCreada;
+
+        return $this;
+    }
+
+    public function getFechaUpdate(): ?\DateTime
+    {
+        return $this->FechaUpdate;
+    }
+
+    public function setFechaUpdate(?\DateTime $FechaUpdate): static
+    {
+        $this->FechaUpdate = $FechaUpdate;
 
         return $this;
     }
