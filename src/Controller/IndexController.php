@@ -46,37 +46,78 @@ final class IndexController extends AbstractController
     #[Route('/homepage', name: 'app_homepage', methods: ['GET'])]
     public function homepage(ProductoRepository $productoRepository): Response
     {
+        
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
+
         return $this->render('index/iniciado/index.html.twig', [
             'productos' => $productoRepository->findAll(),
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
     #[Route('/homepage/vista/{id}', name: 'producto_online', methods: ['GET'])]
     public function showOnline(Producto $producto): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         return $this->render('index/iniciado/vista.html.twig', [
             'producto' => $producto,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/homepage/carrito', name: 'carrito_online', methods: ['GET'])]
     public function carroOnline(CarritoRepository $carritoRepository): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         return $this->render('index/iniciado/carrito/carrito.html.twig', [
             'carritos' => $carritoRepository->findAll(),
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/homepage/pedidos',name: 'pedidos_online', methods: ['GET'])]
     public function pedidoOnline(PedidosRepository $pedidosRepository): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         return $this->render('index/iniciado/pedidos/index.html.twig', [
             'pedidos' => $pedidosRepository->findAll(),
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/homepage/carrito/anadir', name: 'app_anadir', methods: ['GET', 'POST'])]
     public function anadir(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && in_array('ROLE_ADMIN', $user->getRoles())) {
+            $mostrarBoton = true;
+        }
+
         $carrito = new Carrito();
         $form = $this->createForm(CarritoForm::class, $carrito);
         $form->handleRequest($request);
@@ -91,12 +132,20 @@ final class IndexController extends AbstractController
         return $this->render('index/iniciado/carrito/new.html.twig', [
             'carrito' => $carrito,
             'form' => $form,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/homepage/carrito/cambiar/{id}', name: 'app_cambiar', methods: ['GET', 'POST'])]
     public function cambiar(Request $request, Carrito $carrito, EntityManagerInterface $entityManager): Response
-    {
+    {   
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && in_array('ROLE_ADMIN', $user->getRoles())) {
+            $mostrarBoton = true;
+        }
+
         $form = $this->createForm(CarritoForm::class, $carrito);
         $form->handleRequest($request);
 
@@ -109,6 +158,7 @@ final class IndexController extends AbstractController
         return $this->render('index/iniciado/carrito/edit.html.twig', [
             'carrito' => $carrito,
             'form' => $form,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
@@ -147,8 +197,22 @@ final class IndexController extends AbstractController
     #[Route('/homepage/crud', name: 'app_index_crud', methods: ['GET'])]
     public function index_crud(ProductoRepository $productoRepository): Response
     {
+        $user = $this->getUser();
+        $mostrarBotonAdmin = false;
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
+
+        if ($user && in_array('ROLE_ADMIN', $user->getRoles())) {
+            $mostrarBotonAdmin = true;
+        }
+
         return $this->render('index/iniciado/crud/index.html.twig', [
-            'productos' => $productoRepository->findAll(),
+            'mostrarBotonAdmin' => $mostrarBotonAdmin,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 }

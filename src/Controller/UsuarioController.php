@@ -19,14 +19,29 @@ final class UsuarioController extends AbstractController
     #[Route(name: 'app_usuario_index', methods: ['GET'])]
     public function index(UsuarioRepository $usuarioRepository): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         return $this->render('usuario/index.html.twig', [
             'usuarios' => $usuarioRepository->findAll(),
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/new', name: 'app_usuario_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         $usuario = new Usuario();
         $form = $this->createForm(UsuarioForm::class, $usuario);
         $form->handleRequest($request);
@@ -47,20 +62,36 @@ final class UsuarioController extends AbstractController
         return $this->render('usuario/new.html.twig', [
             'usuario' => $usuario,
             'form' => $form,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/{id}', name: 'app_usuario_show', methods: ['GET'])]
     public function show(Usuario $usuario): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         return $this->render('usuario/show.html.twig', [
             'usuario' => $usuario,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_usuario_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Usuario $usuario, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         $form = $this->createForm(UsuarioForm::class, $usuario);
         $form->handleRequest($request);
 
@@ -79,6 +110,7 @@ final class UsuarioController extends AbstractController
         return $this->render('usuario/edit.html.twig', [
             'usuario' => $usuario,
             'form' => $form,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 

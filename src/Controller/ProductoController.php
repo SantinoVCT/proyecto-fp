@@ -18,14 +18,29 @@ final class ProductoController extends AbstractController
     #[Route(name: 'app_producto_index', methods: ['GET'])]
     public function index(ProductoRepository $productoRepository): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         return $this->render('producto/index.html.twig', [
             'productos' => $productoRepository->findAll(),
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/new', name: 'app_producto_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         $producto = new Producto();
         $form = $this->createForm(ProductoForm::class, $producto);
         $form->handleRequest($request);
@@ -40,20 +55,36 @@ final class ProductoController extends AbstractController
         return $this->render('producto/new.html.twig', [
             'producto' => $producto,
             'form' => $form,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/{id}', name: 'app_producto_show', methods: ['GET'])]
     public function show(Producto $producto): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         return $this->render('producto/show.html.twig', [
             'producto' => $producto,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_producto_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Producto $producto, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         $form = $this->createForm(ProductoForm::class, $producto);
         $form->handleRequest($request);
 
@@ -66,6 +97,7 @@ final class ProductoController extends AbstractController
         return $this->render('producto/edit.html.twig', [
             'producto' => $producto,
             'form' => $form,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 

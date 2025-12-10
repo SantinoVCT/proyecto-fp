@@ -19,14 +19,29 @@ final class PedidosController extends AbstractController
     #[Route(name: 'app_pedidos_index', methods: ['GET'])]
     public function index(PedidosRepository $pedidosRepository): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         return $this->render('pedidos/index.html.twig', [
             'pedidos' => $pedidosRepository->findAll(),
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/new', name: 'app_pedidos_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         $pedido = new Pedidos();
         $form = $this->createForm(PedidosForm::class, $pedido);
         $form->handleRequest($request);
@@ -41,20 +56,36 @@ final class PedidosController extends AbstractController
         return $this->render('pedidos/new.html.twig', [
             'pedido' => $pedido,
             'form' => $form,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/{id}', name: 'app_pedidos_show', methods: ['GET'])]
     public function show(Pedidos $pedido): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         return $this->render('pedidos/show.html.twig', [
             'pedido' => $pedido,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_pedidos_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Pedidos $pedido, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         $form = $this->createForm(PedidosForm::class, $pedido);
         $form->handleRequest($request);
 
@@ -67,6 +98,7 @@ final class PedidosController extends AbstractController
         return $this->render('pedidos/edit.html.twig', [
             'pedido' => $pedido,
             'form' => $form,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 

@@ -18,14 +18,29 @@ final class CategoriaController extends AbstractController
     #[Route(name: 'app_categoria_index', methods: ['GET'])]
     public function index(CategoriaRepository $categoriaRepository): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         return $this->render('categoria/index.html.twig', [
             'categorias' => $categoriaRepository->findAll(),
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/new', name: 'app_categoria_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         $categorium = new Categoria();
         $form = $this->createForm(CategoriaForm::class, $categorium);
         $form->handleRequest($request);
@@ -40,20 +55,36 @@ final class CategoriaController extends AbstractController
         return $this->render('categoria/new.html.twig', [
             'categorium' => $categorium,
             'form' => $form,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/{id}', name: 'app_categoria_show', methods: ['GET'])]
     public function show(Categoria $categorium): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         return $this->render('categoria/show.html.twig', [
             'categorium' => $categorium,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_categoria_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Categoria $categorium, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         $form = $this->createForm(CategoriaForm::class, $categorium);
         $form->handleRequest($request);
 
@@ -66,13 +97,13 @@ final class CategoriaController extends AbstractController
         return $this->render('categoria/edit.html.twig', [
             'categorium' => $categorium,
             'form' => $form,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/{id}', name: 'app_categoria_delete', methods: ['POST'])]
     public function delete(Request $request, Categoria $categorium, EntityManagerInterface $entityManager): Response
     {
-        
         if ($this->isCsrfTokenValid('delete'.$categorium->getId(), $request->getPayload()->getString('_token'))) {
             try {
                 $entityManager->remove($categorium);

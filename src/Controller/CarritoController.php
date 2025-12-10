@@ -18,14 +18,29 @@ final class CarritoController extends AbstractController
     #[Route(name: 'app_carrito_index', methods: ['GET'])]
     public function index(CarritoRepository $carritoRepository): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         return $this->render('carrito/index.html.twig', [
             'carritos' => $carritoRepository->findAll(),
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/new', name: 'app_carrito_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         $carrito = new Carrito();
         $form = $this->createForm(CarritoForm::class, $carrito);
         $form->handleRequest($request);
@@ -40,20 +55,36 @@ final class CarritoController extends AbstractController
         return $this->render('carrito/new.html.twig', [
             'carrito' => $carrito,
             'form' => $form,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/{id}', name: 'app_carrito_show', methods: ['GET'])]
     public function show(Carrito $carrito): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         return $this->render('carrito/show.html.twig', [
             'carrito' => $carrito,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_carrito_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Carrito $carrito, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
         $form = $this->createForm(CarritoForm::class, $carrito);
         $form->handleRequest($request);
 
@@ -66,6 +97,7 @@ final class CarritoController extends AbstractController
         return $this->render('carrito/edit.html.twig', [
             'carrito' => $carrito,
             'form' => $form,
+            'mostrarBoton' => $mostrarBoton,
         ]);
     }
 
