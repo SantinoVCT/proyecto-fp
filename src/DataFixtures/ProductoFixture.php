@@ -65,6 +65,11 @@ class ProductoFixture extends Fixture
         $producto6->setCategoria($this->getReference('categoria6', Categoria::class));
 
         $manager->persist($producto1);
+        $manager->persist($producto2);
+        $manager->persist($producto3);
+        $manager->persist($producto4);
+        $manager->persist($producto5);
+        $manager->persist($producto6);
 
         $manager->flush();
     }
