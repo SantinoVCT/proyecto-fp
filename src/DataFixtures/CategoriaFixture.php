@@ -26,33 +26,53 @@ class CategoriaFixture extends Fixture
         $categoria10 = new Categoria();
 
         $categoria1->setNombre('Electrónica');
+        $categoria1->setFechaCreada(new \DateTime());
+
         $this->addReference('categoria1', $categoria1);
 
         $categoria2->setNombre('Placas Base');
+        $categoria2->setFechaCreada(new \DateTime());
+
         $this->addReference('categoria2', $categoria2);
 
         $categoria3->setNombre('Procesadores');
+        $categoria3->setFechaCreada(new \DateTime());
+
         $this->addReference('categoria3', $categoria3);
 
         $categoria4->setNombre('Tarjetas Gráficas');
+        $categoria4->setFechaCreada(new \DateTime());
+
         $this->addReference('categoria4', $categoria4);
 
         $categoria5->setNombre('Almacenamiento');
+        $categoria5->setFechaCreada(new \DateTime());
+
         $this->addReference('categoria5', $categoria5);
 
         $categoria6->setNombre('Periféricos');
+        $categoria6->setFechaCreada(new \DateTime());
+
         $this->addReference('categoria6', $categoria6);
 
         $categoria7->setNombre('Torres y Cajas');
+        $categoria7->setFechaCreada(new \DateTime());
+
         $this->addReference('categoria7', $categoria7);
 
         $categoria8->setNombre('Monitores');
+        $categoria8->setFechaCreada(new \DateTime());
+
         $this->addReference('categoria8', $categoria8);
 
         $categoria9->setNombre('Redes');
+        $categoria9->setFechaCreada(new \DateTime());
+
         $this->addReference('categoria9', $categoria9);
 
         $categoria10->setNombre('Accesorios');
+        $categoria10->setFechaCreada(new \DateTime());
+
         $this->addReference('categoria10', $categoria10);
 
         $manager->persist($categoria1);

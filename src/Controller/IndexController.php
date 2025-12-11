@@ -8,6 +8,8 @@ use App\Repository\PedidosRepository;
 
 use App\Entity\Carrito;
 use App\Form\CarritoForm;
+use App\Form\CarritoCambiar;
+use App\Form\CarritoAdd;
 use App\Repository\CarritoRepository;
 
 use App\Entity\Usuario;
@@ -81,14 +83,16 @@ final class IndexController extends AbstractController
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
         }
 
         return $this->render('index/iniciado/carrito/carrito.html.twig', [
-            'carritos' => $carritoRepository->findAll(),
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
             'mostrarBoton' => $mostrarBoton,
+            'idUser' => $idUser,
         ]);
     }
 
@@ -97,13 +101,14 @@ final class IndexController extends AbstractController
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
         }
 
         return $this->render('index/iniciado/pedidos/index.html.twig', [
-            'pedidos' => $pedidosRepository->findAll(),
+            'pedidos' => $pedidosRepository->findBy(['Usuario' => $idUser]),
             'mostrarBoton' => $mostrarBoton,
         ]);
     }
@@ -113,16 +118,19 @@ final class IndexController extends AbstractController
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
 
         if ($user && in_array('ROLE_ADMIN', $user->getRoles())) {
             $mostrarBoton = true;
         }
 
         $carrito = new Carrito();
-        $form = $this->createForm(CarritoForm::class, $carrito);
+        $form = $this->createForm(CarritoAdd::class, $carrito);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $carrito->setUsuario($user);
+
             $entityManager->persist($carrito);
             $entityManager->flush();
 
@@ -146,7 +154,7 @@ final class IndexController extends AbstractController
             $mostrarBoton = true;
         }
 
-        $form = $this->createForm(CarritoForm::class, $carrito);
+        $form = $this->createForm(CarritoCambiar::class, $carrito);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

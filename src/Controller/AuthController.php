@@ -2,7 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Usuario;
+use App\Form\CrearUsuario;
+use App\Repository\UsuarioRepository;
+
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -23,6 +32,35 @@ class AuthController extends AbstractController
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
+
+    #[Route('/register', name: 'app_registrar', methods: ['GET', 'POST'])]
+    public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $usuario = new Usuario();
+        $form = $this->createForm(CrearUsuario::class, $usuario);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // If password field was filled, hash and set it
+            $plain = $form->get('password')->getData();
+            if (!empty($plain)) {
+                $usuario->setPassword($passwordHasher->hashPassword($usuario, $plain));
+            }
+
+            $usuario->setFechaCreada(new \DateTime());
+
+            $entityManager->persist($usuario);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('security/new.html.twig', [
+            'usuario' => $usuario,
+            'form' => $form,
+        ]);
+    }
+
 
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void

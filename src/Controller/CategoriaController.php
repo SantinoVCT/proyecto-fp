@@ -46,6 +46,8 @@ final class CategoriaController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $categorium->setFechaCreada(new \DateTime());
+
             $entityManager->persist($categorium);
             $entityManager->flush();
 
@@ -89,6 +91,8 @@ final class CategoriaController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $categorium->setFechaUpdate(new \DateTime());
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_categoria_index', [], Response::HTTP_SEE_OTHER);

@@ -31,6 +31,7 @@ class UsuarioFixtures extends Fixture
         $adminUser->setPassword($this->passwordHasher->hashPassword($adminUser, "1234"));
         $adminUser->setRoles(["ROLE_ADMIN"]);
         $adminUser->setDireccion('Direccion 1');
+        $adminUser->setFechaCreada(new \DateTime());
 
         $clienteUser->setNombre("Cliente");
         $clienteUser->setApellidos("Pepe");
@@ -38,6 +39,7 @@ class UsuarioFixtures extends Fixture
         $clienteUser->setPassword( $this->passwordHasher->hashPassword($clienteUser, "1234"));
         $clienteUser->setRoles(["ROLE_USER"]);
         $clienteUser->setDireccion('Direccion 2');
+        $clienteUser->setFechaCreada(new \DateTime());
 
         $gestorUser->setNombre("Gestor");
         $gestorUser->setApellidos("user");
@@ -45,6 +47,7 @@ class UsuarioFixtures extends Fixture
         $gestorUser->setPassword($this->passwordHasher->hashPassword($gestorUser, "1234"));
         $gestorUser->setRoles(["ROLE_GESTOR"]);
         $gestorUser->setDireccion('Direccion 3');
+        $gestorUser->setFechaCreada(new \DateTime());
 
         $manager->persist($adminUser);
         $manager->persist($clienteUser);

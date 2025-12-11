@@ -46,6 +46,8 @@ final class ProductoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $producto->setFechaCreada(new \DateTime());
+
             $entityManager->persist($producto);
             $entityManager->flush();
 
@@ -89,6 +91,8 @@ final class ProductoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $producto->setFechaUpdate(new \DateTime());
+            
             $entityManager->flush();
 
             return $this->redirectToRoute('app_producto_index', [], Response::HTTP_SEE_OTHER);

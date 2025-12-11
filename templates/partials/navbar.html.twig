@@ -3,7 +3,9 @@
 		<div class="m-3">
 			<a class="navbar-brand" href="{{ path('app_homepage') }}">PC GAMING</a>
 		</div>
-		{{ app.user.userIdentifier }}
+		<div class="flex-grow-1 mx-3 text-white">
+			<p> Bienvenido, <b class="font-weight-bold" >{{ app.user.Nombre }} {{ app.user.Apellidos }} </b> </p>
+		</div>
 		<div class="m-3">
 			{% if mostrarBoton %}
 				<a href="{{ path('app_index_crud') }}" class="btn btn-dark">Tablas Crud</a>

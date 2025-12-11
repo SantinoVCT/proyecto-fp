@@ -15,7 +15,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CarritoChangeForm extends AbstractType
+class CarritoCambiar extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -24,13 +24,6 @@ class CarritoChangeForm extends AbstractType
             ->add('Cantidad', NumberType::class, [
                 'label' => 'Cantidad',
                 'required' => false,
-                'attr' => [
-                    'class' => $textInputCss,
-                ],
-            ])
-            ->add('Producto', EntityType::class, [
-                'class' => Producto::class,
-                'choice_label' => 'Nombre',
                 'attr' => [
                     'class' => $textInputCss,
                 ],

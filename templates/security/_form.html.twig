@@ -1,0 +1,49 @@
+{{ form_start(form) }}
+    <div>
+        {{ form_row(form.email) }}
+    </div>
+
+    <div class="password-field">
+        <label for="{{ form.password.vars.id }}">{{ form.password.vars.label|default('Password') }}</label>
+        <div style="display:flex; align-items:center;">
+            {{ form_widget(form.password, {'attr': {'class': 'form-control my-3', 'style':'flex:1'}}) }}
+            <button type="button" id="togglePassword" style="margin-left:8px;" class="btn btn-outline-secondary">👁</button>
+        </div>
+        {{ form_errors(form.password) }}
+    </div>
+
+    <div>
+        {{ form_row(form.Nombre) }}
+    </div>
+
+    <div>
+        {{ form_row(form.Apellidos) }}
+    </div>
+
+    <div>
+        {{ form_row(form.Direccion) }}
+    </div>
+
+    {{ form_rest(form) }}
+
+    <a class="btn btn-success" href="{{ path('app_login') }}">Volver</a>
+    <button class="btn btn-warning">{{ button_label|default('Registrar') }}</button>
+
+{{ form_end(form) }}
+
+<script>
+    (function(){
+        const toggle = document.getElementById('togglePassword');
+        if (!toggle) return;
+        const input = document.getElementById('{{ form.password.vars.id }}');
+        toggle.addEventListener('click', function(){
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggle.textContent = 'Hide';
+            } else {
+                input.type = 'password';
+                toggle.textContent = 'See';
+            }
+        });
+    })();
+</script>

@@ -53,6 +53,8 @@ final class UsuarioController extends AbstractController
                 $usuario->setPassword($passwordHasher->hashPassword($usuario, $plain));
             }
 
+            $usuario->setFechaCreada(new \DateTime());
+
             $entityManager->persist($usuario);
             $entityManager->flush();
 
@@ -101,6 +103,8 @@ final class UsuarioController extends AbstractController
             if (!empty($plain)) {
                 $usuario->setPassword($passwordHasher->hashPassword($usuario, $plain));
             }
+
+            $usuario->setFechaUpdate(new \DateTime());
 
             $entityManager->flush();
 
