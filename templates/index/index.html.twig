@@ -6,17 +6,10 @@
 {% block body %}
 	{% include 'partials/navbar_logout.html.twig' %}
 
-	<div class="container mx-auto px-4 py-8">
-
-		{% for message in app.flashes('¡Acceso Denegado!') %}
-			<div class="alert alert-danger">
-				{{ message }}
-			</div>
-		{% endfor %}
-
-		{% for producto in productos %}
-			<div class="bg-white rounded shadow overflow-hidden relative p-2 m-5 text-center row g-3 justify-content-center">
-				<div class="col-12 col-sm-6 col-md-4 col-lg-2">
+	<div class="container-fluid px-3 py-4">
+		<div class="row g-3 justify-content-center">
+			{% for producto in productos %}
+				<div class=" bg-white p-3 rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4">
 					<h4>{{ producto.Nombre }}</h4>
 					<p>{{ producto.Descripcion|slice(0,100) }}...</p>
 					<h5>{{ producto.Precio }}€</h5>
@@ -26,7 +19,7 @@
 						</a>
 					</div>
 				</div>
-			</div>
-		{% endfor %}
+			{% endfor %}
+		</div>
 	</div>
 {% endblock %}
