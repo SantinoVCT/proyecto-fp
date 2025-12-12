@@ -5,53 +5,34 @@
 
 {% block body %}
 	{% include 'partials/navbar_logout.html.twig' %}
-	<div class="bg-dark py-4">
-		<div class="container mx-auto px-2">
-			<h1 class="text-6xl text-white text-center">
-				{{ producto.Nombre }}
-			</h1>
-		</div>
-	</div>
 
 	<div class="container-fluid px-3 py-4">
-		<div class="table-responsive bg-white rounded shadow overflow-hidden relative p-2 m-5">
-			<table class="table border-separate border-spacing-3">
-				<tbody>
-					<tr>
-						<th class="w-25">Nombre</th>
-						<td>{{ producto.Nombre }}</td>
-					</tr>
-					<tr>
-						<th class="w-25">Descripcion</th>
-						<td>{{ producto.Descripcion }}</td>
-					</tr>
-					<tr>
-						<th class="w-25">Caracteristicas</th>
-						<td>{{ producto.Caracteristicas }}</td>
-					</tr>
-					<tr>
-						<th class="w-25">Requisitos</th>
-						{% if producto.Requisitos is empty%}
-							<td>No hay requisitos</td>
-						{% else %}
-							<td>{{ producto.Requisitos }}</td>
-						{% endif %}
+		<div class="table-responsive bg-white rounded shadow overflow-hidden relative py-3 px-2 m-5">
+			<div class="text-xl font-bold mx-2">
+				<h2 class="text-3xl mx-2">{{ producto.Nombre }}</h2>
+				<p class="mx-2">Precio:
+					{{ producto.Precio }}</p>
+			</div>
+			<div class="text-xl font-bold mx-2">
+				<h2 class="text-3xl mx-2">Descripcion</h2>
+				<p class="mx-2">{{ producto.Descripcion }}</p>
+			</div>
+			<div class="text-xl font-bold mx-2">
+				<h2 class="text-3xl mx-2">Caracteristicas</h2>
+				<p class="mx-2">{{ producto.Caracteristicas }}</p>
+				<p class="mx-2 ">Categoria:
+					{{ producto.Categoria.Nombre }}</p>
+			</div>
 
-					</tr>
-					<tr>
-						<th class="w-25">Disponible</th>
-						<td>{{ producto.Disponible ? 'Yes' : 'No' }}</td>
-					</tr>
-					<tr>
-						<th class="w-25">Precio</th>
-						<td>{{ producto.Precio }}</td>
-					</tr>
-					<tr>
-						<th class="w-25">Categoria</th>
-						<td>{{ producto.Categoria.Nombre }}</td>
-					</tr>
-				</tbody>
-			</table>
+			<div class="text-xl font-bold mx-2">
+				<h2 class="text-3xl mx-2">Requisitos</h2>
+				{% if producto.Requisitos is empty%}
+					<p class="mx-2">No hay requisitos disponibles para este producto.</p>
+				{% else %}
+					<p class="mx-2">{{ producto.Requisitos }}</p>
+
+				{% endif %}
+			</div>
 			<a href="{{ path('app_index') }}" class="btn btn-warning mx-2">
 				Go Back
 			</a>
