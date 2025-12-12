@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Pedidos;
-use App\Form\PedidosForm;
+use App\Form\BuscarPedido;
 use App\Repository\PedidosRepository;
 
 use App\Entity\Carrito;
@@ -96,22 +96,39 @@ final class IndexController extends AbstractController
         ]);
     }
 
-    #[Route('/homepage/pedidos',name: 'pedidos_online', methods: ['GET'])]
-    public function pedidoOnline(PedidosRepository $pedidosRepository): Response
+    #[Route('/homepage/pedidos',name: 'pedidos_online', methods: ['GET', 'POST'])]
+    public function pedidoOnline(Request $request, PedidosRepository $pedidosRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
-        $idUser = $user->getId();
-
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
         }
 
-        return $this->render('index/iniciado/pedidos/index.html.twig', [
-            'pedidos' => $pedidosRepository->findBy(['Usuario' => $idUser]),
-            'mostrarBoton' => $mostrarBoton,
-        ]);
+        $idUser = $user->getId();
+        // $pedido = new Pedidos();
+        // $form = $this->createForm(BuscarPedido::class, $pedido);
+
+        $pedidos = $pedidosRepository->findBy(['Usuario' => $idUser]);
+
+        // $form->handleRequest($request);
+
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     $pedidos = $pedidosRepository->findBy(['Usuario' => $idUser, 'CodigoPedido' => $pedido->getCodigoPedido()]);
+        //     return $this->render('index/iniciado/pedido/index.html.twig', [
+        //         'pedidos' => $pedidos,
+        //         'form' => $form,
+        //         'mostrarBoton' => $mostrarBoton,
+        //     ]);
+        // }else{
+            return $this->render('index/iniciado/pedido/index.html.twig', [
+                'pedidos' => $pedidos,
+                // 'form' => $form,
+                'mostrarBoton' => $mostrarBoton,
+            ]);
+        // }
     }
+    
 
     #[Route('/homepage/carrito/anadir', name: 'app_anadir', methods: ['GET', 'POST'])]
     public function anadir(Request $request, EntityManagerInterface $entityManager): Response
@@ -170,24 +187,34 @@ final class IndexController extends AbstractController
         ]);
     }
 
-    #[Route('/homepage/carrito/comprar/{id}', name: 'app_comprar', methods: ['GET', 'POST'])]
-    public function comprar(Carrito $carrito, Request $request, EntityManagerInterface $entityManager,ProductoRepository $productoRepository,UsuarioRepository $usuarioRepository): Response
+    #[Route('/homepage/carrito/comprar', name: 'app_comprar', methods: ['GET', 'POST'])]
+    public function comprar(Request $request, EntityManagerInterface $entityManager, CarritoRepository $carritoRepository): Response
     {
-        $pedido = new Pedidos();
-        $pedido->setEstado(0);
-        $pedido->setCantidad($carrito->getCantidad());
-        $pedido->setUsuario($carrito->getUsuario());
-        $pedido->setProducto($carrito->getProducto());
-        $pedido->setFechaPedido(new \DateTime('now'));
-        $entityManager->persist($pedido);
+        $user = $this->getUser();
+        $userId = $user->getId();
+        $codigoPedido = rand(1000, 9999);
 
-        $entityManager->remove($carrito);
+        $carritos = $carritoRepository->findBy(['Usuario' => $userId]);
+
+        foreach ($carritos as $carrito) {
+            $pedido = new Pedidos();
+            $pedido->setEstado(0);
+            $pedido->setCantidad($carrito->getCantidad());
+            $pedido->setUsuario($carrito->getUsuario());
+            $pedido->setProducto($carrito->getProducto());
+            $pedido->setFechaPedido(new \DateTime('now'));
+            $pedido->setCodigoPedido($codigoPedido);
+            $entityManager->persist($pedido);
+
+            $entityManager->remove($carrito);
+        }
+        
         $entityManager->flush();
 
         return $this->redirectToRoute('carrito_online');
         
     }
-    
+
     #[Route('/homepage/carrito/quitar/{id}', name: 'app_quitar', methods: ['POST'])]
     public function delete(Request $request, Carrito $carrito, EntityManagerInterface $entityManager): Response
     {

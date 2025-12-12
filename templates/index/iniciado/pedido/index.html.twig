@@ -13,22 +13,27 @@
 		</div>
 	</div>
 
-	<div class="container mx-auto px-4 py-8">
+	<div class="container mx-auto px-4 py-8 my-3">
 		{% if pedidos is empty%}
 			<div class="bg-white rounded shadow overflow-hidden relative">
-				<div class="px-6 py-4">
-					<div class="font-bold text-xl mb-2">No hay pedidos</div>
+				<div class="px-4 py-4">
+					<div class="font-bold text-xl">No hay pedidos</div>
 				</div>
 			</div>
 
 		{% else %}
-			<div class="d-flex justify-content-center bg-white rounded shadow relative p-2">
+		{# <div class="bg-white rounded shadow relative p-3">
+			{{ include('index/iniciado/pedido/_form.html.twig') }}
+		</div> #}
+			<div class="d-flex justify-content-center bg-white rounded shadow relative p-2 my-3">
 				<table class="table-responsive border-separate border-spacing-3 w-100 text-center">
 					<thead>
 						<tr class="border-dashed">
 							<th>Producto</th>
 							<th>Cantidad</th>
+							<th>Precio Total</th>
 							<th>Estado</th>
+							<th>CodigoPedido</th>
 							<th>Fecha Pedido</th>
 						</tr>
 					</thead>
@@ -37,8 +42,10 @@
 							<tr>
 								<td>{{ pedido.Producto.Nombre }}</td>
 								<td>{{ pedido.Cantidad }}</td>
+								<td>{{ pedido.Cantidad * pedido.Producto.Precio }}€</td>
 								<td>{{ pedido.Estado == 0 ? 'Preparando' : pedido.Estado == 1 ? 'En Reparto' : 'Enviado' }}</td>
-								<td>{{ pedido.FechaPedido ? pedido.FechaPedido|date('Y-m-d') : '' }}</td>
+								<td>{{ pedido.CodigoPedido }}</td>
+								<td>{{ pedido.FechaPedido.format('Y-m-d') }}</td>
 
 							</tr>
 						{% endfor %}

@@ -31,6 +31,9 @@ class Pedidos
     #[ORM\JoinColumn(nullable: false)]
     private ?Producto $Producto = null;
 
+    #[ORM\Column]
+    private ?int $CodigoPedido = null;
+
     public function __construct()
     {
         $this->FechaPedido = new \DateTime('now');
@@ -98,6 +101,18 @@ class Pedidos
     public function setProducto(?Producto $Producto): static
     {
         $this->Producto = $Producto;
+
+        return $this;
+    }
+
+    public function getCodigoPedido(): ?int
+    {
+        return $this->CodigoPedido;
+    }
+
+    public function setCodigoPedido(int $CodigoPedido): static
+    {
+        $this->CodigoPedido = $CodigoPedido;
 
         return $this;
     }

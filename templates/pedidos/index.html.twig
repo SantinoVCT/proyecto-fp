@@ -51,6 +51,7 @@
 							<th>Cantidad</th>
 							<th>Estado</th>
 							<th>FechaPedido</th>
+							<th>CodigoPedido</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -62,7 +63,8 @@
 								<td>{{ pedido.Usuario.Nombre }}</td>
 								<td>{{ pedido.Cantidad }}</td>
 								<td>{{ pedido.Estado == 0 ? 'Preparando' : pedido.Estado == 1 ? 'En Reparto' : 'Enviado' }}</td>
-								<td>{{ pedido.FechaPedido ? pedido.FechaPedido|date('Y-m-d') : '' }}</td>
+								<td>{{ pedido.FechaPedido.format('Y-m-d') }}</td>
+								<td>{{ pedido.CodigoPedido }}</td>
 								<td>
 									<div class="row g-3 justify-content-center">
 										<a href="{{path('app_pedidos_show', {id: pedido.id})}}" class="btn btn-info col-1 mx-1 w-auto">
