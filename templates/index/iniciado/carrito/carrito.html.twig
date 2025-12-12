@@ -45,7 +45,9 @@
 					<thead>
 						<tr class="border-dashed">
 							<th>Producto</th>
+							<th>Precio Original</th>
 							<th>Cantidad</th>
+							<th>Precio Total</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -53,7 +55,9 @@
 						{% for carrito in carritos %}
 							<tr>
 								<td>{{ carrito.Producto.Nombre }}</td>
+								<td>{{ carrito.Producto.Precio }}€</td>
 								<td>{{ carrito.Cantidad }}</td>
+								<td>{{ carrito.Cantidad * carrito.Producto.Precio }}€</td>
 								<td>
 									<div class="row g-3 justify-content-center">
 										<a href="{{path('app_comprar', {id: carrito.id})}}" class="btn btn-info mx-2 w-25 col-12">

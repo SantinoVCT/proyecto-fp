@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Usuario;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -25,48 +26,14 @@ class CrearUsuario extends AbstractType
 
         $data = $builder->getData();
 
-        // if ($data instanceof Usuario) {
-        //     $roles = $data->getRoles();
-
-        //     if (is_array($roles) && count($roles) > 0) {
-        //         // Orden de mayor a menor prioridad
-        //         $priority = ['ROLE_ADMIN', 'ROLE_GESTOR', 'ROLE_USER'];
-
-        //         // Buscar el rol más alto que el usuario tenga
-        //         if (in_array('ROLE_ADMIN', $roles, true)) {
-        //             $defaultRole = 'ROLE_ADMIN';
-        //         } elseif (in_array('ROLE_GESTOR', $roles, true)) {
-        //             $defaultRole = 'ROLE_GESTOR';
-        //         } else {
-        //             $defaultRole = 'ROLE_USER';
-        //         }
-        //     }
-        // }
-
         $builder
-            ->add('email', TextType::class, [
+            ->add('email', EmailType::class, [
                 'label' => 'Email',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],
             ])
-            // ->add('roles', ChoiceType::class, [
-            //     'label' => 'Roles',
-            //     'required' => false,
-            //     'multiple' => false,
-            //     'expanded' => false,
-            //     'placeholder' => false,
-            //     'data' => $defaultRole,
-            //     'choices'  => [
-            //         'Administrador' => 'ROLE_ADMIN',
-            //         'Gestor' => 'ROLE_GESTOR',
-            //         'Cliente' => 'ROLE_USER',
-            //     ],
-            //     'attr' => [
-            //         'class' => $textInputCss,
-            //     ],
-            // ])
             ->add('password', PasswordType::class, [
                 'label' => 'Password',
                 'required' => false,
