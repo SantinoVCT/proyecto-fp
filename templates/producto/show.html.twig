@@ -55,6 +55,18 @@
 						<th class="w-25">Categoria</th>
 						<td>{{ producto.Categoria.Nombre }}</td>
 					</tr>
+					<tr>
+						<th class="w-25">Fecha Creado</th>
+						<td>{{ producto.FechaCreada.format('Y-m-d H:i:s') }}</td>
+					</tr>
+					<tr>
+						<th class="w-25">Fecha Actualizado</th>
+						{% if producto.FechaUpdate %}
+							<td>{{ producto.FechaUpdate.format('Y-m-d H:i:s') }}</td>
+							{% else %}
+							<td>N/A</td>
+						{% endif %}
+					</tr>
 				</tbody>
 			</table>
 			<div class="row g-3 justify-content-center">
