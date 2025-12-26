@@ -19,15 +19,15 @@
 
 					{% if app.user %}
 						<div class="mb-3">
-							You are logged in as
+							Iniciado como
 							{{ app.user.userIdentifier }},
 							<a href="{{ path('app_logout') }}">Logout</a>
 						</div>
 					{% endif %}
-					<h1 class="text-xl">Please sign in</h1>
+					<h1 class="text-xl">Por favor, inicia sesión</h1>
 					<label for="email">Email</label>
 					<input type="email" value="{{ last_username }}" name="email" id="email" class="form-control block w-full px-4 py-2 mt-2 mb-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" autocomplete="email" required autofocus>
-					<label for="password">Password</label>
+					<label for="password">Contraseña</label>
 					<input type="password" name="password" id="password" class="form-control block w-full px-4 py-2 mt-2 mb-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" autocomplete="current-password" required>
 					<input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
@@ -39,10 +39,10 @@
 					</div> #}
 
 					<button class="btn btn-success my-2" type="submit">
-						Sign in
+						Iniciar sesión
 					</button>
 				</form>
-				<p>Don't have an account? <a href="{{ path('app_registrar') }}">Register here</a></p>
+				<p>No tienes cuenta? <a href="{{ path('app_registrar') }}">Regístrate aquí</a></p>
 			</div>
 		</div>
 	</div>

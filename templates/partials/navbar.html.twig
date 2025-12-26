@@ -3,16 +3,16 @@
 		<div class="m-3">
 			<a class="navbar-brand" href="{{ path('app_homepage') }}">PC GAMING</a>
 		</div>
-		<div class="flex-grow-1 mx-3 text-white">
+		<div class="flex-grow-1 m-3 text-white">
 			<p> Bienvenido, <b class="font-weight-bold" >{{ app.user.Nombre }} {{ app.user.Apellidos }} </b> </p>
 		</div>
 		<div class="m-3">
 			{% if mostrarBoton %}
-				<a href="{{ path('app_index_crud') }}" class="btn btn-dark">Tablas Crud</a>
+				<a href="{{ path('app_index_crud') }}" class="btn btn-dark">Base de Datos</a>
 			{% endif %}
 			<a href="{{ path('pedidos_online') }}" class="btn btn-info">Tus Pedidos</a>
 			<a href="{{ path('carrito_online', {idUser: app.user.id}) }}" class="btn btn-warning">Tu Carrito</a>
-			<a href="{{ path('app_logout') }}" class="btn btn-danger">Logout</a>
+			<a href="{{ path('app_logout') }}" class="btn btn-danger">Cerrar sesión</a>
 		</div>
 	</div>
 </nav>

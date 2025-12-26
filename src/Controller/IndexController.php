@@ -229,7 +229,7 @@ final class IndexController extends AbstractController
         }
         return $this->redirectToRoute('app_carrito_index', [], Response::HTTP_SEE_OTHER);
     }
-    #[Route('/homepage/crud', name: 'app_index_crud', methods: ['GET'])]
+    #[Route('/homepage/DB', name: 'app_index_crud', methods: ['GET'])]
     public function index_crud(ProductoRepository $productoRepository): Response
     {
         $user = $this->getUser();

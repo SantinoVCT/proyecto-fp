@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Pedidos
+{% block title %}Editar Pedidos
 {% endblock %}
 
 {% block body %}
@@ -8,7 +8,7 @@
 	<div class="bg-dark py-4">
 		<div class="container mx-auto px-4">
 			<h1 class="text-6xl text-white text-center">
-				Edit Pedido de
+				Editar Pedido de
 				{{pedido.Usuario.nombre }}. Producto:
 				{{ pedido.Producto.nombre }}
 			</h1>
@@ -16,7 +16,7 @@
 	</div>
 	<div class="container mx-auto px-4 py-8 m-3">
 		<div class="bg-white rounded shadow relative p-3">
-			{{ include('pedidos/_form.html.twig', {'button_label': 'Update'}) }}
+			{{ include('pedidos/_form.html.twig', {'button_label': 'Cambiar'}) }}
 		</div>
 	</div>
 {% endblock %}
