@@ -4,7 +4,7 @@
     </div>
 
     <div class="password-field">
-        <label for="{{ form.password.vars.id }}">{{ form.password.vars.label|default('Password') }}</label>
+        <label for="{{ form.password.vars.id }}">Contraseña</label>
         <div style="display:flex; align-items:center;">
             {{ form_widget(form.password, {'attr': {'class': 'form-control my-3', 'style':'flex:1'}}) }}
             <button type="button" id="togglePassword" style="margin-left:8px;" class="btn btn-outline-secondary">👁</button>

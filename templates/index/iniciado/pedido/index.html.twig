@@ -13,7 +13,7 @@
 		</div>
 	</div>
 
-	<div class="container mx-auto px-4 py-8 my-3">
+	<main class="container mx-auto px-4 py-8 my-3">
 		{% if pedidos is empty%}
 			<div class="bg-white rounded shadow overflow-hidden relative">
 				<div class="px-4 py-4">
@@ -53,5 +53,6 @@
 				</table>
 			</div>
 		{% endif %}
-	</div>
+	</main>
+	{% include 'partials/footer.html.twig' %}
 {% endblock %}

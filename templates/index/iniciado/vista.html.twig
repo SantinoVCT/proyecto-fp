@@ -6,7 +6,7 @@
 {% block body %}
 	{% include 'partials/navbar.html.twig' %}
 
-	<div class="container-fluid px-3 py-4">
+	<main class="container-fluid px-3 py-4">
 		<div class="table-responsive bg-white rounded shadow overflow-hidden relative py-3 px-2 m-5">
 			<div class="text-xl font-bold mx-2">
 				<h2 class="text-3xl mx-2">{{ producto.Nombre }}</h2>
@@ -37,5 +37,6 @@
 				Volver
 			</a>
 		</table>
-	</div>
+	</main>
+	{% include 'partials/footer.html.twig' %}
 {% endblock %}

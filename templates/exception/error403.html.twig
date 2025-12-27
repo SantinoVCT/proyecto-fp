@@ -6,13 +6,14 @@
 {% block body %}
 	{% include 'partials/navbar_logout.html.twig' %}
 
-	<div class="container mx-auto px-4 py-8">
+	<main class="container mx-auto px-4 py-8">
 		<div class="text-center bg-white rounded shadow relative py-3 my-4">
-				<h1 class="display-1">403 - Forbidden</h1>
-				<br>
-                <h4 class="text-gray-700 text-base">
-                    No tienes los permisos necesarios para acceder a esta pagina.
-                </h4>
-			</div>
-	</div>
+			<h1 class="display-1">403 - Forbidden</h1>
+			<br>
+			<h4 class="text-gray-700 text-base">
+				No tienes los permisos necesarios para acceder a esta pagina.
+			</h4>
+		</div>
+	</main>
+	{% include 'partials/footer.html.twig' %}
 {% endblock %}
