@@ -14,6 +14,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
 class ProductoForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -57,6 +60,15 @@ class ProductoForm extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => $textInputCss,
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'El precio no puede estar vacío.',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[0-9]+(\.[0-9]+)?$/',
+                        'message' => 'El precio debe ser un número válido con hasta dos decimales.',
+                    ]),
                 ],
             ])
             ->add('Categoria', EntityType::class, [

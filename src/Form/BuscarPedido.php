@@ -16,6 +16,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
 class BuscarPedido extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -27,6 +30,15 @@ class BuscarPedido extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => $textInputCss,
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'El código del pedido no puede estar vacío.',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[0-9]{1,4}$/',
+                        'message' => 'El código del pedido debe ser un número entero positivo y que este entre 1 y 9999.',
+                    ]),
                 ],
             ])
         ;

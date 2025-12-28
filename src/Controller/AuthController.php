@@ -10,6 +10,8 @@ use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,8 +51,13 @@ class AuthController extends AbstractController
 
             $usuario->setFechaCreada(new \DateTime());
 
-            $entityManager->persist($usuario);
-            $entityManager->flush();
+            try {
+                $entityManager->persist($usuario);
+                $entityManager->flush();
+            } catch (UniqueConstraintViolationException $e) {
+                $this->addFlash('error', 'El correo electrónico para el usuario ya está en uso.');
+                return $this->redirectToRoute('app_registrar');
+            }
 
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
