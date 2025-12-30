@@ -78,6 +78,43 @@ final class IndexController extends AbstractController
         ]);
     }
 
+    // Trabajando en esto
+    #[Route('/homepage/add/{id}', name: 'add_carrito', methods: ['GET'])]
+    public function addToCart(Producto $producto, CarritoRepository $carritoRepository, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+
+        $encontrado = $carritoRepository->findOneBy(['Usuario' => $user, 'Producto' => $producto]);
+        if($encontrado){
+            if ($encontrado->getCantidad() >= 99) {
+            $maximo = true;
+            } else {
+                $maximo = false;
+            }
+        }
+
+        if ($encontrado){
+            if ($maximo){
+                $this->addFlash('mensaje', 'No se pueden añadir más ' . $producto->getNombre() . ' al carrito.');
+            } else {
+                $encontrado->setCantidad($encontrado->getCantidad() + 1);
+                $entityManager->persist($encontrado);
+                $entityManager->flush();
+                $this->addFlash('mensaje', 'Se ha añadido más ' . $producto->getNombre() . ' al carrito.');
+            }
+        } else{
+            $carritoItem = new Carrito();
+            $carritoItem->setUsuario($user);
+            $carritoItem->setProducto($producto);
+            $carritoItem->setCantidad(1);
+            $entityManager->persist($carritoItem);
+            $entityManager->flush();
+            $this->addFlash('mensaje', 'Se ha añadido ' . $producto->getNombre() . ' al carrito.');
+        }
+
+        return $this->redirectToRoute('app_homepage');
+    }
+
     #[Route('/homepage/carrito', name: 'carrito_online', methods: ['GET'])]
     public function carroOnline(CarritoRepository $carritoRepository): Response
     {
@@ -130,36 +167,36 @@ final class IndexController extends AbstractController
     }
     
 
-    #[Route('/homepage/carrito/anadir', name: 'app_anadir', methods: ['GET', 'POST'])]
-    public function anadir(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $user = $this->getUser();
-        $mostrarBoton = false;
-        $idUser = $user->getId();
+    // #[Route('/homepage/carrito/anadir', name: 'app_anadir', methods: ['GET', 'POST'])]
+    // public function anadir(Request $request, EntityManagerInterface $entityManager): Response
+    // {
+    //     $user = $this->getUser();
+    //     $mostrarBoton = false;
+    //     $idUser = $user->getId();
 
-        if ($user && in_array('ROLE_ADMIN', $user->getRoles())) {
-            $mostrarBoton = true;
-        }
+    //     if ($user && in_array('ROLE_ADMIN', $user->getRoles())) {
+    //         $mostrarBoton = true;
+    //     }
 
-        $carrito = new Carrito();
-        $form = $this->createForm(CarritoAdd::class, $carrito);
-        $form->handleRequest($request);
+    //     $carrito = new Carrito();
+    //     $form = $this->createForm(CarritoAdd::class, $carrito);
+    //     $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $carrito->setUsuario($user);
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $carrito->setUsuario($user);
 
-            $entityManager->persist($carrito);
-            $entityManager->flush();
+    //         $entityManager->persist($carrito);
+    //         $entityManager->flush();
 
-            return $this->redirectToRoute('carrito_online', [], Response::HTTP_SEE_OTHER);
-        }
+    //         return $this->redirectToRoute('carrito_online', [], Response::HTTP_SEE_OTHER);
+    //     }
 
-        return $this->render('index/iniciado/carrito/new.html.twig', [
-            'carrito' => $carrito,
-            'form' => $form,
-            'mostrarBoton' => $mostrarBoton,
-        ]);
-    }
+    //     return $this->render('index/iniciado/carrito/new.html.twig', [
+    //         'carrito' => $carrito,
+    //         'form' => $form,
+    //         'mostrarBoton' => $mostrarBoton,
+    //     ]);
+    // }
 
     #[Route('/homepage/carrito/cambiar/{id}', name: 'app_cambiar', methods: ['GET', 'POST'])]
     public function cambiar(Request $request, Carrito $carrito, EntityManagerInterface $entityManager): Response
@@ -216,7 +253,7 @@ final class IndexController extends AbstractController
     }
 
     #[Route('/homepage/carrito/quitar/{id}', name: 'app_quitar', methods: ['POST'])]
-    public function delete(Request $request, Carrito $carrito, EntityManagerInterface $entityManager): Response
+    public function quitar(Request $request, Carrito $carrito, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$carrito->getId(), $request->getPayload()->getString('_token'))) {
             try {
@@ -224,10 +261,10 @@ final class IndexController extends AbstractController
             $entityManager->flush();
             } catch (ForeignKeyConstraintViolationException $e) {
                 $this->addFlash('error', 'No se puede borrar el carrito porque está relacionado con otros registros.');
-                return $this->redirectToRoute('app_carrito_index');
+                return $this->redirectToRoute('carrito_online');
             }
         }
-        return $this->redirectToRoute('app_carrito_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('carrito_online', [], Response::HTTP_SEE_OTHER);
     }
     #[Route('/homepage/DB', name: 'app_index_crud', methods: ['GET'])]
     public function index_crud(ProductoRepository $productoRepository): Response

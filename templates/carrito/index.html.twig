@@ -29,10 +29,10 @@
 		{% if carritos is empty%}
 			<div class="bg-white rounded shadow overflow-hidden relative my-4">
 				<div class="px-6 py-4">
-					<div class="font-bold text-xl mx-2">No product has been found in carrito</div>
+					<div class="font-bold text-xl mx-2">Productos en carritos no encontrados</div>
 					<p class="text-gray-700 text-base mx-2">
-						There are no users in the database.
-						<a href="{{ path('app_carrito_new') }}" class="text-blue-500">Add one</a>
+						No hay productos en los carritos en la base de datos.
+						<a href="{{ path('app_carrito_new') }}" class="text-blue-500">Añade uno</a>
 					</p>
 				</div>
 			</div>
@@ -67,7 +67,7 @@
 										<a href="{{path('app_carrito_edit', {id: carrito.id})}}" class="btn btn-warning col-1 mx-1 w-auto">
 											<i class="fas fa-edit"></i>
 										</a>
-										<form method="post" action="{{ path('app_carrito_delete', {'id': carrito.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" class="col-1 mx-1">
+										<form method="post" action="{{ path('app_carrito_delete', {'id': carrito.id}) }}" onsubmit="return confirm('Estas seguro de quitar este columna de la Tabla?');" class="col-1 mx-1">
 											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ carrito.id) }}">
 											<button class="btn btn-danger w-auto">
 												<i class="fas fa-trash"></i>

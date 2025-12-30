@@ -27,9 +27,9 @@
 
 	<main class="container mx-auto px-4 py-8">
 		{% if carritos is empty%}
-			<div class="px-6 py-4">
+			{# <div class="px-6 py-4">
 				<a href="{{ path('app_anadir') }}" class="btn btn-primary px-4 py-2">Añadir Producto</a>
-			</div>
+			</div> #}
 			<div class="bg-white rounded shadow overflow-hidden relative">
 				<div class="px-6 py-4">
 					<div class="font-bold text-xl mx-2">No hay productos en el carrito</div>
@@ -38,7 +38,7 @@
 
 		{% else %}
 			<div class="px-6 py-4">
-				<a href="{{ path('app_anadir') }}" class="btn btn-primary mx-2 px-4 py-2">Añadir Producto</a>
+				{# <a href="{{ path('app_anadir') }}" class="btn btn-primary mx-2 px-4 py-2">Añadir Producto</a> #}
 				<a href="{{ path('app_comprar') }}" class="btn btn-success mx-2 px-4 py-2">Comprar</a>
 			</div>
 			<div class="d-flex justify-content-center bg-white rounded shadow relative p-2">
@@ -64,9 +64,9 @@
 										<a href="{{path('app_cambiar', {id: carrito.id})}}" class="btn btn-warning col-1 mx-1 w-auto">
 											<i class="fas fa-edit"></i>
 										</a>
-										<form method="post" action="{{ path('app_carrito_delete', {'id': carrito.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" class="col-1 mx-1">
+										<form method="post" action="{{ path('app_quitar', {'id': carrito.id}) }}" onsubmit="return confirm('Estas seguro de quitar este producto del carrito?');" class="col-1 mx-1">
 											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ carrito.id) }}">
-											<butto<button class="btn btn-danger w-auto">
+											<button class="btn btn-danger w-auto">
 												<i class="fas fa-trash"></i>
 											</button>
 										</form>

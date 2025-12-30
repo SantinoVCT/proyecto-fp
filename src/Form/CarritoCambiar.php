@@ -36,7 +36,7 @@ class CarritoCambiar extends AbstractType
                     ]),
                     new Regex([
                         'pattern' => '/^[0-9]{1,2}$/',
-                        'message' => 'La cantidad debe ser un número entero positivo.',
+                        'message' => 'La cantidad debe ser un número entero positivo y menor o igual a 99.',
                     ]),
                 ],
             ]);

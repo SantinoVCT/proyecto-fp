@@ -37,7 +37,7 @@ class PedidosForm extends AbstractType
                     ]),
                     new Regex([
                         'pattern' => '/^[0-9]{1,2}$/',
-                        'message' => 'La cantidad debe ser un número entero positivo y que este entre 1 y 99.',
+                        'message' => 'La cantidad debe ser un número entero positivo y menor o igual a 99.',
                     ]),
                 ],
             ])
