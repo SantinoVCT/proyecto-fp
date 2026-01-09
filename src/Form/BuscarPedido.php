@@ -36,8 +36,8 @@ class BuscarPedido extends AbstractType
                         'message' => 'El código del pedido no puede estar vacío.',
                     ]),
                     new Regex([
-                        'pattern' => '/^[0-9]{1,4}$/',
-                        'message' => 'El código del pedido debe ser un número entero positivo y que este entre 1 y 9999.',
+                        'pattern' => '/^[0-9]{4}$/',
+                        'message' => 'El código del pedido debe ser un número entero positivo y que este entre 1000 y 9999.',
                     ]),
                 ],
             ])

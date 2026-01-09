@@ -143,61 +143,35 @@ final class IndexController extends AbstractController
         }
 
         $idUser = $user->getId();
-        // $pedido = new Pedidos();
-        // $form = $this->createForm(BuscarPedido::class, $pedido);
+        $form = $this->createForm(BuscarPedido::class);
 
         $pedidos = $pedidosRepository->findBy(['Usuario' => $idUser]);
 
-        // $form->handleRequest($request);
+        $form->handleRequest($request);
 
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $pedidos = $pedidosRepository->findBy(['Usuario' => $idUser, 'CodigoPedido' => $pedido->getCodigoPedido()]);
-        //     return $this->render('index/iniciado/pedido/index.html.twig', [
-        //         'pedidos' => $pedidos,
-        //         'form' => $form,
-        //         'mostrarBoton' => $mostrarBoton,
-        //     ]);
-        // }else{
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $codigoPedido = $data->getCodigoPedido();
+
+            $pedidos = $pedidosRepository->findBy(['Usuario' => $idUser, 'CodigoPedido' => $codigoPedido]);
+            if (empty($pedidos)) {
+                $this->addFlash('error', 'No se encontraron pedidos con el código proporcionado.');
+            }
             return $this->render('index/iniciado/pedido/index.html.twig', [
                 'pedidos' => $pedidos,
-                // 'form' => $form,
+                'form' => $form,
                 'mostrarBoton' => $mostrarBoton,
             ]);
-        // }
+        }else{
+            return $this->render('index/iniciado/pedido/index.html.twig', [
+                'pedidos' => $pedidos,
+                'form' => $form,
+                'mostrarBoton' => $mostrarBoton,
+            ]);
+        }
     }
+
     
-
-    // #[Route('/homepage/carrito/anadir', name: 'app_anadir', methods: ['GET', 'POST'])]
-    // public function anadir(Request $request, EntityManagerInterface $entityManager): Response
-    // {
-    //     $user = $this->getUser();
-    //     $mostrarBoton = false;
-    //     $idUser = $user->getId();
-
-    //     if ($user && in_array('ROLE_ADMIN', $user->getRoles())) {
-    //         $mostrarBoton = true;
-    //     }
-
-    //     $carrito = new Carrito();
-    //     $form = $this->createForm(CarritoAdd::class, $carrito);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $carrito->setUsuario($user);
-
-    //         $entityManager->persist($carrito);
-    //         $entityManager->flush();
-
-    //         return $this->redirectToRoute('carrito_online', [], Response::HTTP_SEE_OTHER);
-    //     }
-
-    //     return $this->render('index/iniciado/carrito/new.html.twig', [
-    //         'carrito' => $carrito,
-    //         'form' => $form,
-    //         'mostrarBoton' => $mostrarBoton,
-    //     ]);
-    // }
-
     #[Route('/homepage/carrito/cambiar/{id}', name: 'app_cambiar', methods: ['GET', 'POST'])]
     public function cambiar(Request $request, Carrito $carrito, EntityManagerInterface $entityManager): Response
     {   
@@ -248,6 +222,7 @@ final class IndexController extends AbstractController
         
         $entityManager->flush();
 
+        $this->addFlash('mensaje', 'Se a comprado sus productos. El codigo de Pedido es ' . $codigoPedido);
         return $this->redirectToRoute('carrito_online');
         
     }

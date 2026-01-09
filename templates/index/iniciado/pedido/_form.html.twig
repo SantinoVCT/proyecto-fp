@@ -1,4 +1,10 @@
-{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+{{ form_start(
+    form, 
+    {'attr': {
+        'novalidate': 'novalidate',
+        'data-turbo': 'false'
+        }}) 
+}}
     <label for="{{ form.CodigoPedido.vars.id }}">CodigoPedido</label>
     {{ form_widget(form.CodigoPedido, {'attr': {'class': 'form-control my-3'}, 'label' : 'CodigoPedido'}) }}
     {% if not form.CodigoPedido.vars.valid %}
@@ -8,5 +14,6 @@
     {% endif %}
     
     {{ form_widget(form) }}
+	<a class="btn btn-warning" href="{{ path('pedidos_online') }}">Ver Todo</a>
     <button class="btn btn-primary">{{ button_label|default('Buscar') }}</button>
 {{ form_end(form) }}
