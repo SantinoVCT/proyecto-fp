@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Pedidos;
 use App\Form\BuscarPedido;
+use App\Form\ProductoBuscar;
 use App\Repository\PedidosRepository;
 
 use App\Entity\Carrito;
@@ -29,9 +30,32 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class IndexController extends AbstractController
 {
-    #[Route(name: 'app_index', methods: ['GET'])]
-    public function index(ProductoRepository $productoRepository): Response
+    #[Route(name: 'app_index', methods: ['GET', 'POST'])]
+    public function index(Request $request, ProductoRepository $productoRepository): Response
     {
+        $form = $this->createForm(ProductoBuscar::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $Producto = $data->getNombre();
+
+            if (empty($Producto)) {
+                return $this->redirectToRoute('app_index');
+            }else{
+                $productos = $productoRepository->findByString($Producto);
+                return $this->render('index/buscar.html.twig', [
+                    'productos' => $productos,
+                    'form' => $form,
+                ]);
+            }
+        }else{
+            return $this->render('index/index.html.twig', [
+                'productos' => $productoRepository->findAll(),
+                'form' => $form,
+            ]);
+        }
         return $this->render('index/index.html.twig', [
             'productos' => $productoRepository->findAll(),
         ]);
@@ -45,8 +69,8 @@ final class IndexController extends AbstractController
         ]);
     }
 
-    #[Route('/homepage', name: 'app_homepage', methods: ['GET'])]
-    public function homepage(ProductoRepository $productoRepository): Response
+    #[Route('/homepage', name: 'app_homepage', methods: ['GET', 'POST'])]
+    public function homepage(Request $request, ProductoRepository $productoRepository): Response
     {
         
         $user = $this->getUser();
@@ -56,12 +80,36 @@ final class IndexController extends AbstractController
             $mostrarBoton = true;
         }
 
+        $form = $this->createForm(ProductoBuscar::class);
 
-        return $this->render('index/iniciado/index.html.twig', [
-            'productos' => $productoRepository->findAll(),
-            'mostrarBoton' => $mostrarBoton,
-        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $Producto = $data->getNombre();
+
+            if (empty($Producto)) {
+                return $this->redirectToRoute('app_homepage');
+            }else{
+                $productos = $productoRepository->findByString($Producto);
+
+                return $this->render('index/iniciado/buscar.html.twig', [
+                    'productos' => $productos,
+                    'form' => $form,
+                    'mostrarBoton' => $mostrarBoton,
+                ]);
+            }
+        }else{
+            return $this->render('index/iniciado/index.html.twig', [
+                'productos' => $productoRepository->findAll(),
+                'form' => $form,
+                'mostrarBoton' => $mostrarBoton,
+            ]);
+        }
+
+        
     }
+    
     #[Route('/homepage/vista/{id}', name: 'producto_online', methods: ['GET'])]
     public function showOnline(Producto $producto): Response
     {

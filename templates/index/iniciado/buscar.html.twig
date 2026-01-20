@@ -5,7 +5,7 @@
 
 {% block body %}
 	{% include 'partials/navbar.html.twig' %}
-	<main class="container-fluid px-3 pt-3 pb-5 mb-5">
+	<main class="container-fluid px-3 pt-3 pb-5 mb-5" style="min-height:80vh;">
 		{% for label, messages in app.flashes %}
 			{% for message in messages %}
 				<div class="alert alert-info mx-5">
@@ -17,8 +17,9 @@
 			{{ include('index/iniciado/_form.html.twig') }}
 		</div>
 		<div class="row g-3 justify-content-center">
+
 			{% for producto in productos %}
-				<div class=" bg-white p-3 rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4">
+				<div class=" bg-white p-3 rounded shadow text-center col-12 mx-2 py-4">
 					<h4>{{ producto.Nombre }}</h4>
 					<p>{{ producto.Descripcion|slice(0,100) }}...</p>
 					<h5>{{ producto.Precio }}€</h5>
