@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 #[Route('/homepage/crud/producto')]
 final class ProductoController extends AbstractController
 {
@@ -32,7 +35,7 @@ final class ProductoController extends AbstractController
     }
 
     #[Route('/new', name: 'app_producto_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
@@ -47,6 +50,24 @@ final class ProductoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $producto->setFechaCreada(new \DateTime());
+
+            $imageFile = $form->get('imagen')->getData();
+
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                    $producto->setImagen($newFilename);
+                } catch (FileException $e) {
+                    $this->addFlash('error', 'Error al subir la imagen.');
+                }
+            }
 
             $entityManager->persist($producto);
             $entityManager->flush();
@@ -78,7 +99,7 @@ final class ProductoController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_producto_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Producto $producto, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Producto $producto, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
@@ -93,6 +114,30 @@ final class ProductoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $producto->setFechaUpdate(new \DateTime());
             
+            $imageFile = $form->get('imagen')->getData();
+            
+            if ($imageFile) {
+                $rutaArchivo = $this->getParameter('images_directory').'/'.$producto->getImagen();
+                
+                if (file_exists($rutaArchivo)) {
+                    unlink($rutaArchivo);
+                }
+
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                    $producto->setImagen($newFilename);
+                } catch (FileException $e) {
+                    $this->addFlash('error', 'Error al subir la imagen.');
+                }
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_producto_index', [], Response::HTTP_SEE_OTHER);

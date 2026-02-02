@@ -15,6 +15,7 @@
 				<div class=" bg-white p-3 rounded shadow text-center col-12 mx-2 py-4">
 					<h4>{{ producto.Nombre }}</h4>
 					<p>{{ producto.Descripcion|slice(0,100) }}...</p>
+					<img src="{{ asset('uploads/images/' ~ producto.Imagen) }}" alt="{{ producto.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
 					<h5>{{ producto.Precio }}€</h5>
 					<div class="flex justify-center my-3">
 						<a href="{{ path('producto_online', {id: producto.id}) }}" class="btn btn-info mx-2">

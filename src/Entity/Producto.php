@@ -55,6 +55,9 @@ class Producto
     #[ORM\Column(nullable: true)]
     private ?\DateTime $FechaUpdate = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imagen = null;
+
     public function __construct()
     {
         $this->carritos = new ArrayCollection();
@@ -230,6 +233,18 @@ class Producto
     public function setFechaUpdate(?\DateTime $FechaUpdate): static
     {
         $this->FechaUpdate = $FechaUpdate;
+
+        return $this;
+    }
+
+    public function getImagen(): ?string
+    {
+        return $this->imagen;
+    }
+
+    public function setImagen(?string $imagen): static
+    {
+        $this->imagen = $imagen;
 
         return $this;
     }

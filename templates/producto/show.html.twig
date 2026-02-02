@@ -27,6 +27,10 @@
 						<td>{{ producto.Nombre }}</td>
 					</tr>
 					<tr>
+						<th class="w-25">Imagen</th>
+						<td><img src="{{ asset('uploads/images/' ~ producto.imagen) }}" alt="Imagen"></td>
+					</tr>
+					<tr>
 						<th class="w-25">Descripcion</th>
 						<td>{{ producto.Descripcion }}</td>
 					</tr>
