@@ -6,23 +6,21 @@
 {% block body %}
 	{% include 'partials/navbar_logout.html.twig' %}
 	<main class="container-fluid px-3 pt-3 pb-5 mb-5" style="min-height:80vh;">
-		<div class="bg-white rounded shadow relative p-3 my-3 mx-5">
+		<div class="bg-white rounded shadow relative p-3 my-3 mx-5 border border-gry">
 			{{ include('index/_form.html.twig') }}
 		</div>
 		<div class="row g-3 justify-content-center px-1">
-
 			{% for producto in productos %}
-				<div class=" bg-white p-3 rounded shadow text-center col-12 mx-2 py-4">
-					<h4>{{ producto.Nombre }}</h4>
-					<p>{{ producto.Descripcion|slice(0,100) }}...</p>
-					<img src="{{ asset('uploads/images/' ~ producto.Imagen) }}" alt="{{ producto.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
-					<h5>{{ producto.Precio }}€</h5>
-					<div class="flex justify-center my-3">
-						<a href="{{ path('producto_online', {id: producto.id}) }}" class="btn btn-info mx-2">
-							Ver
-						</a>
+				<a href="{{ path('producto_offline', {id: producto.id}) }}" class="d-flex flex-columnbg-white p-3 btn btn-light rounded shadow text-center col-12 mx-5 py-4 border border-gry">
+					<div class="mx-3">
+						<h4 class="mx-2">{{ producto.Nombre }}</h4>
+						<p class="mx-2">{{ producto.Descripcion|slice(0,100) }}...</p>
+						<h5 class="precio">{{ producto.Precio }}€</h5>
 					</div>
-				</div>
+					<div class="mx-3">
+						<img src="{{ asset('uploads/images/' ~ producto.Imagen) }}" alt="{{ producto.Nombre }}" class="img-fluid my-2" style="max-height: 75px; object-fit: contain;">
+					</div>
+				</a>
 			{% endfor %}
 		</div>
 	</main>

@@ -7,18 +7,18 @@
 	{% include 'partials/navbar_logout.html.twig' %}
 
 	<main class="container-fluid px-3 pt-3 pb-5 mb-5">
-		<div class="bg-white rounded shadow relative p-3 my-3 mx-5">
+		<div class="bg-white rounded shadow relative p-3 my-3 mx-5 border border-gry">
 			{{ include('index/_form.html.twig') }}
 		</div>
 		<div class="row g-3 justify-content-center">
 			{% for producto in productos %}
-				<div class=" bg-white p-3 rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4">
+				<div class=" bg-white p-3 rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
 					<h4>{{ producto.Nombre }}</h4>
 					<img src="{{ asset('uploads/images/' ~ producto.Imagen) }}" alt="{{ producto.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
 					<p>{{ producto.Descripcion|slice(0,100) }}...</p>
-					<h5>{{ producto.Precio }}€</h5>
+					<h5 class="precio">{{ producto.Precio }}€</h5>
 					<div class="flex justify-center my-3">
-						<a href="{{ path('producto_offline', {id: producto.id}) }}" class="btn btn-info">
+						<a href="{{ path('producto_offline', {id: producto.id}) }}" class="btn btn-light border-black">
 							Ver
 						</a>
 					</div>

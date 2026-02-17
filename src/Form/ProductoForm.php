@@ -47,7 +47,7 @@ class ProductoForm extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '2M',
+                        'maxSize' => '3M',
                         'mimeTypes' => ['image/jpeg', 'image/png'],
                         'mimeTypesMessage' => 'Por favor sube una imagen válida',
                     ])

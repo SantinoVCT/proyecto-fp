@@ -14,8 +14,24 @@
         {% block javascripts %}
                 {{ encore_entry_script_tags('app') }}
         {% endblock %}
+        <style>
+            .precio {
+                color: rgb(48, 123, 59);
+                font-weight: bold;
+            }
+            .logo{
+                text-decoration: none;
+                color: black;
+                font-size: 1.5em;
+                font-weight: bold;
+            }
+            .border-gry{
+                border-color: rgb(220, 220, 220);
+            }
+        </style>
+
     </head>
-    <body>
+    <body class="bg-white">
         {% block body %}{% endblock %}
     </body>
 </html>

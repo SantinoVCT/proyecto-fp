@@ -1,17 +1,17 @@
-<nav class="navbar navbar-dark bg-primary p-2">
+<nav class="navbar border-bottom border-2 border-black bg-white">
 	<div class="container-fluid">
 		<div class="m-3">
-			<a class="navbar-brand" href="{{ path('app_homepage') }}">PC GAMING</a>
+			<a class="logo" href="{{ path('app_homepage') }}">PC GAMING</a>
 		</div>
 		<div class="flex-grow-1 m-3 text-white">
 			<p> Bienvenido, <b class="font-weight-bold" >{{ app.user.Nombre }} {{ app.user.Apellidos }} </b> </p>
 		</div>
 		<div class="m-3">
 			{% if mostrarBoton %}
-				<a href="{{ path('app_index_crud') }}" class="btn btn-dark">Base de Datos</a>
+				<a href="{{ path('app_index_crud') }}" class="btn btn-light border-black">Base de Datos</a>
 			{% endif %}
-			<a href="{{ path('pedidos_online') }}" class="btn btn-info">Tus Pedidos</a>
-			<a href="{{ path('carrito_online', {idUser: app.user.id}) }}" class="btn btn-warning">Tu Carrito</a>
+			<a href="{{ path('pedidos_online') }}" class="btn btn-light border-black">Tus Pedidos</a>
+			<a href="{{ path('carrito_online', {idUser: app.user.id}) }}" class="btn btn-light border-black">Tu Carrito</a>
 			<a href="{{ path('app_logout') }}" class="btn btn-danger">Cerrar sesión</a>
 		</div>
 	</div>

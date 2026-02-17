@@ -29,6 +29,7 @@ class ProductoFixture extends Fixture
         $producto1->setCaracteristicas('Pantalla: 6.5 pulgadas, Procesador: Octa-core, RAM: 8GB, Almacenamiento: 128GB');
         $producto1->setCategoria($this->getReference('categoria1', Categoria::class));
         $producto1->setFechaCreada(new \DateTime());
+        $producto1->setImagen('Smartphone-XYZ-6985d53cdfc30.png');
 
         $producto2->setNombre('Portátil ABC');
         $producto2->setDescripcion('Portátil ligero y potente, ideal para profesionales y estudiantes.');
@@ -37,6 +38,7 @@ class ProductoFixture extends Fixture
         $producto2->setCaracteristicas('Pantalla: 15.6 pulgadas, Procesador: Intel i7, RAM: 16GB, Almacenamiento: 512GB SSD');
         $producto2->setCategoria($this->getReference('categoria1', Categoria::class));
         $producto2->setFechaCreada(new \DateTime());
+        $producto2->setImagen('Portatil-ABC-6985d54b1afcc.png');
 
         $producto3->setNombre('Placa Base ASUS TUF GAMING B650-PLUS');
         $producto3->setDescripcion('Placa base robusta y fiable para gamers y entusiastas del hardware.');
@@ -45,6 +47,7 @@ class ProductoFixture extends Fixture
         $producto3->setCaracteristicas('Socket: AM5, Factor de forma: ATX, Chipset: B650, RAM: Hasta 128GB DDR5');
         $producto3->setCategoria($this->getReference('categoria2', Categoria::class));
         $producto3->setFechaCreada(new \DateTime());
+        $producto3->setImagen('Placa-Base-ASUS-TUF-GAMING-B650-PLUS-6985d597b1fdd.png');
 
         $producto4->setNombre('Procesador AMD Ryzen 5 7600X');
         $producto4->setDescripcion('Procesador de alto rendimiento para gaming y tareas intensivas.');
@@ -53,6 +56,7 @@ class ProductoFixture extends Fixture
         $producto4->setCaracteristicas('Núcleos: 6, Hilos: 12, Frecuencia base: 4.7GHz, Frecuencia turbo: 5.3GHz');
         $producto4->setCategoria($this->getReference('categoria3', Categoria::class));
         $producto4->setFechaCreada(new \DateTime());
+        $producto4->setImagen('Procesador-AMD-Ryzen-5-7600X-6985d5cd4f615.png');
 
         $producto5->setNombre('Disco Duro Seagate Game Drive PS5 1TB');
         $producto5->setDescripcion('Disco duro externo optimizado para PlayStation 5.');
@@ -61,6 +65,7 @@ class ProductoFixture extends Fixture
         $producto5->setCaracteristicas('Capacidad: 1TB, Velocidad de transferencia: 140MB/s, Conectividad: USB 3.2');
         $producto5->setCategoria($this->getReference('categoria5', Categoria::class));
         $producto5->setFechaCreada(new \DateTime());
+        $producto5->setImagen('Disco-Duro-Seagate-Game-Drive-PS5-1TB-6985d5d5cb8c8.png');
 
         $producto6->setNombre('Ratón Gaming Razer DeathAdder V2');
         $producto6->setDescripcion('Ratón ergonómico con alta precisión para gamers.');
@@ -69,6 +74,7 @@ class ProductoFixture extends Fixture
         $producto6->setCaracteristicas('Sensor: Óptico 20K DPI, Botones: 8 programables, Iluminación: RGB Chroma');
         $producto6->setCategoria($this->getReference('categoria6', Categoria::class));
         $producto6->setFechaCreada(new \DateTime());
+        $producto6->setImagen('Raton-Gaming-Razer-DeathAdder-V2-6985d5dd948b5.png');
 
         $manager->persist($producto1);
         $manager->persist($producto2);

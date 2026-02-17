@@ -7,7 +7,45 @@
 	{% include 'partials/navbar.html.twig' %}
 
 	<main class="container-fluid px-3 py-4">
-		<div class="table-responsive bg-white rounded shadow overflow-hidden relative py-3 px-2 m-5">
+		<a href="{{ path('app_homepage') }}" class="btn btn-light border-black mx-3">
+			Volver
+		</a>
+		<div class="overflow-hidden relative py-3 px-2 m-5">
+			<div class="row mb-4">
+				<div class="col">
+					<img src="{{ asset('uploads/images/' ~ producto.Imagen) }}" alt="{{ producto.Nombre }}" class="img-fluid my-2" style="max-height: 300px; object-fit: contain;">
+				</div>
+				<div class="col">
+					<h1 class="text-4xl font-bold mb-4">{{ producto.Nombre }}</h1>
+					<p class="mx-2 text-secondary">Categoria: {{ producto.Categoria.Nombre }}</p>
+					<p class="mx-2">Precio: <b class="precio">{{ producto.Precio }}€</b></p>
+					<a href="{{ path('add_carrito', {id: producto.id}) }}" class="btn btn-light border-black mx-3">
+						Añadir
+					</a>
+				</div>
+			</div>
+			<div class="text-xl font-bold mx-2">
+				<h2 class="text-3xl mx-2">Descripcion</h2>
+				<p class="mx-2">{{ producto.Descripcion }}</p>
+			</div>
+			<div class="text-xl font-bold mx-2">
+				<h2 class="text-3xl mx-2">Caracteristicas</h2>
+				<p class="mx-2">{{ producto.Caracteristicas }}</p>
+			</div>
+
+			<div class="text-xl font-bold mx-2">
+				<h2 class="text-3xl mx-2">Requisitos</h2>
+				{% if producto.Requisitos is empty%}
+					<p class="mx-2">No hay requisitos disponibles para este producto.</p>
+				{% else %}
+					<p class="mx-2">{{ producto.Requisitos }}</p>
+
+				{% endif %}
+			</div>
+		{# Old Version
+			   Usando como referencia para saber que informacion hay que mostar
+
+		<div class="bg-white rounded shadow overflow-hidden relative py-3 px-2 m-5">
 			<div class="text-xl font-bold mx-2">
 				<h2 class="text-3xl mx-2">{{ producto.Nombre }}</h2>
 				<p class="mx-2">Precio:
@@ -35,8 +73,8 @@
 			</div>
 			<a href="{{ path('app_homepage') }}" class="btn btn-warning mx-2">
 				Volver
-			</a>
-		</table>
+			</a>#}
+		</div> 
 	</main>
 	{% include 'partials/footer.html.twig' %}
 {% endblock %}

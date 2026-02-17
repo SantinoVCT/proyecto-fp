@@ -117,10 +117,11 @@ final class ProductoController extends AbstractController
             $imageFile = $form->get('imagen')->getData();
             
             if ($imageFile) {
-                $rutaArchivo = $this->getParameter('images_directory').'/'.$producto->getImagen();
-                
-                if (file_exists($rutaArchivo)) {
-                    unlink($rutaArchivo);
+                if($producto->getImagen()) {
+                    $existingImagePath = $this->getParameter('images_directory').'/'.$producto->getImagen();
+                    if (file_exists($existingImagePath)) {
+                        unlink($existingImagePath);
+                    }
                 }
 
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -155,6 +156,12 @@ final class ProductoController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$producto->getId(), $request->getPayload()->getString('_token'))) {
             try {
+                if($producto->getImagen()) {
+                    $existingImagePath = $this->getParameter('images_directory').'/'.$producto->getImagen();
+                    if (file_exists($existingImagePath)) {
+                        unlink($existingImagePath);
+                    }
+                }
                 $entityManager->remove($producto);
                 $entityManager->flush();
             } catch (ForeignKeyConstraintViolationException $e) {
