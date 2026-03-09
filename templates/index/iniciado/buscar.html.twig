@@ -4,31 +4,28 @@
 {% endblock %}
 
 {% block body %}
-	{% include 'partials/navbar.html.twig' %}
+	{% include 'partials/navbar_1.html.twig' %}
 	<main class="container-fluid px-3 pt-3 pb-5 mb-5" style="min-height:80vh;">
-		{% for label, messages in app.flashes %}
-			{% for message in messages %}
-				<div class="alert alert-info mx-5">
-					{{ message }}
-				</div>
-			{% endfor %}
-		{% endfor %}
-		<div class="bg-white rounded shadow relative p-3 my-3 mx-5 border border-gry">
-			{{ include('index/iniciado/_form.html.twig') }}
-		</div>
+		<h2 class="mb-4">Resultados de búsqueda de: "{{ busqueda }}"</h2>
 		<div class="row g-3 justify-content-center">
-			{% for producto in productos %}
-				<a href="{{ path('producto_online', {id: producto.id}) }}" class="d-flex flex-columnbg-white p-3 btn btn-light rounded shadow text-center col-12 mx-5 py-4 border border-gry">
-					<div class="mx-3">
-						<h4 class="mx-2">{{ producto.Nombre }}</h4>
-						<p class="mx-2">{{ producto.Descripcion|slice(0,100) }}...</p>
-						<h5 class="precio">{{ producto.Precio }}€</h5>
-					</div>
-					<div class="mx-3">
-						<img src="{{ asset('uploads/images/' ~ producto.Imagen) }}" alt="{{ producto.Nombre }}" class="img-fluid my-2" style="max-height: 75px; object-fit: contain;">
-					</div>
-				</a>
-			{% endfor %}
+			{% if productos %}
+				{% for producto in productos %}
+					<a href="{{ path('producto_online', {id: producto.id}) }}" class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-sm-6 col-md-4 col-lg-2 mx-5 py-4 border border-gry">
+						<div class="mx-3">
+							<h4 class="mx-2">{{ producto.Nombre }}</h4>
+							<p class="mx-2">{{ producto.Descripcion|slice(0,100) }}...</p>
+							<h5 class="precio">{{ producto.Precio }}€</h5>
+						</div>
+						<div class="mx-3">
+							<img src="{{ asset('uploads/images/' ~ producto.Imagen) }}" alt="{{ producto.Nombre }}" class="img-fluid my-2" style="max-height: 75px; object-fit: contain;">
+						</div>
+					</a>
+				{% endfor %}
+			{% else %}
+				<div class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center mx-5 py-4 border border-gry">
+					No se encontraron productos para "{{ busqueda }}".
+				</div>
+			{% endif %}
 		</div>
 	</main>
 	{% include 'partials/footer.html.twig' %}

@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/homepage/crud/producto')]
+#[Route('/homepage/DB/producto')]
 final class ProductoController extends AbstractController
 {
     #[Route(name: 'app_producto_index', methods: ['GET'])]

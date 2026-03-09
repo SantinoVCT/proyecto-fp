@@ -1,15 +1,5 @@
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
-    <label for="{{ form.Nombre.vars.id }}">Nombre</label>
-    {{ form_widget(form.Nombre, {'attr': {'class': 'form-control my-3'}, 'label' : 'Nombre'}) }}
-
-    <label for="{{ form.Precio.vars.id }}">Precio</label>
-    {{ form_widget(form.Precio, {'attr': {'class': 'form-control my-3'}, 'label' : 'Precio'}) }}
-    {% if not form.Precio.vars.valid %}
-        <div class="alert alert-danger">
-            {{ form_errors(form.Precio) }}
-        </div>
-    {% endif %}
     {{ form_widget(form) }}
     <a class="btn btn-success" href="{{ path('app_producto_index') }}">Volver</a>
     <button class="btn btn-warning">{{ button_label|default('Guardar') }}</button>

@@ -21,6 +21,14 @@ use App\Entity\Producto;
 use App\Form\ProductoForm;
 use App\Repository\ProductoRepository;
 
+use App\Entity\Categoria;
+use App\Form\CategoriaForm;
+use App\Repository\CategoriaRepository;
+
+use App\Entity\Anuncio;
+use App\Form\AnuncioForm;
+use App\Repository\AnuncioRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,10 +39,11 @@ use Symfony\Component\Routing\Attribute\Route;
 final class IndexController extends AbstractController
 {
     #[Route(name: 'app_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, ProductoRepository $productoRepository): Response
+    public function index(Request $request, CategoriaRepository $categoriaRepository, ProductoRepository $productoRepository, AnuncioRepository $anuncioRepository): Response
     {
         $form = $this->createForm(ProductoBuscar::class);
-
+        $num = $anuncioRepository->count([]);
+        $RanNum = rand(1, $num);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -47,12 +56,18 @@ final class IndexController extends AbstractController
                 $productos = $productoRepository->findByString($Producto);
                 return $this->render('index/buscar.html.twig', [
                     'productos' => $productos,
+                    'busqueda' => $Producto,
                     'form' => $form,
+                    'categorias' => $categoriaRepository->findAll(),
                 ]);
             }
         }else{
             return $this->render('index/index.html.twig', [
                 'productos' => $productoRepository->findAll(),
+                'destacados' => $productoRepository->findBy(['Destacado' => true]),
+                'anuncios' => $anuncioRepository->findAll(),
+                'anucioRandom' => $RanNum,
+                'categorias' => $categoriaRepository->findAll(),
                 'form' => $form,
             ]);
         }
@@ -62,19 +77,51 @@ final class IndexController extends AbstractController
     }
     
     #[Route('/vista/{id}', name: 'producto_offline', methods: ['GET'])]
-    public function show(Producto $producto): Response
+    public function show(Producto $producto, ProductoRepository $productoRepository): Response
     {
         return $this->render('index/vista.html.twig', [
             'producto' => $producto,
+            'destacados' => $productoRepository->findBy(['Destacado' => true]),
         ]);
+    }
+    #[Route('/categoria/{id}', name: 'categoria_offline', methods: ['GET', 'POST'])]
+    public function showCategoria(Request $request, Categoria $categoria, ProductoRepository $productoRepository, CategoriaRepository $categoriaRepository): Response
+    {
+        $form = $this->createForm(ProductoBuscar::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $Producto = $data->getNombre();
+
+            if (empty($Producto)) {
+                return $this->redirectToRoute('app_index');
+            }else{
+                $productos = $productoRepository->findByString($Producto);
+                return $this->render('index/buscar.html.twig', [
+                    'productos' => $productos,
+                    'busqueda' => $Producto,
+                    'form' => $form,
+                    'categorias' => $categoriaRepository->findAll(),
+                ]);
+            }
+        }else{
+            return $this->render('index/categoria.html.twig', [
+                'productos' => $productoRepository->findBy(['Categoria' => $categoria->getId()]),
+                'categoria' => $categoria,
+                'categorias' => $categoriaRepository->findAll(),
+                'form' => $form,
+            ]);
+        }
     }
 
     #[Route('/homepage', name: 'app_homepage', methods: ['GET', 'POST'])]
-    public function homepage(Request $request, ProductoRepository $productoRepository): Response
+    public function homepage(Request $request, CategoriaRepository $categoriaRepository, ProductoRepository $productoRepository, AnuncioRepository $anuncioRepository): Response
     {
         
         $user = $this->getUser();
         $mostrarBoton = false;
+        $num = $anuncioRepository->count([]);
+        $RanNum = rand(1, $num);
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -96,14 +143,20 @@ final class IndexController extends AbstractController
                 return $this->render('index/iniciado/buscar.html.twig', [
                     'productos' => $productos,
                     'form' => $form,
+                    'busqueda' => $Producto,
                     'mostrarBoton' => $mostrarBoton,
+                    'categorias' => $categoriaRepository->findAll(),
                 ]);
             }
         }else{
             return $this->render('index/iniciado/index.html.twig', [
                 'productos' => $productoRepository->findAll(),
+                'destacados' => $productoRepository->findBy(['Destacado' => true]),
+                'anuncios' => $anuncioRepository->findAll(),
+                'anucioRandom' => $RanNum,
                 'form' => $form,
                 'mostrarBoton' => $mostrarBoton,
+                'categorias' => $categoriaRepository->findAll(),
             ]);
         }
 
@@ -111,7 +164,7 @@ final class IndexController extends AbstractController
     }
     
     #[Route('/homepage/vista/{id}', name: 'producto_online', methods: ['GET'])]
-    public function showOnline(Producto $producto): Response
+    public function showOnline(Producto $producto, ProductoRepository $productoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
@@ -123,7 +176,47 @@ final class IndexController extends AbstractController
         return $this->render('index/iniciado/vista.html.twig', [
             'producto' => $producto,
             'mostrarBoton' => $mostrarBoton,
+            'destacados' => $productoRepository->findBy(['Destacado' => true]),
         ]);
+    }
+
+    #[Route('/homepage/categoria/{id}', name: 'categoria_online', methods: ['GET', 'POST'])]
+    public function showCategoriaOnline(Request $request, Categoria $categoria, ProductoRepository $productoRepository, CategoriaRepository $categoriaRepository): Response
+    {
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
+        $form = $this->createForm(ProductoBuscar::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $Producto = $data->getNombre();
+
+            if (empty($Producto)) {
+                return $this->redirectToRoute('app_index');
+            }else{
+                $productos = $productoRepository->findByString($Producto);
+                return $this->render('index/iniciado/buscar.html.twig', [
+                    'productos' => $productos,
+                    'busqueda' => $Producto,
+                    'form' => $form,
+                    'mostrarBoton' => $mostrarBoton,
+                    'categorias' => $categoriaRepository->findAll(),
+                ]);
+            }
+        }else{
+            return $this->render('index/iniciado/categoria.html.twig', [
+                'productos' => $productoRepository->findBy(['Categoria' => $categoria->getId()]),
+                'categoria' => $categoria,
+                'categorias' => $categoriaRepository->findAll(),
+                'mostrarBoton' => $mostrarBoton,
+                'form' => $form,
+            ]);
+        }
     }
 
     // Trabajando en esto

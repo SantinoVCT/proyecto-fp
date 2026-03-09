@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/homepage/crud/pedidos')]
+#[Route('/homepage/DB/pedidos')]
 final class PedidosController extends AbstractController
 {
     #[Route(name: 'app_pedidos_index', methods: ['GET'])]

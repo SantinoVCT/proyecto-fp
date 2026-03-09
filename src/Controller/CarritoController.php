@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/homepage/crud/carrito')]
+#[Route('/homepage/DB/carrito')]
 final class CarritoController extends AbstractController
 {
     #[Route(name: 'app_carrito_index', methods: ['GET'])]

@@ -30,6 +30,7 @@ class ProductoFixture extends Fixture
         $producto1->setCategoria($this->getReference('categoria1', Categoria::class));
         $producto1->setFechaCreada(new \DateTime());
         $producto1->setImagen('Smartphone-XYZ-6985d53cdfc30.png');
+        $producto1->setDestacado(true);
 
         $producto2->setNombre('Portátil ABC');
         $producto2->setDescripcion('Portátil ligero y potente, ideal para profesionales y estudiantes.');
@@ -39,6 +40,7 @@ class ProductoFixture extends Fixture
         $producto2->setCategoria($this->getReference('categoria1', Categoria::class));
         $producto2->setFechaCreada(new \DateTime());
         $producto2->setImagen('Portatil-ABC-6985d54b1afcc.png');
+        $producto2->setDestacado(true);
 
         $producto3->setNombre('Placa Base ASUS TUF GAMING B650-PLUS');
         $producto3->setDescripcion('Placa base robusta y fiable para gamers y entusiastas del hardware.');
@@ -48,6 +50,7 @@ class ProductoFixture extends Fixture
         $producto3->setCategoria($this->getReference('categoria2', Categoria::class));
         $producto3->setFechaCreada(new \DateTime());
         $producto3->setImagen('Placa-Base-ASUS-TUF-GAMING-B650-PLUS-6985d597b1fdd.png');
+        $producto3->setDestacado(true);
 
         $producto4->setNombre('Procesador AMD Ryzen 5 7600X');
         $producto4->setDescripcion('Procesador de alto rendimiento para gaming y tareas intensivas.');
@@ -57,6 +60,7 @@ class ProductoFixture extends Fixture
         $producto4->setCategoria($this->getReference('categoria3', Categoria::class));
         $producto4->setFechaCreada(new \DateTime());
         $producto4->setImagen('Procesador-AMD-Ryzen-5-7600X-6985d5cd4f615.png');
+        $producto4->setDestacado(true);
 
         $producto5->setNombre('Disco Duro Seagate Game Drive PS5 1TB');
         $producto5->setDescripcion('Disco duro externo optimizado para PlayStation 5.');
@@ -66,6 +70,7 @@ class ProductoFixture extends Fixture
         $producto5->setCategoria($this->getReference('categoria5', Categoria::class));
         $producto5->setFechaCreada(new \DateTime());
         $producto5->setImagen('Disco-Duro-Seagate-Game-Drive-PS5-1TB-6985d5d5cb8c8.png');
+        $producto5->setDestacado(true);
 
         $producto6->setNombre('Ratón Gaming Razer DeathAdder V2');
         $producto6->setDescripcion('Ratón ergonómico con alta precisión para gamers.');
@@ -75,6 +80,7 @@ class ProductoFixture extends Fixture
         $producto6->setCategoria($this->getReference('categoria6', Categoria::class));
         $producto6->setFechaCreada(new \DateTime());
         $producto6->setImagen('Raton-Gaming-Razer-DeathAdder-V2-6985d5dd948b5.png');
+        $producto6->setDestacado(true);
 
         $manager->persist($producto1);
         $manager->persist($producto2);

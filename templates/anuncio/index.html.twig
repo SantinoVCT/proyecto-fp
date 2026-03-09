@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tabla Anuncios
+{% endblock %}
+
+{% block body %}
+	{% include 'partials/navbar.html.twig' %}
+	<div class="bg-dark py-4">
+		<div class="container mx-auto px-4">
+			<h1 class="text-6xl text-white text-center">
+				Anuncios
+			</h1>
+		</div>
+	</div>
+	{# Este bloque es para el mensaje de error #}
+	{% for label, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="bg-white rounded-lg shadow-lg overflow-hidden relative">
+				<div class="px-6 py-4 mx-2">
+					<p class="text-gray-700 text-base">
+						{{ message }}
+					</p>
+				</div>
+			</div>
+		{% endfor %}
+	{% endfor %}
+
+	<div class="row g-3 justify-content-center my-3">
+		{% if anuncios is empty%}
+			<div class="bg-white rounded shadow overflow-hidden relative">
+					<div class="px-6 py-4">
+						<div class="font-bold text-xl mx-2">anuncios no encontrados</div>
+						<p class="text-gray-700 text-base">
+							No hay anuncios en la base de datos.
+						</p>
+					</div>
+				</div>
+				<a href="{{ path('app_anuncio_new') }}" class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
+					<h4>Add One +</h4>
+				</a>
+
+		{% else %}
+			<a href="{{ path('app_anuncio_new') }}" class="bg-white p-3 btn btn-light rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
+					<h4 class="text-primary">Add One +</h4>
+				</a>
+				{% for anuncio in anuncios %}
+					<a href="{{path('app_anuncio_show', {id: anuncio.id})}}" class="bg-white p-3 btn btn-light rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
+						<h4>{{ anuncio.Nombre }}</h4>
+						<p>Id: {{ anuncio.id }}</p>
+						<img src="{{ asset('uploads/images/' ~ anuncio.Imagen) }}" alt="{{ anuncio.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
+					</a>
+				{% endfor %}
+		{% endif %}
+	</main>
+	{% include 'partials/footer.html.twig' %}
+{% endblock %}

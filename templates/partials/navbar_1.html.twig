@@ -1,0 +1,46 @@
+<nav class="navbar border-bottom border-2 border-black bg-white">
+	<div class="container-fluid">
+		<div class="m-3">
+			<a class="logo" href="{{ path('app_homepage') }}">PC GAMING</a>
+		</div>
+		<div class="m-3 text-black">
+			<h6 class="fw-normal"> Bienvenido, <b class="font-weight-bold" >{{ app.user.Nombre }} {{ app.user.Apellidos }} </b> </h6>
+		</div>
+		<div class="m-2 mx-5" id="dropbox-categorias">
+			<img src="https://img.icons8.com/?size=100&id=120374&format=png&color=000000" alt="Categorias" style="width: 20px; height: 20px;">
+            <span>Categorias</span>
+			<ul class="menu__list">
+				{% for categoria in categorias %}
+					<li><a href="{{ path('categoria_online', {id: categoria.id}) }}" class="">{{ categoria.Nombre }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+        <div class="flex-grow-1 m-2 mx-5">
+            {{ include('partials/_form.html.twig') }}
+        </div>
+		<div class="m-3">
+			{% if mostrarBoton %}
+				<a href="{{ path('app_index_crud') }}" class="btn btn-light border-black">Base de Datos</a>
+			{% endif %}
+			<a href="{{ path('pedidos_online') }}" class="btn btn-light border-black">Tus Pedidos</a>
+			<a href="{{ path('carrito_online', {idUser: app.user.id}) }}" class="btn btn-light border-black">Tu Carrito</a>
+			<a href="{{ path('app_logout') }}" class="btn btn-danger">Cerrar sesión</a>
+		</div>
+	</div>
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropbox = document.getElementById('dropbox-categorias');
+        const menuList = dropbox.querySelector('.menu__list');
+
+        dropbox.addEventListener('click', function(event) {
+            event.stopPropagation();
+            menuList.style.display = menuList.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.addEventListener('click', function() {
+            menuList.style.display = 'none';
+        });
+    });
+</script>

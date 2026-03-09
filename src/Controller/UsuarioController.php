@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/homepage/crud/admin/usuario')]
+#[Route('/homepage/DB/admin/usuario')]
 final class UsuarioController extends AbstractController
 {
     #[Route(name: 'app_usuario_index', methods: ['GET'])]

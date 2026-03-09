@@ -34,6 +34,9 @@ class Pedidos
     #[ORM\Column]
     private ?int $CodigoPedido = null;
 
+    #[ORM\ManyToOne(inversedBy: 'pedidos')]
+    private ?CodigoPedido $CodigoPedidoRelacion = null;
+
     public function __construct()
     {
         $this->FechaPedido = new \DateTime('now');
@@ -113,6 +116,18 @@ class Pedidos
     public function setCodigoPedido(int $CodigoPedido): static
     {
         $this->CodigoPedido = $CodigoPedido;
+
+        return $this;
+    }
+
+    public function getCodigoPedidoRelacion(): ?CodigoPedido
+    {
+        return $this->CodigoPedidoRelacion;
+    }
+
+    public function setCodigoPedidoRelacion(?CodigoPedido $CodigoPedidoRelacion): static
+    {
+        $this->CodigoPedidoRelacion = $CodigoPedidoRelacion;
 
         return $this;
     }

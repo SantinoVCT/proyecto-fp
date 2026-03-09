@@ -58,6 +58,9 @@ class Producto
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imagen = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $Destacado = null;
+
     public function __construct()
     {
         $this->carritos = new ArrayCollection();
@@ -245,6 +248,18 @@ class Producto
     public function setImagen(?string $imagen): static
     {
         $this->imagen = $imagen;
+
+        return $this;
+    }
+
+    public function isDestacado(): ?bool
+    {
+        return $this->Destacado;
+    }
+
+    public function setDestacado(?bool $Destacado): static
+    {
+        $this->Destacado = $Destacado;
 
         return $this;
     }

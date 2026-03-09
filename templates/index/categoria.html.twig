@@ -6,7 +6,7 @@
 {% block body %}
 	{% include 'partials/navbar_logout_1.html.twig' %}
 	<main class="container-fluid px-3 pt-3 pb-5 mb-5" style="min-height:80vh;">
-		<h2 class="mb-4">Resultados de búsqueda de: "{{ busqueda }}"</h2>
+		<h2 class="mb-4">Categoría: "{{ categoria.Nombre }}"</h2>
 		<div class="row g-3 justify-content-center px-1">
 			{% if productos %}
 				{% for producto in productos %}
@@ -23,7 +23,7 @@
 				{% endfor %}
 			{% else %}
 				<div class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center mx-5 py-4 border border-gry">
-					No se encontraron productos para "{{ busqueda }}".
+					No se encontraron productos con la categoria "{{ categoria.Nombre }}".
 				</div>
 			{% endif %}
 		</div>

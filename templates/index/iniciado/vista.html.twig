@@ -6,8 +6,8 @@
 {% block body %}
 	{% include 'partials/navbar.html.twig' %}
 
-	<main class="container-fluid px-3 py-4">
-		<a href="{{ path('app_homepage') }}" class="btn btn-light border-black mx-3">
+	<main class="container-fluid p-0 pb-4">
+		<a href="{{ path('app_homepage') }}" class="btn btn-light border-black mx-3 my-2">
 			Volver
 		</a>
 		<div class="overflow-hidden relative py-3 px-2 m-5">
@@ -17,8 +17,11 @@
 				</div>
 				<div class="col">
 					<h1 class="text-4xl font-bold mb-4">{{ producto.Nombre }}</h1>
-					<p class="mx-2 text-secondary">Categoria: {{ producto.Categoria.Nombre }}</p>
-					<p class="mx-2">Precio: <b class="precio">{{ producto.Precio }}€</b></p>
+					<p class="mx-2 text-secondary">Categoria:
+						{{ producto.Categoria.Nombre }}</p>
+					<p class="mx-2">Precio:
+						<b class="precio">{{ producto.Precio }}€</b>
+					</p>
 					<a href="{{ path('add_carrito', {id: producto.id}) }}" class="btn btn-light border-black mx-3">
 						Añadir
 					</a>
@@ -42,39 +45,22 @@
 
 				{% endif %}
 			</div>
-		{# Old Version
-			   Usando como referencia para saber que informacion hay que mostar
-
-		<div class="bg-white rounded shadow overflow-hidden relative py-3 px-2 m-5">
-			<div class="text-xl font-bold mx-2">
-				<h2 class="text-3xl mx-2">{{ producto.Nombre }}</h2>
-				<p class="mx-2">Precio:
-					{{ producto.Precio }}</p>
+		</div>
+		<div class="row g-3 justify-content-center m-0 mb-5 p-3 destacado-bg">
+			<div class=" mx-2 px-4 col-12">
+				<h2 class="text-center my-3">PRODUCTOS DESTACADOS</h2>
 			</div>
-			<div class="text-xl font-bold mx-2">
-				<h2 class="text-3xl mx-2">Descripcion</h2>
-				<p class="mx-2">{{ producto.Descripcion }}</p>
-			</div>
-			<div class="text-xl font-bold mx-2">
-				<h2 class="text-3xl mx-2">Caracteristicas</h2>
-				<p class="mx-2">{{ producto.Caracteristicas }}</p>
-				<p class="mx-2 ">Categoria:
-					{{ producto.Categoria.Nombre }}</p>
-			</div>
-
-			<div class="text-xl font-bold mx-2">
-				<h2 class="text-3xl mx-2">Requisitos</h2>
-				{% if producto.Requisitos is empty%}
-					<p class="mx-2">No hay requisitos disponibles para este producto.</p>
-				{% else %}
-					<p class="mx-2">{{ producto.Requisitos }}</p>
-
+			{% for destacado in destacados|slice(0, 5)  %}
+				{% if destacado.id != producto.id %}
+					<a href="{{ path('producto_online', {id: destacado.id}) }}" class=" bg-white p-3 btn btn-light rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
+						<h4>{{ destacado.Nombre }}</h4>
+						<img src="{{ asset('uploads/images/' ~ destacado.Imagen) }}" alt="{{ destacado.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
+						<p>{{ destacado.Descripcion|slice(0,100) }}...</p>
+						<h5 class="precio">{{ destacado.Precio }}€</h5>
+					</a>
 				{% endif %}
-			</div>
-			<a href="{{ path('app_homepage') }}" class="btn btn-warning mx-2">
-				Volver
-			</a>#}
-		</div> 
+			{% endfor %}
+		</div>
 	</main>
 	{% include 'partials/footer.html.twig' %}
 {% endblock %}

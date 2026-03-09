@@ -6,14 +6,6 @@
 
 {% block body %}
 	{% include 'partials/navbar.html.twig' %}
-	<div class="bg-dark py-4">
-		<div class="container mx-auto px-2">
-			<h1 class="text-6xl text-white text-center">
-				Producto:
-				{{ producto.Nombre }}
-			</h1>
-		</div>
-	</div>
 	<div class="mx-4 my-2">
 		<a href="{{ path('app_producto_index') }}" class="btn btn-light border-black mx-1">
 			Volver
@@ -26,7 +18,9 @@
 			<button class="btn btn-light border-danger mx-1">Borrar</button>
 		</form>
 	</div>
-	<div class="overflow-hidden relative py-3 px-2 m-5">
+	<h2 class="mx-4">Vista previa</h2>
+	<div class="overflow-hidden relative py-3 px-2 m-5"> 
+		
 		<div class="row mb-4">
 			<div class="col">
 				<img src="{{ asset('uploads/images/' ~ producto.Imagen) }}" alt="{{ producto.Nombre }}" class="img-fluid my-2" style="max-height: 300px; object-fit: contain;">
@@ -67,66 +61,5 @@
 
 			{% endif %}
 		</div>
-		{# <<div class="container mx-auto px-4 py-8">
-					
-						div class="table-responsive bg-white rounded shadow relative p-2 my-4">
-							<table class="table border-separate border-spacing-3">
-								<tbody>
-									<tr>
-										<th class="w-25">Id</th>
-										<td>{{ producto.id }}</td>
-									</tr>
-									<tr>
-										<th class="w-25">Nombre</th>
-										<td>{{ producto.Nombre }}</td>
-									</tr>
-									<tr>
-										<th class="w-25">Imagen</th>
-										<td><img src="{{ asset('uploads/images/' ~ producto.imagen) }}" alt="Imagen"></td>
-									</tr>
-									<tr>
-										<th class="w-25">Descripcion</th>
-										<td>{{ producto.Descripcion }}</td>
-									</tr>
-									<tr>
-										<th class="w-25">Caracteristicas</th>
-										<td>{{ producto.Caracteristicas }}</td>
-									</tr>
-									<tr>
-										<th class="w-25">Requisitos</th>
-										{% if producto.Requisitos is empty%}
-											<td>No hay requisitos</td>
-										{% else %}
-											<td>{{ producto.Requisitos }}</td>
-										{% endif %}
-				
-									</tr>
-									<tr>
-										<th class="w-25">Disponible</th>
-										<td>{{ producto.Disponible ? 'Yes' : 'No' }}</td>
-									</tr>
-									<tr>
-										<th class="w-25">Precio</th>
-										<td>{{ producto.Precio }}</td>
-									</tr>
-									<tr>
-										<th class="w-25">Categoria</th>
-										<td>{{ producto.Categoria.Nombre }}</td>
-									</tr>
-									<tr>
-										<th class="w-25">Fecha Creado</th>
-										<td>{{ producto.FechaCreada.format('Y-m-d H:i:s') }}</td>
-									</tr>
-									<tr>
-										<th class="w-25">Fecha Actualizado</th>
-										{% if producto.FechaUpdate %}
-											<td>{{ producto.FechaUpdate.format('Y-m-d H:i:s') }}</td>
-											{% else %}
-											<td>N/A</td>
-										{% endif %}
-									</tr>
-								</tbody>
-							</table> #}
-		<div class="row g-3 justify-content-center"></div>
 	</div>
 </div>{% endblock %}

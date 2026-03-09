@@ -1,0 +1,16 @@
+{{ form_start(
+    form, 
+    {'attr': {
+        'novalidate': 'novalidate',
+        'data-turbo': 'false',
+        'class': 'p-0',
+        }}) 
+}}
+    <div style="display:flex; align-items:center;" class="mx-3">
+        {{ form_widget(form.Nombre, {'attr': {'class': 'form-control my-3', 'style':'flex:1', 'placeholder': 'Buscar...'}}) }}
+        <button class="btn btn-primary m-0" style="margin-left:8px;">{{ button_label|default('🔍') }}</button>
+    </div>
+
+    {{ form_widget(form) }}
+    
+{{ form_end(form) }}

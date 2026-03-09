@@ -4,13 +4,38 @@
 {% endblock %}
 
 {% block body %}
-	{% include 'partials/navbar_logout.html.twig' %}
+	{% include 'partials/navbar_logout_1.html.twig' %}
 
-	<main class="container-fluid px-3 pt-3 pb-5 mb-5">
-		<div class="bg-white rounded shadow relative p-3 my-3 mx-5 border border-gry">
-			{{ include('index/_form.html.twig') }}
+	<main class="container-fluid p-0 m-0">
+		<div class="row g-3 justify-content-center m-0 p-3 destacado-bg">
+			<div class="mx-2 px-4 col-12">
+				<h2 class="text-center my-3">PRODUCTOS DESTACADOS</h2>
+			</div>
+			{% for destacado in destacados|slice(0, 5)  %}
+				<div class=" bg-white p-3 rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
+					<h4>{{ destacado.Nombre }}</h4>
+					<img src="{{ asset('uploads/images/' ~ destacado.Imagen) }}" alt="{{ destacado.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
+					<p>{{ destacado.Descripcion|slice(0,100) }}...</p>
+					<h5 class="precio">{{ destacado.Precio }}€</h5>
+					<div class="flex justify-center my-3">
+						<a href="{{ path('producto_offline', {id: destacado.id}) }}" class="btn btn-light border-black">
+							Ver
+						</a>
+					</div>
+				</div>
+			{% endfor %}
+			<div class=" mx-2 px-4 col-12">
+				{% for anuncio in anuncios %}
+					{% if anuncio.Id == anucioRandom %}
+						<img src="{{ asset('uploads/images/' ~ anuncio.Imagen) }}" alt="{{ anuncio.Nombre }}" class="img-fluid mx-auto d-block" style="max-height: 300px; object-fit: contain;">
+					{% endif %}
+				{% endfor %}
+			</div>
 		</div>
-		<div class="row g-3 justify-content-center">
+		<div class="row g-3 justify-content-center m-0 p-3 mb-5">
+			<div class=" mx-2 px-4 col-12">
+				<h3 class="">Todos los Productos</h3>
+			</div>
 			{% for producto in productos %}
 				<div class=" bg-white p-3 rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
 					<h4>{{ producto.Nombre }}</h4>
