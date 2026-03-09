@@ -18,13 +18,15 @@ class Pedidos
     private ?int $Cantidad = null;
 
     #[ORM\Column]
+    #[ORM\JoinColumn(nullable: true)]
     private ?int $Estado = 0;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?\DateTime $FechaPedido = null;
 
     #[ORM\ManyToOne(inversedBy: 'pedidos')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Usuario $Usuario = null;
 
     #[ORM\ManyToOne(inversedBy: 'pedidos')]

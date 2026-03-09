@@ -19,30 +19,31 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class PedidosForm extends AbstractType
+class CodigoPedidosForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $textInputCss = 'form-control my-3';
         $builder
-            ->add('Cantidad', NumberType::class, [
-                'label' => 'Cantidad',
+            ->add('Estado', ChoiceType::class, [
+                'label' => 'Estado',
                 'required' => false,
+                'choices'  => [
+                    'Preparando' => 0,
+                    'En Reparto' => 1,
+                    'Enviado' => 2,
+                ],
                 'attr' => [
                     'class' => $textInputCss,
                 ],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'La cantidad no puede estar vacía.',
-                    ]),
-                    new Regex([
-                        'pattern' => '/^[0-9]{1,2}$/',
-                        'message' => 'La cantidad debe ser un número entero positivo y menor o igual a 99.',
-                    ]),
+            ])
+            ->add('Fecha', null, [
+                'attr' => [
+                    'class' => $textInputCss,
                 ],
             ])
-            ->add('Producto', EntityType::class, [
-                'class' => Producto::class,
+            ->add('Usuario', EntityType::class, [
+                'class' => Usuario::class,
                 'choice_label' => 'Nombre',
                 'attr' => [
                     'class' => $textInputCss,

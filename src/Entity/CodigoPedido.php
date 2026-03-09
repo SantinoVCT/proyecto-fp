@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CodigoPedidoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CodigoPedidoRepository::class)]
@@ -23,6 +24,15 @@ class CodigoPedido
      */
     #[ORM\OneToMany(targetEntity: Pedidos::class, mappedBy: 'CodigoPedidoRelacion')]
     private Collection $pedidos;
+
+    #[ORM\ManyToOne(inversedBy: 'codigoPedidos')]
+    private ?Usuario $Cliente = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTime $Fecha = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $Estado = null;
 
     public function __construct()
     {
@@ -72,6 +82,42 @@ class CodigoPedido
                 $pedido->setCodigoPedidoRelacion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCliente(): ?Usuario
+    {
+        return $this->Cliente;
+    }
+
+    public function setCliente(?Usuario $Cliente): static
+    {
+        $this->Cliente = $Cliente;
+
+        return $this;
+    }
+
+    public function getFecha(): ?\DateTime
+    {
+        return $this->Fecha;
+    }
+
+    public function setFecha(?\DateTime $Fecha): static
+    {
+        $this->Fecha = $Fecha;
+
+        return $this;
+    }
+
+    public function getEstado(): ?int
+    {
+        return $this->Estado;
+    }
+
+    public function setEstado(?int $Estado): static
+    {
+        $this->Estado = $Estado;
 
         return $this;
     }

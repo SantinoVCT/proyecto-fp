@@ -13,14 +13,19 @@
 		</div>
 	</div>
 	<main class="container-fluid px-3 pt-3 pb-5 mb-5" style="min-height:80vh;">
+		<h2 class="text-center mb-4">Total a Pagar: {{ TotalPrecio }}€</h2>
 		<div class="row g-3 justify-content-center">
 			{% if pedidos %}
 				{% for pedido in pedidos %}
 					<a href="{{ path('pedido_detalle', {id: pedido.id}) }}" class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-sm-6 col-md-4 col-lg-2 mx-5 py-4 border border-gry">
 						<div class="mx-3">
-							<h4 class="mx-2">Codigo de Pedido: {{ pedido.codigo }}</h4>
-							<p class="mx-2">Fecha de compra: {{ pedido.fecha.format('d-m-Y') }}</p>
-							<h5 class="precio"> Estado: {{ pedido.estado == 0 ? 'Preparando' : pedido.Estado == 1 ? 'En Reparto' : 'Enviado'  }}</h5>
+							<h4 class="mx-2">Codigo de Pedido: {{ pedido.producto.Nombre }}</h4>
+							<p class="mx-2">Cantidad: {{ pedido.cantidad }}</p>
+							<h6 class="mx-2">Precio: {{ pedido.producto.precio }}€</h5>
+							<h5 class="precio">Total: {{ pedido.producto.precio * pedido.cantidad }}€</h5>
+
+							<img src="{{ asset('uploads/images/' ~ pedido.producto.Imagen) }}" alt="{{ pedido.producto.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
+
 						</div>
 					</a>
 				{% endfor %}

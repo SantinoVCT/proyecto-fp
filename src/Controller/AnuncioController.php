@@ -97,7 +97,7 @@ final class AnuncioController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_anuncio_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Anuncio $anuncio, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Anuncio $anuncio, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
@@ -106,11 +106,36 @@ final class AnuncioController extends AbstractController
             $mostrarBoton = true;
         }
 
+
         $form = $this->createForm(AnuncioForm::class, $anuncio);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $anuncio->setFechaUpdate(new \DateTime());
+            
+            $imageFile = $form->get('imagen')->getData();
+            
+            if ($imageFile) {
+                if($anuncio->getImagen()) {
+                    $existingImagePath = $this->getParameter('images_directory').'/'.$anuncio->getImagen();
+                    if (file_exists($existingImagePath)) {
+                        unlink($existingImagePath);
+                    }
+                }
+
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                    $anuncio->setImagen($newFilename);
+                } catch (FileException $e) {
+                    $this->addFlash('error', 'Error al subir la imagen.');
+                }
+            }
 
             $entityManager->flush();
 
@@ -133,7 +158,7 @@ final class AnuncioController extends AbstractController
                 $entityManager->flush();
             } catch (ForeignKeyConstraintViolationException $e) {
                 $this->addFlash('error', 'No se puede borrar el anuncio porque está relacionado con otros registros.');
-                return $this->redirectToRoute('app_categorium_index');
+                return $this->redirectToRoute('app_anuncio_index');
             }
         }
 

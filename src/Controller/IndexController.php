@@ -25,6 +25,10 @@ use App\Entity\Categoria;
 use App\Form\CategoriaForm;
 use App\Repository\CategoriaRepository;
 
+use App\Entity\CodigoPedido;
+use App\Form\CodigoPedidoForm;
+use App\Repository\CodigoPedidoRepository;
+
 use App\Entity\Anuncio;
 use App\Form\AnuncioForm;
 use App\Repository\AnuncioRepository;
@@ -153,7 +157,6 @@ final class IndexController extends AbstractController
                 'productos' => $productoRepository->findAll(),
                 'destacados' => $productoRepository->findBy(['Destacado' => true]),
                 'anuncios' => $anuncioRepository->findAll(),
-                'anucioRandom' => $RanNum,
                 'form' => $form,
                 'mostrarBoton' => $mostrarBoton,
                 'categorias' => $categoriaRepository->findAll(),
@@ -275,7 +278,7 @@ final class IndexController extends AbstractController
     }
 
     #[Route('/homepage/pedidos',name: 'pedidos_online', methods: ['GET', 'POST'])]
-    public function pedidoOnline(Request $request, PedidosRepository $pedidosRepository): Response
+    public function pedidoOnline(Request $request, CodigoPedidoRepository $CodigoPedidoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
@@ -284,32 +287,37 @@ final class IndexController extends AbstractController
         }
 
         $idUser = $user->getId();
-        $form = $this->createForm(BuscarPedido::class);
 
-        $pedidos = $pedidosRepository->findBy(['Usuario' => $idUser]);
+        $pedidos = $CodigoPedidoRepository->findBy(['Cliente' => $idUser]);
 
-        $form->handleRequest($request);
+        
+        return $this->render('index/iniciado/pedido/index.html.twig', [
+            'pedidos' => $pedidos,
+            'mostrarBoton' => $mostrarBoton,
+        ]);
+    }
+    #[Route('/homepage/pedidos/{id}', name: 'pedido_detalle', methods: ['GET'])]
+    public function showDetalle(CodigoPedido $codigoPedido, PedidosRepository $pedidoRepository): Response
+    {
+        $user = $this->getUser();
+        $mostrarBoton = false;
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $codigoPedido = $data->getCodigoPedido();
-
-            $pedidos = $pedidosRepository->findBy(['Usuario' => $idUser, 'CodigoPedido' => $codigoPedido]);
-            if (empty($pedidos)) {
-                $this->addFlash('error', 'No se encontraron pedidos con el código proporcionado.');
-            }
-            return $this->render('index/iniciado/pedido/index.html.twig', [
-                'pedidos' => $pedidos,
-                'form' => $form,
-                'mostrarBoton' => $mostrarBoton,
-            ]);
-        }else{
-            return $this->render('index/iniciado/pedido/index.html.twig', [
-                'pedidos' => $pedidos,
-                'form' => $form,
-                'mostrarBoton' => $mostrarBoton,
-            ]);
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
         }
+
+        $pedidos = $pedidoRepository->findBy(['CodigoPedidoRelacion' => $codigoPedido->getId()]);
+
+        $TotalPrecio = 0;
+        foreach ($pedidos as $pedido) {
+            $TotalPrecio += $pedido->getProducto()->getPrecio() * $pedido->getCantidad();
+        }
+
+        return $this->render('index/iniciado/pedido/pedidos.html.twig', [
+            'pedidos' => $pedidos,
+            'mostrarBoton' => $mostrarBoton,
+            'TotalPrecio' => $TotalPrecio,
+        ]);
     }
 
     
@@ -340,13 +348,24 @@ final class IndexController extends AbstractController
     }
 
     #[Route('/homepage/carrito/comprar', name: 'app_comprar', methods: ['GET', 'POST'])]
-    public function comprar(Request $request, EntityManagerInterface $entityManager, CarritoRepository $carritoRepository): Response
+    public function comprar(Request $request, EntityManagerInterface $entityManager, CarritoRepository $carritoRepository, CodigoPedidoRepository $codigoPedidoRepository): Response
     {
         $user = $this->getUser();
         $userId = $user->getId();
         $codigoPedido = rand(1000, 9999);
-
+        
         $carritos = $carritoRepository->findBy(['Usuario' => $userId]);
+
+        $codigo_pedido = New CodigoPedido;
+        $codigo_pedido->setCodigo($codigoPedido);
+        $codigo_pedido->setCliente($user);
+        $codigo_pedido->setFecha(new \DateTime('now'));
+        $codigo_pedido->setEstado(0);
+        $entityManager->persist($codigo_pedido);
+
+        $entityManager->flush();
+
+        $CodigoRelacion = $codigoPedidoRepository->findBy(['codigo' => $codigoPedido]);
 
         foreach ($carritos as $carrito) {
             $pedido = new Pedidos();
@@ -354,8 +373,10 @@ final class IndexController extends AbstractController
             $pedido->setCantidad($carrito->getCantidad());
             $pedido->setUsuario($carrito->getUsuario());
             $pedido->setProducto($carrito->getProducto());
-            $pedido->setFechaPedido(new \DateTime('now'));
             $pedido->setCodigoPedido($codigoPedido);
+            foreach ($CodigoRelacion as $codigo) {
+                $pedido->setCodigoPedidoRelacion($codigo);
+            }
             $entityManager->persist($pedido);
 
             $entityManager->remove($carrito);

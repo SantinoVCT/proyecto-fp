@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UsuarioRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -45,6 +47,17 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?\DateTime $FechaUpdate = null;
+
+    /**
+     * @var Collection<int, CodigoPedido>
+     */
+    #[ORM\OneToMany(targetEntity: CodigoPedido::class, mappedBy: 'Cliente')]
+    private Collection $codigoPedidos;
+
+    public function __construct()
+    {
+        $this->codigoPedidos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -175,6 +188,36 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFechaUpdate(?\DateTime $FechaUpdate): static
     {
         $this->FechaUpdate = $FechaUpdate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CodigoPedido>
+     */
+    public function getCodigoPedidos(): Collection
+    {
+        return $this->codigoPedidos;
+    }
+
+    public function addCodigoPedido(CodigoPedido $codigoPedido): static
+    {
+        if (!$this->codigoPedidos->contains($codigoPedido)) {
+            $this->codigoPedidos->add($codigoPedido);
+            $codigoPedido->setCliente($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCodigoPedido(CodigoPedido $codigoPedido): static
+    {
+        if ($this->codigoPedidos->removeElement($codigoPedido)) {
+            // set the owning side to null (unless already changed)
+            if ($codigoPedido->getCliente() === $this) {
+                $codigoPedido->setCliente(null);
+            }
+        }
 
         return $this;
     }
