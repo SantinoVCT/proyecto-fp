@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Pedidos;
 use App\Entity\Producto;
 use App\Entity\Usuario;
+use App\Entity\CodigoPedido;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -44,6 +45,13 @@ class PedidosForm extends AbstractType
             ->add('Producto', EntityType::class, [
                 'class' => Producto::class,
                 'choice_label' => 'Nombre',
+                'attr' => [
+                    'class' => $textInputCss,
+                ],
+            ])
+            ->add('CodigoPedidoRelacion', EntityType::class, [
+                'class' => CodigoPedido::class,
+                'choice_label' => 'Codigo',
                 'attr' => [
                     'class' => $textInputCss,
                 ],

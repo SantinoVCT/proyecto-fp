@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\CodigoPedido;
-use App\Form\CodigoPedidoForm;
+use App\Form\CodigoPedidosForm;
 use App\Repository\CodigoPedidoRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -42,19 +42,19 @@ final class CodigoPedidosController extends AbstractController
             $mostrarBoton = true;
         }
 
-        $pedido = new CodigoPedido();
-        $form = $this->createForm(CodigoPedidoForm::class, $pedido);
+        $Codigo = new CodigoPedido();
+        $form = $this->createForm(CodigoPedidosForm::class, $Codigo);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($pedido);
+            $entityManager->persist($Codigo);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_codigo_pedidos_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('codigo_pedidos/new.html.twig', [
-            'codigo_pedido' => $pedido,
+            'codigo_pedido' => $Codigo,
             'form' => $form,
             'mostrarBoton' => $mostrarBoton,
         ]);
@@ -86,7 +86,7 @@ final class CodigoPedidosController extends AbstractController
             $mostrarBoton = true;
         }
 
-        $form = $this->createForm(CodigoPedidoForm::class, $codigoPedido);
+        $form = $this->createForm(CodigoPedidosForm::class, $codigoPedido);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

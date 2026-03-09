@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tabla Pedidos
+{% endblock %}
+
+{% block body %}
+	{% include 'partials/navbar.html.twig' %}
+	<div class="bg-dark py-4">
+		<div class="container mx-auto px-4">
+			<h1 class="text-6xl text-white text-center">
+				Codigo Pedidos
+			</h1>
+		</div>
+	</div>
+	{# Este bloque es para el mensaje de error #}
+	{% for label, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="bg-white rounded shadow overflow-hidden relative">
+				<div class="px-6 py-4 mx-2">
+					<p class="text-gray-700 text-base">
+						{{ message }}
+					</p>
+				</div>
+			</div>
+		{% endfor %}
+	{% endfor %}
+
+	<main class="container-fluid px-3 pt-3 pb-5 mb-5" style="min-height:80vh;">
+		
+		<div class="row g-3 justify-content-center">
+			{% if codigo_pedidos %}
+				<a href="{{ path('app_codigo_pedidos_new') }}" class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
+					<h4>Add One +</h4>
+				</a>
+				{% for codigo_pedido in codigo_pedidos %}
+					<a href="{{ path('app_codigo_pedidos_show', {id: codigo_pedido.id}) }}" class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-sm-6 col-md-4 col-lg-2 mx-5 py-4 border border-gry">
+						<div class="mx-3">
+							<h4 class="mx-2">Codigo de Pedido: {{ codigo_pedido.codigo }}</h4>
+							<p class="mx-2">Fecha de compra: {{ codigo_pedido.fecha.format('d-m-Y') }}</p>
+							<h5 class="precio"> Estado: {{ codigo_pedido.estado == 0 ? 'Preparando' : codigo_pedido.Estado == 1 ? 'En Reparto' : 'Enviado'  }}</h5>
+						</div>
+					</a>
+				{% endfor %}
+			{% else %}
+				<div class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center mx-5 py-4 border border-gry">
+					No se encontraron Codigos de Pedidos.
+				</div>
+				<a href="{{ path('app_codigo_pedidos_new') }}" class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
+					<h4>Add One +</h4>
+				</a>
+			{% endif %}
+		</div>
+	</main>
+	{% include 'partials/footer.html.twig' %}
+{% endblock %}

@@ -28,7 +28,7 @@ class CodigoPedido
     #[ORM\ManyToOne(inversedBy: 'codigoPedidos')]
     private ?Usuario $Cliente = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: false)]
     private ?\DateTime $Fecha = null;
 
     #[ORM\Column(nullable: true)]

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nuevo Pedidos
+{% endblock %}
+
+{% block body %}
+	{% include 'partials/navbar.html.twig' %}
+	<div class="bg-dark py-4">
+		<div class="container mx-auto px-4">
+			<h1 class="text-6xl text-white text-center">
+				Crear Pedidos
+            </h1>
+		</div>
+	</div>
+    <div class="container mx-auto px-4 py-8 m-3">
+		<div class="bg-white rounded shadow relative p-3">
+			{{ include('codigo_pedidos/_form.html.twig') }}
+		</div>
+	</div>
+{% endblock %}

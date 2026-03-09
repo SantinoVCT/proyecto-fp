@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Pedidos;
+use App\Entity\CodigoPedido;
 use App\Entity\Producto;
 use App\Entity\Usuario;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -38,11 +38,28 @@ class CodigoPedidosForm extends AbstractType
                 ],
             ])
             ->add('Fecha', null, [
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],
             ])
-            ->add('Usuario', EntityType::class, [
+            ->add('codigo', IntegerType::class, [
+                'label' => 'Código',
+                'required' => false,
+                'attr' => [
+                    'class' => $textInputCss,
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'El código no puede estar vacío.',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[0-9]{4}$/',
+                        'message' => 'El código debe ser un número entero positivo y menor o igual a 9999999999.',
+                    ]),
+                ],
+            ])
+            ->add('Cliente', EntityType::class, [
                 'class' => Usuario::class,
                 'choice_label' => 'Nombre',
                 'attr' => [
@@ -55,7 +72,7 @@ class CodigoPedidosForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Pedidos::class,
+            'data_class' => CodigoPedido::class,
         ]);
     }
 }
