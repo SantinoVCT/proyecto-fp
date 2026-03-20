@@ -47,7 +47,7 @@ class UsuarioForm extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'label' => 'Email',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],
@@ -70,7 +70,7 @@ class UsuarioForm extends AbstractType
             ])
             ->add('password', PasswordType::class, [
                 'label' => 'Password',
-                'required' => false,
+                'required' => true,
                 'mapped' => false,
                 'attr' => [
                     'class' => $textInputCss,
@@ -78,21 +78,21 @@ class UsuarioForm extends AbstractType
             ])
             ->add('Nombre', TextType::class, [
                 'label' => 'Nombre',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],
             ])
             ->add('Apellidos', TextType::class, [
                 'label' => 'Apellidos',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],
             ])
             ->add('Direccion', TextType::class, [
                 'label' => 'Direccion',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],

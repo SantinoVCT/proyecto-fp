@@ -45,7 +45,6 @@
 				<table class="table-responsive border-separate border-spacing-3 w-100 text-center">
 					<thead>
 						<tr class="border-dashed">
-							<th>Id</th>
 							<th>Producto</th>
 							<th>Cliente</th>
 							<th>Cantidad</th>
@@ -58,7 +57,6 @@
 					<tbody>
 						{% for pedido in pedidos %}
 							<tr>
-								<td>{{ pedido.id }}</td>
 								<td>{{ pedido.Producto.Nombre }}</td>
 								<td>{{ pedido.Usuario.Nombre }}</td>
 								<td>{{ pedido.Cantidad }}</td>

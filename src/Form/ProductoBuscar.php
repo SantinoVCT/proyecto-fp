@@ -27,7 +27,7 @@ class ProductoBuscar extends AbstractType
         $builder
             ->add('Nombre', TextType::class, [
                 'label' => 'Nombre',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],

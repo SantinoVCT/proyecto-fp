@@ -6,7 +6,7 @@
             <span>Categorias</span>
 			<ul class="menu__list">
 				{% for categoria in categorias %}
-					<li><a href="{{ path('producto_offline', {id: categoria.id}) }}" class="">{{ categoria.Nombre }}</a></li>
+					<li><a href="{{ path('categoria_offline', {id: categoria.id}) }}" class="">{{ categoria.Nombre }}</a></li>
 				{% endfor %}
 			</ul>
 		</div>

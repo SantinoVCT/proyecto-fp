@@ -45,7 +45,6 @@
 				<table class="table-responsive border-separate border-spacing-3 w-100 text-center">
 					<thead>
 						<tr class="border-dashed">
-							<th>Id</th>
 							<th>Nombre</th>
 							<th>Email</th>
 							<th>Rol</th>
@@ -55,7 +54,6 @@
 					<tbody>
 						{% for usuario in usuarios %}
 							<tr>
-								<td>{{ usuario.id }}</td>
 								<td>{{ usuario.Nombre }}</td>
 								<td>{{ usuario.Email }}</td>
 								<td>{{ usuario.Roles[0] }}</td>
