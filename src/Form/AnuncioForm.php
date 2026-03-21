@@ -28,7 +28,7 @@ class AnuncioForm extends AbstractType
         $builder
             ->add('Nombre', TextType::class, [
                 'label' => 'Nombre',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],
@@ -36,7 +36,7 @@ class AnuncioForm extends AbstractType
             ->add('imagen', FileType::class, [
                 'label' => 'Imagen (JPG, PNG)',
                 'mapped' => false, // No mapeado directamente a la entidad
-                'required' => false,
+                'required' => true,
                 'constraints' => [
                     new File([
                         'maxSize' => '3M',

@@ -45,7 +45,6 @@
 				<table class="table-responsive border-separate border-spacing-3 w-100 text-center">
 					<thead>
 						<tr class="border-dashed">
-							<th>Id</th>
 							<th>Producto</th>
 							<th>Cliente</th>
 							<th>Cantidad</th>
@@ -55,7 +54,6 @@
 					<tbody>
 						{% for carrito in carritos %}
 							<tr>
-								<td>{{ carrito.id }}</td>
 								<td>{{ carrito.Producto.Nombre }}</td>
 								<td>{{ carrito.Usuario.Nombre }}</td>
 								<td>{{ carrito.Cantidad }}</td>

@@ -29,7 +29,7 @@ class ProductoForm extends AbstractType
         $builder
             ->add('Nombre', TextType::class, [
                 'label' => 'Nombre',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],
@@ -44,7 +44,7 @@ class ProductoForm extends AbstractType
             ->add('imagen', FileType::class, [
                 'label' => 'Imagen (JPG, PNG)',
                 'mapped' => false, // No mapeado directamente a la entidad
-                'required' => false,
+                'required' => true,
                 'constraints' => [
                     new File([
                         'maxSize' => '3M',
@@ -72,7 +72,7 @@ class ProductoForm extends AbstractType
             ]])
             ->add('Precio', NumberType::class, [
                 'label' => 'Precio',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],

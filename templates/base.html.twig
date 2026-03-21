@@ -15,6 +15,9 @@
                 {{ encore_entry_script_tags('app') }}
         {% endblock %}
         <style>
+            body{
+                min-height: 100vh;
+            }
             .precio {
                 color: rgb(48, 123, 59);
                 font-weight: bold;
@@ -56,10 +59,16 @@
              .menu__list li a:hover{
                 color: rgb(0, 157, 213);
             }
+            .button_menu:hover{
+                background-color: rgb(231, 231, 231);
+            }
+            footer{
+                margin-top: auto;
+            }
         </style>
 
     </head>
-    <body class="bg-white">
+    <body class="bg-white d-flex flex-column min-vh-100">
         {% block body %}{% endblock %}
     </body>
 </html>

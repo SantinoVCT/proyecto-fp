@@ -26,7 +26,7 @@ class CarritoAdd extends AbstractType
         $builder
             ->add('Cantidad', NumberType::class, [
                 'label' => 'Cantidad',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],

@@ -27,7 +27,7 @@ class BuscarPedido extends AbstractType
         $builder
             ->add('CodigoPedido', NumberType::class, [
                 'label' => 'Codigo Pedido',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],

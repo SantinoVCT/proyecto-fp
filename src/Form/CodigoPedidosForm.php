@@ -27,7 +27,7 @@ class CodigoPedidosForm extends AbstractType
         $builder
             ->add('Estado', ChoiceType::class, [
                 'label' => 'Estado',
-                'required' => false,
+                'required' => true,
                 'choices'  => [
                     'Preparando' => 0,
                     'En Reparto' => 1,
@@ -45,7 +45,7 @@ class CodigoPedidosForm extends AbstractType
             ])
             ->add('codigo', IntegerType::class, [
                 'label' => 'Código',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],
