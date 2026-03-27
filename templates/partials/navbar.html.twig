@@ -4,15 +4,58 @@
 			<a class="logo" href="{{ path('app_homepage') }}">PC GAMING</a>
 		</div>
 		<div class="flex-grow-1 m-3 text-black">
-			<h6 class="fw-normal"> Bienvenido, <b class="font-weight-bold" >{{ app.user.Nombre }} {{ app.user.Apellidos }} </b> </h6>
+			<h6 class="fw-normal m-0"> Bienvenido, <b class="font-weight-bold" >{{ app.user.Nombre }} {{ app.user.Apellidos }} </b> </h6>
 		</div>
-		<div class="m-3">
-			{% if mostrarBoton %}
-				<a href="{{ path('app_index_crud') }}" class="btn btn-light border-black">Base de Datos</a>
-			{% endif %}
-			<a href="{{ path('pedidos_online') }}" class="btn btn-light border-black">Tus Pedidos</a>
-			<a href="{{ path('carrito_online', {idUser: app.user.id}) }}" class="btn btn-light border-black">Tu Carrito</a>
+		<div class="m-3 d-flex">
+			<div class="my-2 mx-0">
+				{% if mostrarBoton %}
+					<a href="{{ path('app_index_crud') }}" class="btn btn-light border-black">Base de Datos</a>
+				{% endif %}
+			</div>
+			<div class="my-2 mx-1">
+				<a href="{{ path('pedidos_online') }}" class="btn btn-light border-black">Tus Pedidos</a>
+			</div>
+			<div class="my-2 mx-0" id="dropbox-carrito">
+				<button class="btn btn-light border-black">
+					Tu Carrito 
+					{% if carro_num > 0 %}
+						<b class="num_carro">{{ carro_num }}</b>
+					{% endif %}
+				</button>
+				<ul class="menu__carrito">	
+					{% for carro in carritos|slice(0, 3) %}
+						<li class="border-bottom">
+							<p>{{ carro.Producto.Nombre }}</p>
+							<p>Cantida: {{ carro.Cantidad }} Precio: {{carro.Producto.Precio}}</p>
+						</li>
+					{% endfor %}
+					{% if carro_num > 3 %}
+						<li class="border-bottom">Y más...</li>
+					{% endif %}
+					<a href="{{ path('carrito_online', {idUser: app.user.id}) }}  class="btn btn-light border-black"">Ver Carrito</a>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="mx-2">
 			<a href="{{ path('app_logout') }}" class="btn btn-danger">Cerrar sesión</a>
 		</div>
 	</div>
 </nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropbox_2 = document.getElementById('dropbox-carrito');
+        const menuList_2 = dropbox_2.querySelector('.menu__carrito');
+
+		dropbox_2.addEventListener('click', function(event) {
+            event.stopPropagation();
+            menuList_2.style.display = menuList_2.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.addEventListener('click', function() {
+            menuList_2.style.display = 'none';
+        });
+    });
+
+</script>

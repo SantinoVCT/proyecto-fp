@@ -15,6 +15,9 @@
                 {{ encore_entry_script_tags('app') }}
         {% endblock %}
         <style>
+            .num_carro{
+                color: rgb(223, 141, 18);
+            }
             body{
                 min-height: 100vh;
             }
@@ -59,6 +62,29 @@
              .menu__list li a:hover{
                 color: rgb(0, 157, 213);
             }
+
+            .menu__carrito{
+                display: none;
+                list-style: none;
+                position: absolute;
+                background-color: white;
+                border: 1px solid rgb(220, 220, 220);
+                padding: 10px;
+                margin-top: 5px;
+            }
+             .menu__carrito li{
+                text-decoration: none;
+                margin-bottom: 5px;
+            }
+             .menu__carrito a{
+                text-decoration: none;
+                color: black;
+                padding: 5px 0;
+            }
+             .menu__carrito a:hover{
+                color: rgb(0, 157, 213);
+            }
+
             .button_menu:hover{
                 background-color: rgb(231, 231, 231);
             }
