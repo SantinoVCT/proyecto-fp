@@ -2,7 +2,11 @@
 -> Reparar el estilo del Footer [Done]
 -> Reparar los formularios y verificar que funcione [Done]
 -> Cambiar la informacion que muestra en la Base de Datos [Done]
+-> Implementación de desplegable para el carrito [Done]
 -> Mejorar el estilo [Working_on_it]
+    - Botones con el mismo tamaño [Woking_on_it]
+    - Cambiar "Todos los productos" a otras estrategias ejemplo: más vendidos.
 -> Quitar los Alerts [Waiting]
+-> Gestion de Cockies [Waiting]
 -> Repara Error al agregar productos al carrito [Waiting]
 -> Ocultar el Id en la URL cuando estas en el Carrito y Pedidos [Waiting]

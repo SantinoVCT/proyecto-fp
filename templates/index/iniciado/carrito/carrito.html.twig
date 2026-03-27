@@ -5,17 +5,14 @@
 
 {% block body %}
 	{% include 'partials/navbar.html.twig' %}
-	<div class="bg-warning py-4">
+	{# <div class="bg-warning py-4">
 		<div class="container mx-auto px-4 ">
 			<h1 class="text-6xl text-white text-center">
 				Carrito
 			</h1>
 		</div>
-	</div>
-	{# Este bloque es para el mensaje de error #}
-
-
-	<main class="container mx-auto px-4 py-2">
+	</div> #}
+	<main class="container-fluid p-0 m-0">
 		{% for label, messages in app.flashes %}
 			{% for message in messages %}
 				<div class="alert alert-info mx-2 my-3">
@@ -23,54 +20,44 @@
 				</div>
 			{% endfor %}
 		{% endfor %}
-		{% if carritos is empty%}
-			<div class="bg-white rounded shadow overflow-hidden relative my-3">
-				<div class="px-6 py-4">
-					<div class="font-bold text-xl mx-2">No hay productos en el carrito</div>
+		<div class="row mx-4 my-2">
+			<div class="col row g-3 justify-content-right m-0 p-0">
+			{% if carritos is empty%}
+				<div class="bg-white rounded shadow overflow-hidden relative my-3">
+					<div class="px-6 py-4">
+						<div class="font-bold text-xl mx-2">No hay productos en el carrito</div>
+					</div>
 				</div>
+			{% else %}
+				{% for carrito in carritos %}
+					<div class="bg-white p-5 rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
+						<h4>{{ carrito.Producto.Nombre }}</h4>
+						<img src="{{ asset('uploads/images/' ~ carrito.Producto.Imagen) }}" alt="{{ carrito.Producto.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
+						<h5 class="precio">{{ carrito.Producto.Precio }}€</h5>
+						<h6>Cantidad: {{ carrito.Cantidad }}
+						<div class="flex justify-center my-3">
+							<a href="{{path('app_cambiar', {id: carrito.id})}}" class="btn btn-light border-black">
+								Añadir/Reducir
+							</a>
+							<form method="post" action="{{ path('app_quitar', {'id': carrito.id}) }}" onsubmit="return confirm('Estas seguro de quitar este producto del carrito?');" class="m-1">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ carrito.id) }}">
+								<button class="btn btn-light border-black">
+									Quitar
+								</button>
+							</form>
+						</div>
+					</div>
+				{% endfor %}
+			{% endif %}
 			</div>
-
-		{% else %}
-			<div class="px-6 py-4">
+			<div class="col-3">
+				<h1 class="text-4xl font-bold mb-4">Informacion del Carrito</h1>
+				<p class="mx-2 text-secondary">Total de productos {{ carro_num }}</p>
+				<h4 class="font-bold mb-4">Precio Total</h4>
+				<h5 class="precio">{{ Total_precio_carrito }}€</h5>
 				<a href="{{ path('app_comprar') }}" class="btn btn-success mx-2 px-4 py-2">Comprar</a>
 			</div>
-			<div class="d-flex justify-content-center bg-white rounded shadow relative p-2">
-				<table class="table-responsive border-separate border-spacing-3 w-100 text-center">
-					<thead>
-						<tr class="border-dashed">
-							<th>Producto</th>
-							<th>Precio Original</th>
-							<th>Cantidad</th>
-							<th>Precio Total</th>
-							<th>Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for carrito in carritos %}
-							<tr>
-								<td>{{ carrito.Producto.Nombre }}</td>
-								<td>{{ carrito.Producto.Precio }}€</td>
-								<td>{{ carrito.Cantidad }}</td>
-								<td>{{ carrito.Cantidad * carrito.Producto.Precio }}€</td>
-								<td>
-									<div class="row g-3 justify-content-center">
-										<a href="{{path('app_cambiar', {id: carrito.id})}}" class="btn btn-warning col-1 mx-1 w-auto">
-											<i class="fas fa-edit"></i>
-										</a>
-										<form method="post" action="{{ path('app_quitar', {'id': carrito.id}) }}" onsubmit="return confirm('Estas seguro de quitar este producto del carrito?');" class="col-1 mx-1">
-											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ carrito.id) }}">
-											<button class="btn btn-danger w-auto">
-												<i class="fas fa-trash"></i>
-											</button>
-										</form>
-									</div>
-								</td>
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-		{% endif %}
+		</div>
 	</main>
 	{% include 'partials/footer.html.twig' %}
 {% endblock %}

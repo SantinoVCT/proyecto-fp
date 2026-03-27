@@ -1,9 +1,11 @@
 <nav class="navbar border-bottom border-2 border-black bg-white">
     <div class="container-fluid m-3">
         <a class="logo" href="{{ path('app_index') }}">PC GAMING</a>
-		<div class="m-2 mx-5" id="dropbox-categorias">
-			<img src="https://img.icons8.com/?size=100&id=120374&format=png&color=000000" alt="Categorias" style="width: 20px; height: 20px;">
-            <span>Categorias</span>
+        <div class="m-2 mx-5" id="dropbox-categorias">
+			<button class="m-0 border-0 btn button_menu ">
+				<img src="https://img.icons8.com/?size=100&id=120374&format=png&color=000000" alt="Categorias" style="width: 20px; height: 20px;">
+            	<span>Categorias</span>
+			</button>
 			<ul class="menu__list">
 				{% for categoria in categorias %}
 					<li><a href="{{ path('categoria_offline', {id: categoria.id}) }}" class="">{{ categoria.Nombre }}</a></li>

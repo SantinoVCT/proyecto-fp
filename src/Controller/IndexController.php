@@ -287,8 +287,14 @@ final class IndexController extends AbstractController
         $user = $this->getUser();
         $mostrarBoton = false;
         $idUser = $user->getId();
+        $Total_precio = 0;
+        $carro = $carritoRepository->findBy(['Usuario' => $idUser]);
+        foreach($carro as $producto){
+            $Total_precio+= $producto->getCantidad()*$producto->getProducto()->getPrecio();
+        }
 
         $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
+
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -299,6 +305,7 @@ final class IndexController extends AbstractController
             'mostrarBoton' => $mostrarBoton,
             'idUser' => $idUser,
             'carro_num' => $numero_carro,
+            'Total_precio_carrito' => $Total_precio,
         ]);
     }
 
