@@ -6,6 +6,7 @@
 
 {% block body %}
 	{% include 'partials/navbar.html.twig' %}
+	{% include 'partials/script_borrar.html.twig' %}
 	<div class="mx-4 my-2">
 		<a href="{{ path('app_anuncio_index') }}" class="btn btn-light border-black mx-1">
 			Volver
@@ -13,10 +14,18 @@
 		<a href="{{path('app_anuncio_edit', {id: anuncio.id})}}" class="btn btn-light border-info mx-1">
 			Editar
 		</a>
-		<form method="post" action="{{ path('app_anuncio_delete', {'id': anuncio.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" class="btn m-0 p-0">
-			<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ anuncio.id) }}">
-			<button class="btn btn-light border-danger mx-1">Borrar</button>
-		</form>
+		<div class="btn btn-light border-danger m-0 p-0" id="borrarCelda">
+			<button class="btn mx-o">
+            	<span>Borrar</span>
+			</button>
+			<div class="rounded border border-gry p-3 borrarCelda">
+				<p class="mx-2"> Estas seguro de borrar este elemento</p>
+				<form method="post" action="{{ path('app_anuncio_delete', {'id': anuncio.id}) }}"class="m-0 p-0">
+					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ anuncio.id) }}">
+					<button class="btn btn-light border-danger mx-1">Estoy Seguro</button>
+				</form> 
+			</div>
+		</div>
 	</div>
 	<div class="overflow-hidden relative py-3 px-2 m-5">
 
@@ -37,43 +46,4 @@
 			</div>
 		</div>
 	</div>
-
-	{# <div class="bg-dark py-4">
-			<div class="container mx-auto px-2">
-				<h1 class="text-6xl text-white text-center">
-					Anuncio:
-					{{ anuncio.nombre }}
-				</h1>
-			</div>
-		</div>
-	
-		<div class="container mx-auto px-4 py-8">
-			<div class="table-responsive bg-white rounded shadow relative p-2 my-4">
-				<table class="table border-separate border-spacing-3">
-					<tbody>
-						<tr>
-							<th class="w-25">Id</th>
-							<td>{{ anuncio.id }}</td>
-						</tr>
-						<tr>
-							<th class="w-25">Nombre</th>
-							<td>{{ anuncio.Nombre }}</td>
-						</tr>
-					</tbody>
-				</table>
-				<div class="row g-3 justify-content-center">
-					<a href="{{ path('app_categoria_index') }}" class="btn btn-info mx-2 col-12 col-sm-6 col-md-4 col-lg-2">
-						Volver
-					</a>
-					<a href="{{path('app_categoria_edit', {id: anuncio.id})}}" class="btn btn-warning mx-2 col-12 col-sm-6 col-md-4 col-lg-2">
-						Editar
-					</a>
-					<form method="post" action="{{ path('app_categoria_delete', {'id': anuncio.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" class="btn btn-danger mx-2 col-12 col-sm-6 col-md-4 col-lg-2">
-						<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ anuncio.id) }}">
-						<button class="btn">Borrar</button>
-					</form>
-	
-				</div>
-			</div>
-		</div> #}
 {% endblock %}

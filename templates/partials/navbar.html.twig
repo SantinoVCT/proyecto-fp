@@ -4,7 +4,6 @@
 			<a class="logo" href="{{ path('app_homepage') }}">PC GAMING</a>
 		</div>
 		<div class="flex-grow-1 m-3 text-black">
-			<h6 class="fw-normal m-0"> Bienvenido, <b class="font-weight-bold" >{{ app.user.Nombre }} {{ app.user.Apellidos }} </b> </h6>
 		</div>
 		<div class="m-3 d-flex">
 			<div class="my-2 mx-0" id="dropbox-carrito">
@@ -52,27 +51,32 @@
 </nav>
 
 <script>
-        const dropbox_2 = document.getElementById('dropbox-carrito');
-        const menuList_2 = dropbox_2.querySelector('.menu__carrito');
-		
-        const dropbox_3 = document.getElementById('dropbox-sesion');
-        const menuList_3 = dropbox_3.querySelector('.menu__sesion');
+document.addEventListener('DOMContentLoaded', function() {
+		{
+        	const dropbox_2 = document.getElementById('dropbox-carrito');
+        	const menuList_2 = dropbox_2.querySelector('.menu__carrito');
 
-		dropbox_2.addEventListener('click', function(event) {
-            event.stopPropagation();
-            menuList_3.style.display = 'none';
-            menuList_2.style.display = menuList_2.style.display === 'block' ? 'none' : 'block';
-        });
+        	const dropbox_3 = document.getElementById('dropbox-sesion');
+        	const menuList_3 = dropbox_3.querySelector('.menu__sesion');
 
-        document.addEventListener('click', function() {
-            menuList_2.style.display = 'none';
-            menuList_3.style.display = 'none';
-        });
+			dropbox_2.addEventListener('click', function(event) {
+        	    event.stopPropagation();
+        	    menuList_3.style.display = 'none';
+        	    menuList_2.style.display = menuList_2.style.display === 'block' ? 'none' : 'block';
+        	});
 
-		dropbox_3.addEventListener('click', function(event) {
-            event.stopPropagation();
-			menuList_2.style.display = 'none';
-            menuList_3.style.display = menuList_3.style.display === 'block' ? 'none' : 'block';
-        });
+        	document.addEventListener('click', function() {
+        	    menuList_2.style.display = 'none';
+        	    menuList_3.style.display = 'none';
+        	});
 
+			dropbox_3.addEventListener('click', function(event) {
+        	    event.stopPropagation();
+				menuList_2.style.display = 'none';
+        	    menuList_3.style.display = menuList_3.style.display === 'block' ? 'none' : 'block';
+        	});
+			console.log("Cargado");
+
+		}
+	});
 </script>

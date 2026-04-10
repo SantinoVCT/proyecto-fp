@@ -18,7 +18,7 @@
 					<p>{{ destacado.Descripcion|slice(0,100) }}...</p>
 					<h5 class="precio">{{ destacado.Precio }}€</h5>
 					<div class="flex justify-center my-3">
-						<a href="{{ path('producto_offline', {id: destacado.id}) }}" class="btn btn-light border-black">
+						<a href="{{ path('producto_offline', {id: destacado.id}) }}" class="btn btn-light border-black" style="width: 75px">
 							Ver
 						</a>
 					</div>
@@ -43,7 +43,7 @@
 					<p>{{ producto.Descripcion|slice(0,100) }}...</p>
 					<h5 class="precio">{{ producto.Precio }}€</h5>
 					<div class="flex justify-center my-3">
-						<a href="{{ path('producto_offline', {id: producto.id}) }}" class="btn btn-light border-black">
+						<a href="{{ path('producto_offline', {id: producto.id}) }}" class="btn btn-light border-black" style="width: 75px">
 							Ver
 						</a>
 					</div>

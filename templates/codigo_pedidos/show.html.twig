@@ -5,6 +5,7 @@
 
 {% block body %}
 	{% include 'partials/navbar.html.twig' %}
+	{% include 'partials/script_borrar.html.twig' %}
 	<div class="mx-4 my-2">
 		<a href="{{ path('app_codigo_pedidos_index') }}" class="btn btn-light border-black mx-1">
 			Volver
@@ -12,10 +13,22 @@
 		<a href="{{path('app_codigo_pedidos_edit', {id: codigo_pedido.id})}}" class="btn btn-light border-info mx-1">
 			Editar
 		</a>
-		<form method="post" action="{{ path('app_codigo_pedidos_delete', {'id': codigo_pedido.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" class="btn m-0 p-0">
+		<div class="btn btn-light border-danger m-0 p-0" id="borrarCelda">
+			<button class="btn mx-o">
+            	<span>Borrar</span>
+			</button>
+			<div class="rounded border border-gry p-3 borrarCelda">
+				<p class="mx-2"> Estas seguro de borrar este elemento</p>
+				<form method="post" action="{{ path('app_codigo_pedidos_delete', {'id': codigo_pedido.id}) }}"class="m-0 p-0">
+					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ codigo_pedido.id) }}">
+					<button class="btn btn-light border-danger mx-1">Estoy Seguro</button>
+				</form> 
+			</div>
+		</div>
+		{# <form method="post" action="{{ path('app_codigo_pedidos_delete', {'id': codigo_pedido.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" class="btn m-0 p-0">
 			<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ codigo_pedido.id) }}">
 			<button class="btn btn-light border-danger mx-1">Borrar</button>
-		</form>
+		</form> #}
 	</div>
 	<div class="overflow-hidden relative py-3 px-2 m-5"> 
 		

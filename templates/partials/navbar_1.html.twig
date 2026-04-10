@@ -3,9 +3,6 @@
 		<div class="m-3">
 			<a class="logo" href="{{ path('app_homepage') }}" >PC GAMING</a>
 		</div>
-		<div class="m-3 text-black">
-			<h6 class="fw-normal m-0"> Bienvenido, <b class="font-weight-bold" >{{ app.user.Nombre }} {{ app.user.Apellidos }} </b> </h6>
-		</div>
 		<div class="m-2 mx-5" id="dropbox-categorias">
 			<button class="m-0 border-0 btn button_menu ">
 				<img src="https://img.icons8.com/?size=100&id=120374&format=png&color=000000" alt="Categorias" style="width: 20px; height: 20px;">
@@ -63,42 +60,44 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const dropbox = document.getElementById('dropbox-categorias');
-        const dropbox_2 = document.getElementById('dropbox-carrito');
+		{
+			const dropbox = document.getElementById('dropbox-categorias');
+	        const dropbox_2 = document.getElementById('dropbox-carrito');
+			const dropbox_3 = document.getElementById('dropbox-sesion');
 
-        const menuList = dropbox.querySelector('.menu__list');
-        const menuList_2 = dropbox_2.querySelector('.menu__carrito');
-
-		const dropbox_3 = document.getElementById('dropbox-sesion');
-        const menuList_3 = dropbox_3.querySelector('.menu__sesion');
-        
-		dropbox.addEventListener('click', function(event) {
-            event.stopPropagation();
-            menuList_3.style.display = 'none';
-            menuList_2.style.display = 'none';
-
-            menuList.style.display = menuList.style.display === 'block' ? 'none' : 'block';
-        });
-		dropbox_2.addEventListener('click', function(event) {
-            event.stopPropagation();
-            menuList.style.display = 'none';
-            menuList_3.style.display = 'none';
-
-            menuList_2.style.display = menuList_2.style.display === 'block' ? 'none' : 'block';
-        });
-		dropbox_3.addEventListener('click', function(event) {
-            event.stopPropagation();
-            menuList.style.display = 'none';
-            menuList_2.style.display = 'none';
-
-            menuList_3.style.display = menuList_3.style.display === 'block' ? 'none' : 'block';
-        });
-
-
-        document.addEventListener('click', function() {
-            menuList.style.display = 'none';
-            menuList_2.style.display = 'none';
-            menuList_3.style.display = 'none';
-        });
+	        const menuList = dropbox.querySelector('.menu__list');
+	        const menuList_2 = dropbox_2.querySelector('.menu__carrito');
+	        const menuList_3 = dropbox_3.querySelector('.menu__sesion');
+	
+			dropbox.addEventListener('click', function(event) {
+	            event.stopPropagation();
+	            menuList_3.style.display = 'none';
+	            menuList_2.style.display = 'none';
+	
+	            menuList.style.display = menuList.style.display === 'block' ? 'none' : 'block';
+	        });
+			dropbox_2.addEventListener('click', function(event) {
+	            event.stopPropagation();
+	            menuList.style.display = 'none';
+	            menuList_3.style.display = 'none';
+	
+	            menuList_2.style.display = menuList_2.style.display === 'block' ? 'none' : 'block';
+	        });
+			dropbox_3.addEventListener('click', function(event) {
+	            event.stopPropagation();
+	            menuList.style.display = 'none';
+	            menuList_2.style.display = 'none';
+	
+	            menuList_3.style.display = menuList_3.style.display === 'block' ? 'none' : 'block';
+	        });
+	
+	
+	        document.addEventListener('click', function() {
+	            menuList.style.display = 'none';
+	            menuList_2.style.display = 'none';
+	            menuList_3.style.display = 'none';
+	        });
+			console.log("Cargado");
+		}
     });
 </script>
