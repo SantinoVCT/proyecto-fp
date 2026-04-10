@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Categoria;
 use App\Form\CategoriaForm;
 use App\Repository\CategoriaRepository;
+
+use App\Repository\CarritoRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,10 +19,13 @@ use Symfony\Component\Routing\Attribute\Route;
 final class CategoriaController extends AbstractController
 {
     #[Route(name: 'app_categoria_index', methods: ['GET'])]
-    public function index(CategoriaRepository $categoriaRepository): Response
+    public function index(CategoriaRepository $categoriaRepository, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -28,14 +34,19 @@ final class CategoriaController extends AbstractController
         return $this->render('categoria/index.html.twig', [
             'categorias' => $categoriaRepository->findAll(),
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/new', name: 'app_categoria_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -58,14 +69,19 @@ final class CategoriaController extends AbstractController
             'categorium' => $categorium,
             'form' => $form,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/{id}', name: 'app_categoria_show', methods: ['GET'])]
-    public function show(Categoria $categorium): Response
+    public function show(Categoria $categorium, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -74,6 +90,8 @@ final class CategoriaController extends AbstractController
         return $this->render('categoria/show.html.twig', [
             'categorium' => $categorium,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
@@ -82,6 +100,9 @@ final class CategoriaController extends AbstractController
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -102,6 +123,8 @@ final class CategoriaController extends AbstractController
             'categorium' => $categorium,
             'form' => $form,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 

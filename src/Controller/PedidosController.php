@@ -6,6 +6,8 @@ use App\Entity\Pedidos;
 use App\Form\PedidosForm;
 use App\Repository\PedidosRepository;
 
+use App\Repository\CarritoRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,10 +19,13 @@ use Symfony\Component\Routing\Attribute\Route;
 final class PedidosController extends AbstractController
 {
     #[Route(name: 'app_pedidos_index', methods: ['GET'])]
-    public function index(PedidosRepository $pedidosRepository): Response
+    public function index(PedidosRepository $pedidosRepository, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -29,14 +34,19 @@ final class PedidosController extends AbstractController
         return $this->render('pedidos/index.html.twig', [
             'pedidos' => $pedidosRepository->findAll(),
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/new', name: 'app_pedidos_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -57,14 +67,19 @@ final class PedidosController extends AbstractController
             'pedido' => $pedido,
             'form' => $form,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/{id}', name: 'app_pedidos_show', methods: ['GET'])]
-    public function show(Pedidos $pedido): Response
+    public function show(Pedidos $pedido, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -73,14 +88,19 @@ final class PedidosController extends AbstractController
         return $this->render('pedidos/show.html.twig', [
             'pedido' => $pedido,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_pedidos_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Pedidos $pedido, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Pedidos $pedido, EntityManagerInterface $entityManager, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -99,6 +119,8 @@ final class PedidosController extends AbstractController
             'pedido' => $pedido,
             'form' => $form,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 

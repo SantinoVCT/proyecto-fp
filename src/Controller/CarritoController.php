@@ -20,22 +20,30 @@ final class CarritoController extends AbstractController
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
         }
 
         return $this->render('carrito/index.html.twig', [
-            'carritos' => $carritoRepository->findAll(),
+            'bd_carritos' => $carritoRepository->findAll(),
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/new', name: 'app_carrito_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -53,33 +61,43 @@ final class CarritoController extends AbstractController
         }
 
         return $this->render('carrito/new.html.twig', [
-            'carrito' => $carrito,
+            'bd_carrito' => $carrito,
             'form' => $form,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/{id}', name: 'app_carrito_show', methods: ['GET'])]
-    public function show(Carrito $carrito): Response
+    public function show(Carrito $carrito, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
         }
 
         return $this->render('carrito/show.html.twig', [
-            'carrito' => $carrito,
+            'bd_carrito' => $carrito,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_carrito_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Carrito $carrito, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Carrito $carrito, EntityManagerInterface $entityManager, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -95,9 +113,11 @@ final class CarritoController extends AbstractController
         }
 
         return $this->render('carrito/edit.html.twig', [
-            'carrito' => $carrito,
+            'bd_carrito' => $carrito,
             'form' => $form,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 

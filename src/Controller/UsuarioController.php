@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Usuario;
 use App\Form\UsuarioForm;
 use App\Repository\UsuarioRepository;
+
+use App\Repository\CarritoRepository;
+
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,10 +20,13 @@ use Symfony\Component\Routing\Attribute\Route;
 final class UsuarioController extends AbstractController
 {
     #[Route(name: 'app_usuario_index', methods: ['GET'])]
-    public function index(UsuarioRepository $usuarioRepository): Response
+    public function index(UsuarioRepository $usuarioRepository, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -29,14 +35,19 @@ final class UsuarioController extends AbstractController
         return $this->render('usuario/index.html.twig', [
             'usuarios' => $usuarioRepository->findAll(),
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/new', name: 'app_usuario_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -65,14 +76,19 @@ final class UsuarioController extends AbstractController
             'usuario' => $usuario,
             'form' => $form,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/{id}', name: 'app_usuario_show', methods: ['GET'])]
-    public function show(Usuario $usuario): Response
+    public function show(Usuario $usuario, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -81,14 +97,19 @@ final class UsuarioController extends AbstractController
         return $this->render('usuario/show.html.twig', [
             'usuario' => $usuario,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_usuario_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Usuario $usuario, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    public function edit(Request $request, Usuario $usuario, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -115,6 +136,8 @@ final class UsuarioController extends AbstractController
             'usuario' => $usuario,
             'form' => $form,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 

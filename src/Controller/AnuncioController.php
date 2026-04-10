@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Anuncio;
 use App\Form\AnuncioForm;
 use App\Repository\AnuncioRepository;
+
+use App\Repository\CarritoRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,10 +22,13 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 final class AnuncioController extends AbstractController
 {
     #[Route(name: 'app_anuncio_index', methods: ['GET'])]
-    public function index(AnuncioRepository $anuncioRepository): Response
+    public function index(AnuncioRepository $anuncioRepository, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -31,14 +37,19 @@ final class AnuncioController extends AbstractController
         return $this->render('anuncio/index.html.twig', [
             'anuncios' => $anuncioRepository->findAll(),
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/new', name: 'app_anuncio_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -77,14 +88,19 @@ final class AnuncioController extends AbstractController
             'anuncio' => $anuncio,
             'form' => $form,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/{id}', name: 'app_anuncio_show', methods: ['GET'])]
-    public function show(Anuncio $anuncio): Response
+    public function show(Anuncio $anuncio, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -93,14 +109,19 @@ final class AnuncioController extends AbstractController
         return $this->render('anuncio/show.html.twig', [
             'anuncio' => $anuncio,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_anuncio_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Anuncio $anuncio, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function edit(Request $request, Anuncio $anuncio, EntityManagerInterface $entityManager, SluggerInterface $slugger, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -146,6 +167,8 @@ final class AnuncioController extends AbstractController
             'anuncio' => $anuncio,
             'form' => $form,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 

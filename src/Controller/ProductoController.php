@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Producto;
 use App\Form\ProductoForm;
 use App\Repository\ProductoRepository;
+
+use App\Repository\CarritoRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,10 +22,13 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 final class ProductoController extends AbstractController
 {
     #[Route(name: 'app_producto_index', methods: ['GET'])]
-    public function index(ProductoRepository $productoRepository): Response
+    public function index(ProductoRepository $productoRepository, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -31,6 +37,8 @@ final class ProductoController extends AbstractController
         return $this->render('producto/index.html.twig', [
             'productos' => $productoRepository->findAll(),
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
@@ -39,6 +47,9 @@ final class ProductoController extends AbstractController
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -79,14 +90,19 @@ final class ProductoController extends AbstractController
             'producto' => $producto,
             'form' => $form,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/{id}', name: 'app_producto_show', methods: ['GET'])]
-    public function show(Producto $producto): Response
+    public function show(Producto $producto, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -95,6 +111,8 @@ final class ProductoController extends AbstractController
         return $this->render('producto/show.html.twig', [
             'producto' => $producto,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
@@ -103,6 +121,9 @@ final class ProductoController extends AbstractController
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -148,6 +169,8 @@ final class ProductoController extends AbstractController
             'producto' => $producto,
             'form' => $form,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
