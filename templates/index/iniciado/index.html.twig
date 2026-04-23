@@ -34,11 +34,9 @@
 				</div>
 			{% endfor %}
 			<div class="row g-3 justify-content-center m-0 p-3 destacado-bg col-12">
-				{% for anuncio in anuncios %}
-					<div class=" mx-2 px-4 col-3">
-						<img src="{{ asset('uploads/images/' ~ anuncio.Imagen) }}" alt="{{ anuncio.Nombre }}" class="img-fluid mx-auto d-block" style="max-height: 150px; object-fit: contain;">
-					</div>
-				{% endfor %}
+				<div class=" mx-2 px-4 col-3">
+					<img src="{{ asset('uploads/images/' ~ anucioRandom.Imagen) }}" alt="{{ anucioRandom.Nombre }}" class="img-fluid mx-auto d-block" style="max-height: 150px; object-fit: contain;">
+				</div>
 			</div>
 		</div>
 		<div class="row g-3 justify-content-center m-0 p-3 mb-5">

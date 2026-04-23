@@ -47,6 +47,7 @@
 				{% for categoria in categorias %}
 					<a href="{{path('app_categoria_show', {id: categoria.id})}}" class="bg-white p-3 btn btn-light rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
 						<h4>{{ categoria.Nombre }}</h4>
+						<img class="img-fluid my-2" style="max-width: 50px;" src="https://cdn-icons-png.flaticon.com/512/5665/5665189.png" alt="Categoria">
 					</a>
 				{% endfor %}
 			{% endif %}

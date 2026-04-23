@@ -47,7 +47,12 @@ final class IndexController extends AbstractController
     {
         $form = $this->createForm(ProductoBuscar::class);
         $num = $anuncioRepository->count([]);
-        $RanNum = rand(1, $num);
+
+        $anuncio = $anuncioRepository->findAll();
+        if (count($anuncio) > 0) {
+            $Anuncio_aleatorio = $anuncio[array_rand($anuncio)];
+        }
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -70,7 +75,7 @@ final class IndexController extends AbstractController
                 'productos' => $productoRepository->findAll(),
                 'destacados' => $productoRepository->findBy(['Destacado' => true]),
                 'anuncios' => $anuncioRepository->findAll(),
-                'anucioRandom' => $RanNum,
+                'anucioRandom' => $Anuncio_aleatorio,
                 'categorias' => $categoriaRepository->findAll(),
                 'form' => $form,
             ]);
@@ -124,7 +129,11 @@ final class IndexController extends AbstractController
         $user = $this->getUser();
         $mostrarBoton = false;
         $num = $anuncioRepository->count([]);
-        $RanNum = rand(1, $num);
+        
+        $anuncio = $anuncioRepository->findAll();
+        if (count($anuncio) > 0) {
+            $Anuncio_aleatorio = $anuncio[array_rand($anuncio)];
+        }
 
         $idUser = $user->getId();
         
@@ -164,6 +173,7 @@ final class IndexController extends AbstractController
                 'anuncios' => $anuncioRepository->findAll(),
                 'form' => $form,
                 'mostrarBoton' => $mostrarBoton,
+                'anucioRandom' => $Anuncio_aleatorio,
                 'categorias' => $categoriaRepository->findAll(),
                 'carro_num' => $numero_carro,
                 'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
@@ -173,6 +183,58 @@ final class IndexController extends AbstractController
         
     }
     
+    #[Route('/homepage/mi_cuenta', name: 'app_cuenta', methods: ['GET', 'POST'])]
+    public function cuenta(Request $request, CategoriaRepository $categoriaRepository, CarritoRepository $carritoRepository): Response
+    {     
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        $idUser = $user->getId();
+        
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
+   
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
+        $form = $this->createForm(ProductoBuscar::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $Producto = $data->getNombre();
+
+            if (empty($Producto)) {
+                return $this->redirectToRoute('app_homepage');
+            }else{
+                $productos = $productoRepository->findByString($Producto);
+
+                return $this->render('index/iniciado/buscar.html.twig', [
+                    'productos' => $productos,
+                    'form' => $form,
+                    'busqueda' => $Producto,
+                    'mostrarBoton' => $mostrarBoton,
+                    'categorias' => $categoriaRepository->findAll(),
+                    'carro_num' => $numero_carro,
+                    'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
+                ]);
+            }
+        }else{
+            return $this->render('index/iniciado/usuario/index.html.twig', [
+                'usuario' => $user,
+                'form' => $form,
+                'mostrarBoton' => $mostrarBoton,
+                'categorias' => $categoriaRepository->findAll(),
+                'carro_num' => $numero_carro,
+                'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
+            ]);
+        }
+        
+
+        
+    }
+
     #[Route('/homepage/vista/{id}', name: 'producto_online', methods: ['GET'])]
     public function showOnline(Producto $producto, ProductoRepository $productoRepository, CarritoRepository $carritoRepository): Response
     {

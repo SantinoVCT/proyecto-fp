@@ -19,23 +19,23 @@
         </div>
 		<div class="m-3 d-flex">
 			<div class="my-2 mx-0" id="dropbox-carrito">
-				<button class="btn btn-light border-black">
+				<button class="btn btn-light ">
 					<img src="https://cdn-icons-png.flaticon.com/512/287/287581.png" alt="Carrito" class="img-fluid m-0 p-0" style="max-width: 20px"> 
 					{% if carro_num > 0 %}
 						<b class="num_carro">{{ carro_num }}</b>
 					{% endif %}
 				</button>
 				<ul class="menu__carrito">	
-					{% for carro in carritos|slice(0, 3) %}
+					{% for carro in carritos|slice(0, 2) %}
 						<li class="border-bottom">
 							<p>{{ carro.Producto.Nombre }}</p>
 							<p>Cantida: {{ carro.Cantidad }} Precio: {{carro.Producto.Precio}}</p>
 						</li>
 					{% endfor %}
-					{% if carro_num > 3 %}
+					{% if carro_num > 2 %}
 						<li class="border-bottom">Y más...</li>
 					{% endif %}
-					<a href="{{ path('carrito_online', {idUser: app.user.id}) }}  class="btn btn-light border-black"">Ver Carrito</a>
+					<a href="{{ path('carrito_online') }}" class="px-2">Ver Carrito</a>
 				</ul>
 			</div>
 		</div>
@@ -51,6 +51,7 @@
 						<a href="{{ path('app_index_crud') }}" class="">Base de Datos</a>
 					</li>
 				{% endif %}
+				<li class="border-bottom"><a href="{{ path('app_cuenta') }}" class="">Tu Cuenta</a></li>
 				<li class="border-bottom"><a href="{{ path('pedidos_online') }}" class="">Tus Pedidos</a></li>
 				<li><a href="{{ path('app_logout') }}" class="logout__sesion">Cerrar sesión</a></li>
 			</ul>

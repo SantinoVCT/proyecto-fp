@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PC Gaminng
+{% endblock %}
+
+{% block body %}
+	{% include 'partials/navbar_1.html.twig' %}
+	<main class="container-fluid p-0 m-0">
+		<div class="overflow-hidden relative py-3 px-2 m-5"> 
+		<div class="row mb-4">
+			<div class="col">
+				<img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Icono_Usuario" class="img-fluid mb-3 p-0" style="max-width: 250px">
+				<h1 class="text-4xl font-bold mb-4">{{ usuario.Nombre }}</h1>
+				<p>Apellidos:
+					<b>{{ usuario.Apellidos }}</b>
+				</p>
+				<p>Email:
+					<b>{{ usuario.Email }}</b>
+				</p>
+				<p>Password:
+					<input class="border-0 bg-transparent" type="password" maxlength="15" value="{{ usuario.Password|slice(0,10) }}" disabled>
+				</p>
+			</div>
+			<div class="col">
+				<div class="rounded border border-gry p-3 mt-4">
+					<h3>Detalles de Información</h3>
+				    <p>Direccion: 
+    					<b>{{ usuario.direccion }}</b>
+	    			</p>
+					<p> Fecha de Creacion de la cuenta: <b> {{ usuario.FechaCreada.format('Y-m-d') }}</b></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	</main>
+	{% include 'partials/footer.html.twig' %}
+{% endblock %}

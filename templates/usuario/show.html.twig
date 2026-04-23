@@ -34,17 +34,20 @@
 		<div class="row mb-4">
 			<div class="col">
 				<h1 class="text-4xl font-bold mb-4">{{ usuario.Nombre }}</h1>
-				<p class="mx-2">Apellidos:
+				<p>Apellidos:
 					<b>{{ usuario.Apellidos }}</b>
 				</p>
-				<p class="mx-2">Role:
+				<p>Role:
 					<b>{{ usuario.Roles[0] }}</b>
 				</p>
 				<p>Email:
 					<b>{{ usuario.Email }}</b>
 				</p>
+				<p>Direccion: 
+					<b>{{ usuario.direccion }}</b>
+				</p>
 				<p>Password:
-					<b>{{ usuario.Password }}</b>
+					<input class="border-0 bg-transparent" type="password" maxlength="15" value="{{ usuario.Password|slice(0,10) }}" disabled>
 				</p>
 			</div>
 			<div class="col">
