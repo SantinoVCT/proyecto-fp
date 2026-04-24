@@ -21,7 +21,7 @@
 			{% endfor %}
 		{% endfor %}
 		<div class="row mx-4 my-2">
-			<div class="col row g-3 justify-content-right m-0 p-0">
+			<div class="col row g-3 justify-content-right m-0 p-0 overflow-auto" style="height:550px;">
 			{% if carritos is empty%}
 				<div class="bg-white rounded shadow overflow-hidden relative my-3">
 					<div class="px-6 py-4">
@@ -30,7 +30,7 @@
 				</div>
 			{% else %}
 				{% for carrito in carritos %}
-					<div class="bg-white p-5 rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
+					<div class="bg-white p-5 rounded shadow text-center py-4 border border-gry col g-3 justify-content-center">
 						<h4>{{ carrito.Producto.Nombre }}</h4>
 						<img src="{{ asset('uploads/images/' ~ carrito.Producto.Imagen) }}" alt="{{ carrito.Producto.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
 						<h5 class="precio">{{ carrito.Producto.Precio }}€</h5>

@@ -19,7 +19,7 @@
         </div>
 		<div class="m-3 d-flex">
 			<div class="my-2 mx-0" id="dropbox-carrito">
-				<button class="btn btn-light ">
+				<button class="btn bg-transparent border-0">
 					<img src="https://cdn-icons-png.flaticon.com/512/287/287581.png" alt="Carrito" class="img-fluid m-0 p-0" style="max-width: 20px"> 
 					{% if carro_num > 0 %}
 						<b class="num_carro">{{ carro_num }}</b>
@@ -43,7 +43,7 @@
 		<div class="mx-2" id="dropbox-sesion">
 			<button class="m-0 border-0 btn button_menu ">
 				<img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Icono_Usuario" class="img-fluid m-0 p-0" style="max-width: 20px">
-            	<span><b class="font-weight-bold" >{{ app.user.Nombre }} {{ app.user.Apellidos }} </b></span>
+            	<span><b class="font-weight-bold" >{{ app.user.Nombre }} {{ app.user.Apellidos|slice(0,1) }}. </b></span>
 			</button>
 			<ul class="menu__sesion">
 				{% if mostrarBoton %}

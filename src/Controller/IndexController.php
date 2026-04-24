@@ -14,6 +14,7 @@ use App\Form\CarritoAdd;
 use App\Repository\CarritoRepository;
 
 use App\Entity\Usuario;
+use App\Form\InfoUsuarioForm;
 use App\Form\UsuarioForm;
 use App\Repository\UsuarioRepository;
 
@@ -39,6 +40,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class IndexController extends AbstractController
 {
@@ -233,6 +235,45 @@ final class IndexController extends AbstractController
         
 
         
+    }
+
+    #[Route('/homepage/mi_cuenta/edit', name: 'app_cuenta_edit', methods: ['GET', 'POST'])]
+    public function cuentaEdit(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, CategoriaRepository $categoriaRepository, CarritoRepository $carritoRepository): Response
+    {     
+        $user = $this->getUser();
+        $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
+        $form = $this->createForm(InfoUsuarioForm::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // If password field was filled, hash and set it
+            $plain = $form->get('password')->getData();
+            if (!empty($plain)) {
+                $user->setPassword($passwordHasher->hashPassword($user, $plain));
+            }
+
+            $user->setFechaUpdate(new \DateTime());
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_cuenta', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('index/iniciado/usuario/edit.html.twig', [
+            'usuario' => $user,
+            'form' => $form,
+            'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
+        ]);
     }
 
     #[Route('/homepage/vista/{id}', name: 'producto_online', methods: ['GET'])]

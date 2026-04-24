@@ -6,6 +6,10 @@ use App\Entity\CodigoPedido;
 use App\Form\CodigoPedidosForm;
 use App\Repository\CodigoPedidoRepository;
 
+use App\Entity\Pedidos;
+use App\Form\PedidosForm;
+use App\Repository\PedidosRepository;
+
 use App\Repository\CarritoRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -73,13 +77,14 @@ final class CodigoPedidosController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_codigo_pedidos_show', methods: ['GET'])]
-    public function show(CodigoPedido $codigoPedido, CarritoRepository $carritoRepository): Response
+    public function show(CodigoPedido $codigoPedido, CarritoRepository $carritoRepository, PedidosRepository $pedidosRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
         $idUser = $user->getId();
 
         $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
+        $pedidos = $pedidosRepository->findBy(['CodigoPedidoRelacion' => $codigoPedido->getId()]);
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -87,6 +92,7 @@ final class CodigoPedidosController extends AbstractController
 
         return $this->render('codigo_pedidos/show.html.twig', [
             'codigo_pedido' => $codigoPedido,
+            'pedidos' => $pedidos,
             'mostrarBoton' => $mostrarBoton,
             'carro_num' => $numero_carro,
             'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
