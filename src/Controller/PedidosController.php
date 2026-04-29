@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\CodigoPedido;
+
 use App\Entity\Pedidos;
 use App\Form\PedidosForm;
 use App\Repository\PedidosRepository;
@@ -39,8 +41,8 @@ final class PedidosController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_pedidos_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, CarritoRepository $carritoRepository): Response
+    #[Route('/{id}/new', name: 'app_pedidos_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, CodigoPedido $codigoPedido, EntityManagerInterface $entityManager, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
@@ -53,6 +55,10 @@ final class PedidosController extends AbstractController
         }
 
         $pedido = new Pedidos();
+
+        $pedido->setCodigoPedidoRelacion($codigoPedido);
+        $pedido->setUsuario($codigoPedido->getCliente());
+        $pedido->setCodigoPedido($codigoPedido->getCodigo());
         $form = $this->createForm(PedidosForm::class, $pedido);
         $form->handleRequest($request);
 
@@ -60,7 +66,7 @@ final class PedidosController extends AbstractController
             $entityManager->persist($pedido);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_pedidos_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_codigo_pedidos_show', ['id' => $codigoPedido->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('pedidos/new.html.twig', [
@@ -127,6 +133,7 @@ final class PedidosController extends AbstractController
     #[Route('/{id}', name: 'app_pedidos_delete', methods: ['POST'])]
     public function delete(Request $request, Pedidos $pedido, EntityManagerInterface $entityManager): Response
     {
+        $codigoPedido = $pedido->getCodigoPedidoRelacion();
        
         if ($this->isCsrfTokenValid('delete'.$pedido->getId(), $request->getPayload()->getString('_token'))) {
             try {
@@ -138,6 +145,6 @@ final class PedidosController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('app_pedidos_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_codigo_pedidos_show', ['id' => $codigoPedido->getId()], Response::HTTP_SEE_OTHER);
     }
 }

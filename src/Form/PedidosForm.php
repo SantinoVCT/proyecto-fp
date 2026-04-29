@@ -51,6 +51,7 @@ class PedidosForm extends AbstractType
             ])
             ->add('CodigoPedidoRelacion', EntityType::class, [
                 'class' => CodigoPedido::class,
+                'disabled' => true,
                 'choice_label' => 'Codigo',
                 'attr' => [
                     'class' => $textInputCss,
