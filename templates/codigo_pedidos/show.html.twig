@@ -70,39 +70,5 @@
 			</div>
 		</div>
 	</main>
-
-	{# <div class="mx-4 my-2">
-		<a href="{{ path('app_codigo_pedidos_index') }}" class="btn btn-light border-black mx-1">
-			Volver
-		</a>
-		<a href="{{path('app_codigo_pedidos_edit', {id: codigo_pedido.id})}}" class="btn btn-light border-info mx-1">
-			Editar
-		</a>
-		<div class="btn btn-light border-danger m-0 p-0" id="borrarCelda">
-			<button class="btn mx-o">
-            	<span>Borrar</span>
-			</button>
-			<div class="rounded border border-gry p-3 borrarCelda">
-				<p class="mx-2"> Estas seguro de borrar este elemento</p>
-				<form method="post" action="{{ path('app_codigo_pedidos_delete', {'id': codigo_pedido.id}) }}"class="m-0 p-0">
-					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ codigo_pedido.id) }}">
-					<button class="btn btn-light border-danger mx-1">Estoy Seguro</button>
-				</form> 
-			</div>
-		</div>
-	</div>
-	<div class="overflow-hidden relative py-3 px-2 m-5"> 
-		<div class="row mb-4">
-			<div class="col">
-				<h1 class="text-4xl font-bold mb-4">Codigo de Pedido: {{ codigo_pedido.codigo }}</h1>
-				<p class="mx-2 text-secondary">Id: {{ codigo_pedido.id }}</p>
-				<p class="mx-2 text-secondary">Fecha de compra:
-					{{ codigo_pedido.fecha.format('d-m-Y') }}</p>
-				<p class="mx-2">Estado:
-					<b class="precio">{{ codigo_pedido.estado == 0 ? 'Preparando' : codigo_pedido.estado == 1 ? 'En Reparto' : 'Enviado' }}</b>
-				</p>
-				<p class="mx-2">Del Cliente: {{ codigo_pedido.Cliente.Nombre }} {{ codigo_pedido.Cliente.Apellidos }}</p>
-			</div>
-		</div>
-	</div> #}
+	{% include 'partials/footer.html.twig' %}
 {% endblock %}

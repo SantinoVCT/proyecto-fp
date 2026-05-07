@@ -11,6 +11,6 @@
 -> Hacer las opciones del backend mas cuadradas y que se estrechen toda la pagina [Done]
 -> Reparar el error 403[Done]
 -> Reparar cambiar el Codigo pedido a unaconvinacion de las 2 tablas (Codigo Pedido y Pedidos)[Done]
+-> Permitir a los clientes editar y ver su informacion[Done]
 -> Cambiar "Todos los productos" a otras estrategias ejemplo: más vendidos. [Waiting]
 -> Gestion de Cockies [Waiting]
--> Permitir a los clientes editar y ver su informacion[Waiting]
