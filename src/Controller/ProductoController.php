@@ -43,7 +43,7 @@ final class ProductoController extends AbstractController
     }
 
     #[Route('/new', name: 'app_producto_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
@@ -117,7 +117,7 @@ final class ProductoController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_producto_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Producto $producto, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function edit(Request $request, Producto $producto, EntityManagerInterface $entityManager, SluggerInterface $slugger, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;

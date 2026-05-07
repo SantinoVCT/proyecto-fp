@@ -86,6 +86,19 @@ class ProductoForm extends AbstractType
                     ]),
                 ],
             ])
+            ->add('Descuento', NumberType::class, [
+                'label' => 'Descuento',
+                'required' => false,
+                'attr' => [
+                    'class' => $textInputCss,
+                ],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[1-9][0-9]?$/',
+                        'message' => 'El Descuento debe ser un número válido.',
+                    ]),
+                ],
+            ])
             ->add('Categoria', EntityType::class, [
                 'class' => Categoria::class,
                 'choice_label' => 'Nombre',
