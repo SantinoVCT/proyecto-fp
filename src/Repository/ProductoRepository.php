@@ -25,6 +25,14 @@ class ProductoRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllTheOffertes(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.Descuento IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Producto[] Returns an array of Producto objects
     //     */

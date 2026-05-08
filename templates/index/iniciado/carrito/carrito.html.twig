@@ -33,7 +33,15 @@
 					<div class="bg-white p-5 rounded shadow text-center py-4 border border-gry col g-3 justify-content-center">
 						<h4>{{ carrito.Producto.Nombre }}</h4>
 						<img src="{{ asset('uploads/images/' ~ carrito.Producto.Imagen) }}" alt="{{ carrito.Producto.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
-						<h5 class="precio">{{ carrito.Producto.Precio }}€</h5>
+						{% if carrito.Producto.Descuento %}
+						<p class="mx-2">
+							Precio: <b class="precio">{{ (carrito.Producto.Precio *(1-(carrito.Producto.Descuento/100)))| number_format(2) }}€</b> 
+						</p>
+						{% else %}
+							<p class="mx-2">
+								Precio: <b class="precio">{{ carrito.Producto.Precio }}€</b>
+							</p>
+						{% endif %}
 						<h6>Cantidad: {{ carrito.Cantidad }}
 						<div class="flex justify-center my-3">
 							<a href="{{path('app_cambiar', {id: carrito.id})}}" class="btn btn-light border-black">

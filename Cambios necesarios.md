@@ -12,7 +12,8 @@
 -> Reparar el error 403[Done]
 -> Reparar cambiar el Codigo pedido a unaconvinacion de las 2 tablas (Codigo Pedido y Pedidos)[Done]
 -> Permitir a los clientes editar y ver su informacion[Done]
--> Cambiar "Todos los productos" a otras estrategias ejemplo: más vendidos. [Waiting]
-    - Usar Consultas para crear mas estrategias
-    - Crear una columna int llamado Descuento que puede ser Null  
+-> Cambiar "Todos los productos" a otras estrategias ejemplo: más vendidos. [Done]
+    - Usar Consultas para crear mas estrategias [Done]
+    - Crear una columna int llamado Descuento que puede ser Null  [Done]
 -> Gestion de Cockies [Waiting]
+-> crear una funcion Stock [Waiting]

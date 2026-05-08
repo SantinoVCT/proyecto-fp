@@ -42,9 +42,17 @@
 				<h1 class="text-4xl font-bold mb-4">{{ producto.Nombre }}</h1>
 				<p class="mx-2 text-secondary">Categoria:
 					{{ producto.Categoria.Nombre }}</p>
-				<p class="mx-2">Precio:
-					<b class="precio">{{ producto.Precio }}€</b>
-				</p>
+				{% if producto.Descuento %}
+					<p class="mx-2">
+						Precio: <del>{{ producto.Precio }}</del>€  
+						<b class="precio">{{ (producto.Precio *(producto.Descuento/100))| number_format(2) }}€</b> 
+						<b class="descuento rounded px-2 mx-2"> {{ producto.Descuento }}% </b>
+					</p>
+				{% else %}
+					<p class="mx-2">
+						Precio: <b class="precio">{{ producto.Precio }}€</b>
+					</p>
+				{% endif %}
 				<a href="" class="btn btn-light border-black mx-3">
 					Añadir
 				</a>

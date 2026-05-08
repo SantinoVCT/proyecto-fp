@@ -74,7 +74,7 @@ final class IndexController extends AbstractController
             }
         }else{
             return $this->render('index/index.html.twig', [
-                'productos' => $productoRepository->findAll(),
+                'productos' => $productoRepository->findAllTheOffertes(),
                 'destacados' => $productoRepository->findBy(['Destacado' => true]),
                 'anuncios' => $anuncioRepository->findAll(),
                 'anucioRandom' => $Anuncio_aleatorio,
@@ -170,7 +170,7 @@ final class IndexController extends AbstractController
             }
         }else{
             return $this->render('index/iniciado/index.html.twig', [
-                'productos' => $productoRepository->findAll(),
+                'productos' => $productoRepository->findAllTheOffertes(),
                 'destacados' => $productoRepository->findBy(['Destacado' => true]),
                 'anuncios' => $anuncioRepository->findAll(),
                 'form' => $form,
@@ -393,7 +393,11 @@ final class IndexController extends AbstractController
         $Total_precio = 0;
         $carro = $carritoRepository->findBy(['Usuario' => $idUser]);
         foreach($carro as $producto){
-            $Total_precio+= $producto->getCantidad()*$producto->getProducto()->getPrecio();
+            if($producto->getProducto()->getDescuento()){
+                $Total_precio+= $producto->getCantidad()*($producto->getProducto()->getPrecio()*(1-($producto->getProducto()->getDescuento()/100)));
+            }else{
+                $Total_precio+= $producto->getCantidad()*$producto->getProducto()->getPrecio();
+            }
         }
 
         $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
@@ -454,7 +458,11 @@ final class IndexController extends AbstractController
 
         $TotalPrecio = 0;
         foreach ($pedidos as $pedido) {
-            $TotalPrecio += $pedido->getProducto()->getPrecio() * $pedido->getCantidad();
+            if($pedido->getProducto()->getDescuento()){
+                $TotalPrecio+= $pedido->getCantidad()*($pedido->getProducto()->getPrecio()*(1-($pedido->getProducto()->getDescuento()/100)));
+            }else{
+                $TotalPrecio+= $pedido->getCantidad()*$pedido->getProducto()->getPrecio();
+            }
         }
 
         return $this->render('index/iniciado/pedido/pedidos.html.twig', [

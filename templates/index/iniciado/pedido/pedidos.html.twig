@@ -21,9 +21,18 @@
 						<div class="mx-3">
 							<h4 class="mx-2">Codigo de Pedido: {{ pedido.producto.Nombre }}</h4>
 							<p class="mx-2">Cantidad: {{ pedido.cantidad }}</p>
-							<h6 class="mx-2">Precio: {{ pedido.producto.precio }}€</h5>
-							<h5 class="precio">Total: {{ pedido.producto.precio * pedido.cantidad }}€</h5>
-
+							{% if pedido.Producto.Descuento %}
+							<p class="mx-2">
+								Precio: 
+								<b class="precio">{{ (pedido.Producto.Precio *(1-(pedido.Producto.Descuento/100)))| number_format(2) }}€</b> 
+								<b class="descuento rounded px-2 mx-2"> {{ pedido.Producto.Descuento }}% </b>
+							</p>
+						{% else %}
+							<p class="mx-2">
+								Precio: <b class="precio">{{ pedido.Producto.Precio }}€</b>
+							</p>
+						{% endif %}
+							<h5 class="precio">Total: {{ ((pedido.Producto.Precio *(1-(pedido.Producto.Descuento/100))) * pedido.cantidad) | number_format(2) }}€</h5>
 							<img src="{{ asset('uploads/images/' ~ pedido.producto.Imagen) }}" alt="{{ pedido.producto.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
 
 						</div>
@@ -36,35 +45,5 @@
 			{% endif %}
 		</div>
 	</main>
-	{# <main class="container mx-auto px-4 py-8 my-3">
-		{% for label, messages in app.flashes %}
-			{% for message in messages %}
-				<div class="alert alert-info mx-2 my-3">
-					{{ message }}
-				</div>
-			{% endfor %}
-		{% endfor %}
-		<div class="bg-white rounded shadow relative p-3 my-3">
-			{{ include('index/iniciado/pedido/_form.html.twig') }}
-		</div>
-		{% if productos %}
-				{% for producto in productos %}
-					<a href="{{ path('producto_online', {id: producto.id}) }}" class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-sm-6 col-md-4 col-lg-2 mx-5 py-4 border border-gry">
-						<div class="mx-3">
-							<h4 class="mx-2">{{ producto.Nombre }}</h4>
-							<p class="mx-2">{{ producto.Descripcion|slice(0,100) }}...</p>
-							<h5 class="precio">{{ producto.Precio }}€</h5>
-						</div>
-						<div class="mx-3">
-							<img src="{{ asset('uploads/images/' ~ producto.Imagen) }}" alt="{{ producto.Nombre }}" class="img-fluid my-2" style="max-height: 75px; object-fit: contain;">
-						</div>
-					</a>
-				{% endfor %}
-			{% else %}
-				<div class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center mx-5 py-4 border border-gry">
-					No se encontraron productos para "{{ busqueda }}".
-				</div>
-			{% endif %}
-	</main> #}
 	{% include 'partials/footer.html.twig' %}
 {% endblock %}
