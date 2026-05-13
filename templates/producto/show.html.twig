@@ -59,6 +59,7 @@
 				<div class="rounded border border-gry p-3 mt-4">
 					<h3>Detalles del Ocultos</h3>
 					<p class="mx-2"> Disponible: <b> {{ producto.Disponible ? 'Sí' : 'No' }}</b></p>
+					<p class="mx-2"> Stock: <b> {{ producto.Stock }}</b></p>
 					<p class="mx-2"> Fecha de Creacion: <b> {{ producto.FechaCreada.format('Y-m-d H:i:s') }}</b></p>
 					<p class="mx-2"> Fecha Actualizada: <b> {{ producto.FechaUpdate ? producto.FechaUpdate.format('Y-m-d H:i:s') : 'N/A' }}</b></p>
 				</div>

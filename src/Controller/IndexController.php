@@ -354,8 +354,8 @@ final class IndexController extends AbstractController
 
         $encontrado = $carritoRepository->findOneBy(['Usuario' => $user, 'Producto' => $producto]);
         if($encontrado){
-            if ($encontrado->getCantidad() >= 99) {
-            $maximo = true;
+            if ($encontrado->getCantidad() >= 99 || $encontrado->getCantidad() >= $producto->getStock()) {
+                $maximo = true;
             } else {
                 $maximo = false;
             }
@@ -494,9 +494,17 @@ final class IndexController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $data = $form->getData();
+            $cantidad = $data->getCantidad();
+            $producto = $carrito->getProducto();
 
-            return $this->redirectToRoute('carrito_online', [], Response::HTTP_SEE_OTHER);
+            if ($cantidad > $producto->getStock()) {
+                $this->addFlash('error', 'No hay suficiente stock disponible.');
+                return $this->redirectToRoute('carrito_online', [], Response::HTTP_SEE_OTHER);
+            }else{
+                $entityManager->flush();
+                return $this->redirectToRoute('carrito_online', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('index/iniciado/carrito/edit.html.twig', [
@@ -514,8 +522,23 @@ final class IndexController extends AbstractController
         $user = $this->getUser();
         $userId = $user->getId();
         $codigoPedido = rand(1000, 9999);
+        $imposible = false;
         
         $carritos = $carritoRepository->findBy(['Usuario' => $userId]);
+        
+        foreach ($carritos as $carrito) {
+            $producto = $carrito->getProducto();
+            if ($carrito->getCantidad() > $producto->getStock()) {
+                $imposible = true;
+                $producto_nombre = $producto->getNombre();
+                break;
+            }
+        }
+        
+        if ($imposible) {
+            $this->addFlash('error', 'No se puede completar la compra porque el producto "' . $producto_nombre . '" no tiene suficiente stock.');
+            return $this->redirectToRoute('carrito_online');
+        }
 
         $codigo_pedido = New CodigoPedido;
         $codigo_pedido->setCodigo($codigoPedido);
@@ -534,6 +557,8 @@ final class IndexController extends AbstractController
             $pedido->setCantidad($carrito->getCantidad());
             $pedido->setUsuario($carrito->getUsuario());
             $pedido->setProducto($carrito->getProducto());
+            $producto = $carrito->getProducto();
+            $producto->setStock($producto->getStock() - $carrito->getCantidad());
             $pedido->setCodigoPedido($codigoPedido);
             foreach ($CodigoRelacion as $codigo) {
                 $pedido->setCodigoPedidoRelacion($codigo);
