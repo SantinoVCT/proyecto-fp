@@ -15,5 +15,5 @@
 -> Cambiar "Todos los productos" a otras estrategias ejemplo: más vendidos. [Done]
     - Usar Consultas para crear mas estrategias [Done]
     - Crear una columna int llamado Descuento que puede ser Null  [Done]
--> Gestion de Cockies [Waiting]
--> crear una funcion Stock [Waiting]
+-> Gestion de Cockies [Done]
+-> crear una funcion Stock [Done]
