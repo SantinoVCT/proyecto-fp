@@ -133,6 +133,20 @@
 			}
 		</style>
 	</head>
-	<body class="bg-white d-flex flex-column min-vh-100" data-turbo="false"> {% block body %}{% endblock %}
-		</body>
+	<body {{stimulus_controller('cookie-consent')}} class="bg-white d-flex flex-column min-vh-100" data-turbo="false"> 
+		{% block body %}{% endblock %}
+		<div id="cookieModal" class="d-none position-fixed bottom-0 start-0 text-black bg-white p-4 shadow-lg rounded m-3" style="z-index: 9999; max-width: 400px;">
+			<div>
+				<p class="fw-bold">Sitio de Cookies</p>
+			</div>
+			<hr>
+			<div class="mb-3">
+				Este sitio web utiliza cookies para ofrecer una mejor experiencia de usuario y permitirle inscribirse en nuestro 
+				programa de bienestar en línea, de forma sencilla y en pocos pasos. No vendemos ni compartimos sus datos bajo ninguna circunstancia.
+			</div>
+			<div>
+				<button type="button" class="btn btn-primary fw-bold w-100">Aceptar</button>
+			</div>
+		</div>
+	</body>
 	</html>
