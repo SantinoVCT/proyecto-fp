@@ -1,0 +1,25 @@
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const borrarCelda = document.getElementById('borrarCelda');
+        const borrarPregunta = borrarCelda.querySelector('.borrarCelda');
+
+		borrarCelda.addEventListener('click', function(event) {
+            event.stopPropagation();
+            
+            borrarPregunta.style.display = borrarPregunta.style.display === 'block' ? 'none' : 'block';
+        });
+        document.addEventListener('click', function() {
+            borrarPregunta.style.display = 'none';
+        });
+    });
+</script>
+
+<style>
+    .borrarCelda {
+		display: none;
+        cursor: default;
+		position: absolute;
+		background-color: white;
+		margin-top: 5px;
+	}
+</style>

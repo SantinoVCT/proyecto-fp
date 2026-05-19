@@ -1,74 +1,152 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-            {# Font Awesome CDN: provides the .fas/.fa-* icon classes used in CRUD tables. Removed SRI attribute because it caused a mismatch/block in the browser. #}
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+		{% block stylesheets %}
+			{# Font Awesome CDN: provides the .fas/.fa-* icon classes used in CRUD tables. Removed SRI attribute because it caused a mismatch/block in the browser. #}
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
 
-        {% block javascripts %}
-                {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-        <style>
-            body{
-                min-height: 100vh;
-            }
-            .precio {
-                color: rgb(48, 123, 59);
-                font-weight: bold;
-            }
-            .logo{
-                text-decoration: none;
-                color: black;
-                font-size: 1.5em;
-                font-weight: bold;
-            }
-            .border-gry{
-                border-color: rgb(220, 220, 220);
-            }
-            .destacado-bg{
-                background-color: rgb(0, 157, 213);
-            }
-            .destacado-bg h2{
-                color: white;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            }
-            .menu__list{
-                display: none;
-                list-style: none;
-                position: absolute;
-                background-color: white;
-                border: 1px solid rgb(220, 220, 220);
-                padding: 10px;
-                margin-top: 5px;
-            }
-             .menu__list li{
-                margin-bottom: 5px;
-            }
-             .menu__list li a{
-                text-decoration: none;
-                color: black;
-                display: block;
-                padding: 5px 0;
-            }
-             .menu__list li a:hover{
-                color: rgb(0, 157, 213);
-            }
-            .button_menu:hover{
-                background-color: rgb(231, 231, 231);
-            }
-            footer{
-                margin-top: auto;
-            }
-        </style>
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+		<style>
+			.num_carro {
+				color: rgb(223, 141, 18);
+			}
+			body {
+				min-height: 100vh;
+			}
+			.descuento{
+				background-color: red;
+				width: 3.5rem;
+				font-size: 1.3rem;
+				font-weight: bold;
+				color: white;
+			}
+			.precio {
+				color: rgb(48, 123, 59);
+				font-weight: bold;
+				font-size: 1.3rem;
+			}
+			.logo {
+				text-decoration: none;
+				color: black;
+				font-size: 1.5em;
+				font-weight: bold;
+			}
+			.border-gry {
+				border-color: rgb(220, 220, 220);
+			}
+			.destacado-bg {
+				background-color: rgb(0, 157, 213);
+			}
+			.destacado-bg h2 {
+				color: white;
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			}
+			.menu__list {
+				display: none;
+				list-style: none;
+				position: absolute;
+				background-color: white;
+				border: 1px solid rgb(220, 220, 220);
+				padding: 10px;
+				margin-top: 5px;
+				z-index: 3;
+			}
+			.menu__list li {
+				margin-bottom: 5px;
+			}
+			.menu__list li a {
+				text-decoration: none;
+				color: black;
+				display: block;
+				padding: 5px 0;
+			}
+			.menu__list li a:hover {
+				color: rgb(0, 157, 213);
+			}
 
-    </head>
-    <body class="bg-white d-flex flex-column min-vh-100">
-        {% block body %}{% endblock %}
-    </body>
-</html>
+			.menu__carrito {
+				display: none;
+				list-style: none;
+				position: absolute;
+				background-color: white;
+				border: 1px solid rgb(220, 220, 220);
+				padding: 10px;
+				margin-top: 5px;
+				z-index: 3;
+			}
+			.menu__carrito li {
+				text-decoration: none;
+				margin-bottom: 5px;
+			}
+			.menu__carrito a {
+				text-decoration: none;
+				color: black;
+				padding: 5px 0;
+			}
+			.menu__carrito a:hover {
+				color: rgb(0, 157, 213);
+			}
+
+			.menu__sesion {
+				display: none;
+				list-style: none;
+				position: absolute;
+				background-color: white;
+				border: 1px solid rgb(220, 220, 220);
+				padding: 10px;
+				margin-top: 5px;
+				z-index: 3;
+			}
+			.menu__sesion li {
+				text-decoration: none;
+				margin-bottom: 5px;
+				z-index: 3;
+			}
+			.menu__sesion a {
+				text-decoration: none;
+				color: black;
+				padding: 5px 0;
+			}
+			.menu__sesion a:hover {
+				color: rgb(0, 157, 213);
+			}
+			.menu__sesion .logout__sesion:hover {
+				color: rgb(211, 21, 21);
+			}
+
+			.button_menu:hover {
+				background-color: rgb(231, 231, 231);
+			}
+			footer {
+				margin-top: auto;
+			}
+		</style>
+	</head>
+	<body {{stimulus_controller('cookie-consent')}} class="bg-white d-flex flex-column min-vh-100" data-turbo="false"> 
+		{% block body %}{% endblock %}
+		<div id="cookieModal" class="d-none position-fixed bottom-0 start-0 text-black bg-white p-4 shadow-lg rounded m-3" style="z-index: 9999; max-width: 400px;">
+			<div>
+				<p class="fw-bold">Sitio de Cookies</p>
+			</div>
+			<hr>
+			<div class="mb-3">
+				Este sitio web utiliza cookies para ofrecer una mejor experiencia de usuario y permitirle inscribirse en nuestro 
+				programa de bienestar en línea, de forma sencilla y en pocos pasos. No vendemos ni compartimos sus datos bajo ninguna circunstancia.
+			</div>
+			<div>
+				<button type="button" class="btn btn-primary fw-bold w-100">Aceptar</button>
+			</div>
+		</div>
+	</body>
+	</html>

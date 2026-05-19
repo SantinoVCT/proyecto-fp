@@ -14,6 +14,7 @@ use App\Form\CarritoAdd;
 use App\Repository\CarritoRepository;
 
 use App\Entity\Usuario;
+use App\Form\InfoUsuarioForm;
 use App\Form\UsuarioForm;
 use App\Repository\UsuarioRepository;
 
@@ -39,6 +40,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class IndexController extends AbstractController
 {
@@ -47,7 +49,12 @@ final class IndexController extends AbstractController
     {
         $form = $this->createForm(ProductoBuscar::class);
         $num = $anuncioRepository->count([]);
-        $RanNum = rand(1, $num);
+
+        $anuncio = $anuncioRepository->findAll();
+        if (count($anuncio) > 0) {
+            $Anuncio_aleatorio = $anuncio[array_rand($anuncio)];
+        }
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -67,10 +74,10 @@ final class IndexController extends AbstractController
             }
         }else{
             return $this->render('index/index.html.twig', [
-                'productos' => $productoRepository->findAll(),
+                'productos' => $productoRepository->findAllTheOffertes(),
                 'destacados' => $productoRepository->findBy(['Destacado' => true]),
                 'anuncios' => $anuncioRepository->findAll(),
-                'anucioRandom' => $RanNum,
+                'anucioRandom' => $Anuncio_aleatorio,
                 'categorias' => $categoriaRepository->findAll(),
                 'form' => $form,
             ]);
@@ -119,14 +126,21 @@ final class IndexController extends AbstractController
     }
 
     #[Route('/homepage', name: 'app_homepage', methods: ['GET', 'POST'])]
-    public function homepage(Request $request, CategoriaRepository $categoriaRepository, ProductoRepository $productoRepository, AnuncioRepository $anuncioRepository): Response
-    {
-        
+    public function homepage(Request $request, CategoriaRepository $categoriaRepository, CarritoRepository $carritoRepository, ProductoRepository $productoRepository, AnuncioRepository $anuncioRepository): Response
+    {     
         $user = $this->getUser();
         $mostrarBoton = false;
         $num = $anuncioRepository->count([]);
-        $RanNum = rand(1, $num);
+        
+        $anuncio = $anuncioRepository->findAll();
+        if (count($anuncio) > 0) {
+            $Anuncio_aleatorio = $anuncio[array_rand($anuncio)];
+        }
 
+        $idUser = $user->getId();
+        
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
+   
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
         }
@@ -150,27 +164,127 @@ final class IndexController extends AbstractController
                     'busqueda' => $Producto,
                     'mostrarBoton' => $mostrarBoton,
                     'categorias' => $categoriaRepository->findAll(),
+                    'carro_num' => $numero_carro,
+                    'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
                 ]);
             }
         }else{
             return $this->render('index/iniciado/index.html.twig', [
-                'productos' => $productoRepository->findAll(),
+                'productos' => $productoRepository->findAllTheOffertes(),
                 'destacados' => $productoRepository->findBy(['Destacado' => true]),
                 'anuncios' => $anuncioRepository->findAll(),
                 'form' => $form,
                 'mostrarBoton' => $mostrarBoton,
+                'anucioRandom' => $Anuncio_aleatorio,
                 'categorias' => $categoriaRepository->findAll(),
+                'carro_num' => $numero_carro,
+                'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
             ]);
         }
 
         
     }
     
+    #[Route('/homepage/mi_cuenta', name: 'app_cuenta', methods: ['GET', 'POST'])]
+    public function cuenta(Request $request, CategoriaRepository $categoriaRepository, CarritoRepository $carritoRepository): Response
+    {     
+        $user = $this->getUser();
+        $mostrarBoton = false;
+
+        $idUser = $user->getId();
+        
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
+   
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
+        $form = $this->createForm(ProductoBuscar::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $Producto = $data->getNombre();
+
+            if (empty($Producto)) {
+                return $this->redirectToRoute('app_homepage');
+            }else{
+                $productos = $productoRepository->findByString($Producto);
+
+                return $this->render('index/iniciado/buscar.html.twig', [
+                    'productos' => $productos,
+                    'form' => $form,
+                    'busqueda' => $Producto,
+                    'mostrarBoton' => $mostrarBoton,
+                    'categorias' => $categoriaRepository->findAll(),
+                    'carro_num' => $numero_carro,
+                    'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
+                ]);
+            }
+        }else{
+            return $this->render('index/iniciado/usuario/index.html.twig', [
+                'usuario' => $user,
+                'form' => $form,
+                'mostrarBoton' => $mostrarBoton,
+                'categorias' => $categoriaRepository->findAll(),
+                'carro_num' => $numero_carro,
+                'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
+            ]);
+        }
+        
+
+        
+    }
+
+    #[Route('/homepage/mi_cuenta/edit', name: 'app_cuenta_edit', methods: ['GET', 'POST'])]
+    public function cuentaEdit(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, CategoriaRepository $categoriaRepository, CarritoRepository $carritoRepository): Response
+    {     
+        $user = $this->getUser();
+        $mostrarBoton = false;
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
+            $mostrarBoton = true;
+        }
+
+        $form = $this->createForm(InfoUsuarioForm::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // If password field was filled, hash and set it
+            $plain = $form->get('password')->getData();
+            if (!empty($plain)) {
+                $user->setPassword($passwordHasher->hashPassword($user, $plain));
+            }
+
+            $user->setFechaUpdate(new \DateTime());
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_cuenta', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('index/iniciado/usuario/edit.html.twig', [
+            'usuario' => $user,
+            'form' => $form,
+            'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
+        ]);
+    }
+
     #[Route('/homepage/vista/{id}', name: 'producto_online', methods: ['GET'])]
-    public function showOnline(Producto $producto, ProductoRepository $productoRepository): Response
+    public function showOnline(Producto $producto, ProductoRepository $productoRepository, CarritoRepository $carritoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -180,14 +294,20 @@ final class IndexController extends AbstractController
             'producto' => $producto,
             'mostrarBoton' => $mostrarBoton,
             'destacados' => $productoRepository->findBy(['Destacado' => true]),
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     #[Route('/homepage/categoria/{id}', name: 'categoria_online', methods: ['GET', 'POST'])]
-    public function showCategoriaOnline(Request $request, Categoria $categoria, ProductoRepository $productoRepository, CategoriaRepository $categoriaRepository): Response
+    public function showCategoriaOnline(Request $request, CarritoRepository $carritoRepository, Categoria $categoria, ProductoRepository $productoRepository, CategoriaRepository $categoriaRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -209,6 +329,8 @@ final class IndexController extends AbstractController
                     'form' => $form,
                     'mostrarBoton' => $mostrarBoton,
                     'categorias' => $categoriaRepository->findAll(),
+                    'carro_num' => $numero_carro,
+                    'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
                 ]);
             }
         }else{
@@ -218,6 +340,8 @@ final class IndexController extends AbstractController
                 'categorias' => $categoriaRepository->findAll(),
                 'mostrarBoton' => $mostrarBoton,
                 'form' => $form,
+                'carro_num' => $numero_carro,
+                'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
             ]);
         }
     }
@@ -230,8 +354,8 @@ final class IndexController extends AbstractController
 
         $encontrado = $carritoRepository->findOneBy(['Usuario' => $user, 'Producto' => $producto]);
         if($encontrado){
-            if ($encontrado->getCantidad() >= 99) {
-            $maximo = true;
+            if ($encontrado->getCantidad() >= 99 || $encontrado->getCantidad() >= $producto->getStock()) {
+                $maximo = true;
             } else {
                 $maximo = false;
             }
@@ -262,9 +386,22 @@ final class IndexController extends AbstractController
     #[Route('/homepage/carrito', name: 'carrito_online', methods: ['GET'])]
     public function carroOnline(CarritoRepository $carritoRepository): Response
     {
+
         $user = $this->getUser();
         $mostrarBoton = false;
         $idUser = $user->getId();
+        $Total_precio = 0;
+        $carro = $carritoRepository->findBy(['Usuario' => $idUser]);
+        foreach($carro as $producto){
+            if($producto->getProducto()->getDescuento()){
+                $Total_precio+= $producto->getCantidad()*($producto->getProducto()->getPrecio()*(1-($producto->getProducto()->getDescuento()/100)));
+            }else{
+                $Total_precio+= $producto->getCantidad()*$producto->getProducto()->getPrecio();
+            }
+        }
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
+
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -274,12 +411,16 @@ final class IndexController extends AbstractController
             'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
             'mostrarBoton' => $mostrarBoton,
             'idUser' => $idUser,
+            'carro_num' => $numero_carro,
+            'Total_precio_carrito' => $Total_precio,
         ]);
     }
 
     #[Route('/homepage/pedidos',name: 'pedidos_online', methods: ['GET', 'POST'])]
-    public function pedidoOnline(Request $request, CodigoPedidoRepository $CodigoPedidoRepository): Response
+    public function pedidoOnline(Request $request, CarritoRepository $carritoRepository, CodigoPedidoRepository $CodigoPedidoRepository): Response
     {
+        
+
         $user = $this->getUser();
         $mostrarBoton = false;
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
@@ -288,19 +429,26 @@ final class IndexController extends AbstractController
 
         $idUser = $user->getId();
 
-        $pedidos = $CodigoPedidoRepository->findBy(['Cliente' => $idUser]);
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
+        $pedidos = $CodigoPedidoRepository->findBy(['Cliente' => $idUser]);
         
         return $this->render('index/iniciado/pedido/index.html.twig', [
             'pedidos' => $pedidos,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
     #[Route('/homepage/pedidos/{id}', name: 'pedido_detalle', methods: ['GET'])]
-    public function showDetalle(CodigoPedido $codigoPedido, PedidosRepository $pedidoRepository): Response
+    public function showDetalle(CodigoPedido $codigoPedido, CarritoRepository $carritoRepository, PedidosRepository $pedidoRepository): Response
     {
         $user = $this->getUser();
         $mostrarBoton = false;
+
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -310,22 +458,33 @@ final class IndexController extends AbstractController
 
         $TotalPrecio = 0;
         foreach ($pedidos as $pedido) {
-            $TotalPrecio += $pedido->getProducto()->getPrecio() * $pedido->getCantidad();
+            if($pedido->getProducto()->getDescuento()){
+                $TotalPrecio+= $pedido->getCantidad()*($pedido->getProducto()->getPrecio()*(1-($pedido->getProducto()->getDescuento()/100)));
+            }else{
+                $TotalPrecio+= $pedido->getCantidad()*$pedido->getProducto()->getPrecio();
+            }
         }
 
         return $this->render('index/iniciado/pedido/pedidos.html.twig', [
             'pedidos' => $pedidos,
             'mostrarBoton' => $mostrarBoton,
             'TotalPrecio' => $TotalPrecio,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
     
     #[Route('/homepage/carrito/cambiar/{id}', name: 'app_cambiar', methods: ['GET', 'POST'])]
-    public function cambiar(Request $request, Carrito $carrito, EntityManagerInterface $entityManager): Response
-    {   
+    public function cambiar(Request $request, Carrito $carrito, CarritoRepository $carritoRepository, EntityManagerInterface $entityManager): Response
+    {
+        
         $user = $this->getUser();
         $mostrarBoton = false;
+
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && in_array('ROLE_ADMIN', $user->getRoles())) {
             $mostrarBoton = true;
@@ -335,15 +494,25 @@ final class IndexController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $data = $form->getData();
+            $cantidad = $data->getCantidad();
+            $producto = $carrito->getProducto();
 
-            return $this->redirectToRoute('carrito_online', [], Response::HTTP_SEE_OTHER);
+            if ($cantidad > $producto->getStock()) {
+                $this->addFlash('error', 'No hay suficiente stock disponible.');
+                return $this->redirectToRoute('carrito_online', [], Response::HTTP_SEE_OTHER);
+            }else{
+                $entityManager->flush();
+                return $this->redirectToRoute('carrito_online', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('index/iniciado/carrito/edit.html.twig', [
             'carrito' => $carrito,
             'form' => $form,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 
@@ -353,8 +522,23 @@ final class IndexController extends AbstractController
         $user = $this->getUser();
         $userId = $user->getId();
         $codigoPedido = rand(1000, 9999);
+        $imposible = false;
         
         $carritos = $carritoRepository->findBy(['Usuario' => $userId]);
+        
+        foreach ($carritos as $carrito) {
+            $producto = $carrito->getProducto();
+            if ($carrito->getCantidad() > $producto->getStock()) {
+                $imposible = true;
+                $producto_nombre = $producto->getNombre();
+                break;
+            }
+        }
+        
+        if ($imposible) {
+            $this->addFlash('error', 'No se puede completar la compra porque el producto "' . $producto_nombre . '" no tiene suficiente stock.');
+            return $this->redirectToRoute('carrito_online');
+        }
 
         $codigo_pedido = New CodigoPedido;
         $codigo_pedido->setCodigo($codigoPedido);
@@ -373,6 +557,8 @@ final class IndexController extends AbstractController
             $pedido->setCantidad($carrito->getCantidad());
             $pedido->setUsuario($carrito->getUsuario());
             $pedido->setProducto($carrito->getProducto());
+            $producto = $carrito->getProducto();
+            $producto->setStock($producto->getStock() - $carrito->getCantidad());
             $pedido->setCodigoPedido($codigoPedido);
             foreach ($CodigoRelacion as $codigo) {
                 $pedido->setCodigoPedidoRelacion($codigo);
@@ -404,11 +590,16 @@ final class IndexController extends AbstractController
         return $this->redirectToRoute('carrito_online', [], Response::HTTP_SEE_OTHER);
     }
     #[Route('/homepage/DB', name: 'app_index_crud', methods: ['GET'])]
-    public function index_crud(ProductoRepository $productoRepository): Response
+    public function index_crud(ProductoRepository $productoRepository, CarritoRepository $carritoRepository): Response
     {
+        
         $user = $this->getUser();
         $mostrarBotonAdmin = false;
         $mostrarBoton = false;
+
+        $idUser = $user->getId();
+
+        $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
 
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
             $mostrarBoton = true;
@@ -422,6 +613,8 @@ final class IndexController extends AbstractController
         return $this->render('index/iniciado/crud/index.html.twig', [
             'mostrarBotonAdmin' => $mostrarBotonAdmin,
             'mostrarBoton' => $mostrarBoton,
+            'carro_num' => $numero_carro,
+            'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
 }

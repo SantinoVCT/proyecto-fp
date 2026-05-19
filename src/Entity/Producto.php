@@ -61,6 +61,12 @@ class Producto
     #[ORM\Column(nullable: true)]
     private ?bool $Destacado = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $Descuento = null;
+
+    #[ORM\Column]
+    private ?int $Stock = null;
+
     public function __construct()
     {
         $this->carritos = new ArrayCollection();
@@ -260,6 +266,30 @@ class Producto
     public function setDestacado(?bool $Destacado): static
     {
         $this->Destacado = $Destacado;
+
+        return $this;
+    }
+
+    public function getDescuento(): ?int
+    {
+        return $this->Descuento;
+    }
+
+    public function setDescuento(?int $Descuento): static
+    {
+        $this->Descuento = $Descuento;
+
+        return $this;
+    }
+
+    public function getStock(): ?int
+    {
+        return $this->Stock;
+    }
+
+    public function setStock(int $Stock): static
+    {
+        $this->Stock = $Stock;
 
         return $this;
     }

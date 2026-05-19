@@ -22,40 +22,58 @@
 					<h4>{{ destacado.Nombre }}</h4>
 					<img src="{{ asset('uploads/images/' ~ destacado.Imagen) }}" alt="{{ destacado.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
 					<p>{{ destacado.Descripcion|slice(0,100) }}...</p>
-					<h5 class="precio">{{ destacado.Precio }}€</h5>
+					{% if destacado.Descuento %}
+						<p class="mx-2">
+							Precio: 
+							<b class="precio">{{ (destacado.Precio *(1-(destacado.Descuento/100)))| number_format(2) }}€</b> 
+							<b class="descuento rounded px-2 mx-2"> {{ destacado.Descuento }}% </b>
+						</p>
+					{% else %}
+						<p class="mx-2">
+							Precio: <b class="precio">{{ destacado.Precio }}€</b>
+						</p>
+					{% endif %}
 					<div class="flex justify-center my-3">
-						<a href="{{ path('producto_online', {id: destacado.id}) }}" class="btn btn-light border-black">
+						<a href="{{ path('producto_online', {id: destacado.id}) }}" class="btn btn-light border-black" style="width: 75px">
 							Ver
 						</a>
-						<a href="{{ path('add_carrito', {id: destacado.id}) }}" class="btn btn-light border-black">
+						<a href="{{ path('add_carrito', {id: destacado.id}) }}" class="btn btn-light border-black" style="width: 75px">
 							Añadir
 						</a>
 					</div>
 				</div>
 			{% endfor %}
 			<div class="row g-3 justify-content-center m-0 p-3 destacado-bg col-12">
-				{% for anuncio in anuncios %}
-					<div class=" mx-2 px-4 col-3">
-						<img src="{{ asset('uploads/images/' ~ anuncio.Imagen) }}" alt="{{ anuncio.Nombre }}" class="img-fluid mx-auto d-block" style="max-height: 150px; object-fit: contain;">
-					</div>
-				{% endfor %}
+				<div class=" mx-2 px-4 col-3">
+					<img src="{{ asset('uploads/images/' ~ anucioRandom.Imagen) }}" alt="{{ anucioRandom.Nombre }}" class="img-fluid mx-auto d-block" style="max-height: 150px; object-fit: contain;">
+				</div>
 			</div>
 		</div>
 		<div class="row g-3 justify-content-center m-0 p-3 mb-5">
 			<div class=" mx-2 px-4 col-12">
-				<h3 class="text-center my-3">Todos los Productos</h3>
+				<h3 class="text-center my-3">Productos con mejor Descuento</h3>
 			</div>
 			{% for producto in productos %}
 				<div class=" bg-white p-3 rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
 					<h4>{{ producto.Nombre }}</h4>
 					<img src="{{ asset('uploads/images/' ~ producto.Imagen) }}" alt="{{ producto.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
 					<p>{{ producto.Descripcion|slice(0,100) }}...</p>
-					<h5 class="precio">{{ producto.Precio }}€</h5>
+					{% if producto.Descuento %}
+						<p class="mx-2">
+							Precio: 
+							<b class="precio">{{ (producto.Precio *(1-(producto.Descuento/100)))| number_format(2) }}€</b> 
+							<b class="descuento rounded px-2 mx-2"> {{ producto.Descuento }}% </b>
+						</p>
+					{% else %}
+						<p class="mx-2">
+							Precio: <b class="precio">{{ producto.Precio }}€</b>
+						</p>
+					{% endif %}
 					<div class="flex justify-center my-3">
-						<a href="{{ path('producto_online', {id: producto.id}) }}" class="btn btn-light border-black">
+						<a href="{{ path('producto_online', {id: producto.id}) }}" class="btn btn-light border-black" style="width: 75px">
 							Ver
 						</a>
-						<a href="{{ path('add_carrito', {id: producto.id}) }}" class="btn btn-light border-black">
+						<a href="{{ path('add_carrito', {id: producto.id}) }}" class="btn btn-light border-black" style="width: 75px">
 							Añadir
 						</a>
 					</div>

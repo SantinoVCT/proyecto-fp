@@ -2,57 +2,59 @@
 
 namespace App\Form;
 
-use App\Entity\Pedidos;
-use App\Entity\Producto;
 use App\Entity\Usuario;
-use App\Entity\CodigoPedido;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\Validator\Constraints\NotBlank;
-
-class PedidosForm extends AbstractType
+class InfoUsuarioForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $textInputCss = 'form-control my-3';
         $builder
-            ->add('Cantidad', NumberType::class, [
-                'label' => 'Cantidad',
+            ->add('Nombre', TextType::class, [
+                'label' => 'Nombre',
                 'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'La cantidad no puede estar vacía.',
-                    ]),
-                    new Regex([
-                        'pattern' => '/^[0-9]{1,2}$/',
-                        'message' => 'La cantidad debe ser un número entero positivo y menor o igual a 99.',
-                    ]),
-                ],
             ])
-            ->add('Producto', EntityType::class, [
-                'class' => Producto::class,
-                'choice_label' => 'Nombre',
+            ->add('Apellidos', TextType::class, [
+                'label' => 'Apellidos',
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],
             ])
-            ->add('CodigoPedidoRelacion', EntityType::class, [
-                'class' => CodigoPedido::class,
-                'disabled' => true,
-                'choice_label' => 'Codigo',
+            ->add('email', EmailType::class, [
+                'label' => 'Email',
+                'required' => true,
+                'attr' => [
+                    'class' => $textInputCss,
+                ],
+            ])
+            ->add('password', PasswordType::class, [
+                'label' => 'Password',
+                'required' => true,
+                'mapped' => false,
+                'attr' => [
+                    'class' => $textInputCss,
+                ],
+            ])
+            ->add('Direccion', TextType::class, [
+                'label' => 'Direccion',
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
                 ],
@@ -63,7 +65,7 @@ class PedidosForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Pedidos::class,
+            'data_class' => Usuario::class,
         ]);
     }
 }

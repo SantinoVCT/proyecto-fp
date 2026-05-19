@@ -7,9 +7,6 @@
 	{% include 'partials/navbar_logout.html.twig' %}
 
 	<main class="container-fluid px-3 py-4">
-		<a href="{{ path('app_index') }}" class="btn btn-light border-black mx-3">
-			Volver
-		</a>
 		<div class="overflow-hidden relative py-3 px-2 m-5">
 			<div class="row">
 				<div class="col">
@@ -18,7 +15,17 @@
 				<div class="col">
 					<h1 class="text-4xl font-bold mb-4">{{ producto.Nombre }}</h1>
 					<p class="mx-2 text-secondary">Categoria: {{ producto.Categoria.Nombre }}</p>
-					<p class="mx-2">Precio: <b class="precio">{{ producto.Precio }}€</b></p>
+					{% if producto.Descuento %}
+						<p class="mx-2">
+							Precio: <del>{{ producto.Precio }}</del>€  
+							<b class="precio">{{ (producto.Precio *(1-(producto.Descuento/100)))| number_format(2) }}€</b> 
+							<b class="descuento rounded px-2 mx-2"> {{ producto.Descuento }}% </b>
+						</p>
+					{% else %}
+						<p class="mx-2">
+							Precio: <b class="precio">{{ producto.Precio }}€</b>
+						</p>
+					{% endif %}
 				</div>
 			</div>
 			<div class="text-xl font-bold mx-2">
