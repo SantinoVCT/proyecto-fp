@@ -31,6 +31,7 @@ class ProductoFixture extends Fixture
         $producto1->setFechaCreada(new \DateTime());
         $producto1->setImagen('Smartphone-XYZ-6985d53cdfc30.png');
         $producto1->setDestacado(true);
+        $producto1->setDescuento(40);
         $producto1->setStock(50);
 
         $producto2->setNombre('Portátil ABC');
@@ -42,6 +43,7 @@ class ProductoFixture extends Fixture
         $producto2->setFechaCreada(new \DateTime());
         $producto2->setImagen('Portatil-ABC-6985d54b1afcc.png');
         $producto2->setDestacado(true);
+        $producto2->setDescuento(20);
         $producto2->setStock(30);
 
         $producto3->setNombre('Placa Base ASUS TUF GAMING B650-PLUS');
@@ -53,6 +55,7 @@ class ProductoFixture extends Fixture
         $producto3->setFechaCreada(new \DateTime());
         $producto3->setImagen('Placa-Base-ASUS-TUF-GAMING-B650-PLUS-6985d597b1fdd.png');
         $producto3->setDestacado(true);
+        $producto3->setDescuento(30);
         $producto3->setStock(20);
 
         $producto4->setNombre('Procesador AMD Ryzen 5 7600X');
@@ -64,6 +67,7 @@ class ProductoFixture extends Fixture
         $producto4->setFechaCreada(new \DateTime());
         $producto4->setImagen('Procesador-AMD-Ryzen-5-7600X-6985d5cd4f615.png');
         $producto4->setDestacado(true);
+        $producto4->setDescuento(10);
         $producto4->setStock(10);
 
         $producto5->setNombre('Disco Duro Seagate Game Drive PS5 1TB');
@@ -75,6 +79,7 @@ class ProductoFixture extends Fixture
         $producto5->setFechaCreada(new \DateTime());
         $producto5->setImagen('Disco-Duro-Seagate-Game-Drive-PS5-1TB-6985d5d5cb8c8.png');
         $producto5->setDestacado(true);
+        $producto5->setDescuento(5);
         $producto5->setStock(25);
 
         $producto6->setNombre('Ratón Gaming Razer DeathAdder V2');
@@ -86,6 +91,7 @@ class ProductoFixture extends Fixture
         $producto6->setFechaCreada(new \DateTime());
         $producto6->setImagen('Raton-Gaming-Razer-DeathAdder-V2-6985d5dd948b5.png');
         $producto6->setDestacado(true);
+        $producto6->setDescuento(35);
         $producto6->setStock(40);
 
         $manager->persist($producto1);
