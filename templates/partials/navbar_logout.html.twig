@@ -1,6 +1,10 @@
-<nav class="navbar border-bottom border-2 border-black bg-white">
-    <div class="container-fluid m-3">
-        <a class="logo" href="{{ path('app_index') }}">PC GAMING</a>
-        <a href="{{ path('app_login') }}" class="btn btn-success">Iniciar Sesión</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom border-2 border-black">
+    <div class="container-fluid">
+        <a class="navbar-brand logo" href="{{ path('app_index') }}">PC GAMING</a>
+
+        <div class="d-flex align-items-center gap-3 ms-auto order-3">
+            <a href="{{ path('app_login') }}" class="btn btn-success">Iniciar Sesión</a>
+        </div>
+
     </div>
 </nav>

@@ -1,104 +1,66 @@
-<nav class="navbar border-bottom border-2 border-black bg-white">
-	<div class="container-fluid">
-		<div class="m-3">
-			<a class="logo" href="{{ path('app_homepage') }}" >PC GAMING</a>
-		</div>
-		<div class="m-2 mx-5" id="dropbox-categorias">
-			<button class="m-0 border-0 btn button_menu ">
-				<img src="https://img.icons8.com/?size=100&id=120374&format=png&color=000000" alt="Categorias" style="width: 20px; height: 20px;">
-            	<span>Categorias</span>
-			</button>
-			<ul class="menu__list">
-				{% for categoria in categorias %}
-					<li><a href="{{ path('categoria_online', {id: categoria.id}) }}" class="">{{ categoria.Nombre }}</a></li>
-				{% endfor %}
-			</ul>
-		</div>
-        <div class="flex-grow-1 m-2 mx-5">
-            {{ include('partials/_form.html.twig') }}
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom border-2 border-black">
+    <div class="container-fluid">
+        <a class="navbar-brand logo" href="{{ path('app_homepage') }}">PC GAMING</a>
+
+        <button class="navbar-toggler order-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="d-flex align-items-center gap-3 ms-auto order-3">
+            <div class="nav-item dropdown" id="dropbox-carrito">
+                <button class="btn btn-link position-relative p-0" id="carritoDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://cdn-icons-png.flaticon.com/512/287/287581.png" alt="Carrito" class="img-fluid" style="max-width: 20px;">
+                    {% if carro_num > 0 %}
+                        <span class="badge bg-warning text-dark rounded-pill position-absolute top-0 start-100 translate-middle">{{ carro_num }}</span>
+                    {% endif %}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="carritoDropdown">
+                    {% for carro in carritos|slice(0, 2) %}
+                        <li class="border-bottom pb-2 mb-2">
+                            <p class="mb-1">{{ carro.Producto.Nombre }}</p>
+                            <p class="mb-0 small">Cantidad: {{ carro.Cantidad }} · {{ carro.Producto.Precio }}€</p>
+                        </li>
+                    {% endfor %}
+                    {% if carro_num > 2 %}
+                        <li class="border-bottom pb-2 mb-2">Y más...</li>
+                    {% endif %}
+                    <li><a class="dropdown-item px-0" href="{{ path('carrito_online') }}">Ver Carrito</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-item dropdown" id="dropbox-sesion">
+                <button class="btn btn-link nav-link dropdown-toggle d-flex align-items-center p-0" id="sesionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Icono_Usuario" class="img-fluid" style="max-width: 20px;">
+                    <span class="ms-2"><b class="font-weight-bold">{{ app.user.Nombre }} {{ app.user.Apellidos|slice(0,1) }}.</b></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sesionDropdown">
+                    {% if mostrarBoton %}
+                        <li><a class="dropdown-item" href="{{ path('app_index_crud') }}">Base de Datos</a></li>
+                    {% endif %}
+                    <li><a class="dropdown-item" href="{{ path('app_cuenta') }}">Tu Cuenta</a></li>
+                    <li><a class="dropdown-item" href="{{ path('pedidos_online') }}">Tus Pedidos</a></li>
+                    <li><a class="dropdown-item text-danger" href="{{ path('app_logout') }}">Cerrar sesión</a></li>
+                </ul>
+            </div>
         </div>
-		<div class="m-3 d-flex">
-			<div class="my-2 mx-0" id="dropbox-carrito">
-				<button class="btn bg-transparent border-0">
-					<img src="https://cdn-icons-png.flaticon.com/512/287/287581.png" alt="Carrito" class="img-fluid m-0 p-0" style="max-width: 20px"> 
-					{% if carro_num > 0 %}
-						<b class="num_carro">{{ carro_num }}</b>
-					{% endif %}
-				</button>
-				<ul class="menu__carrito">	
-					{% for carro in carritos|slice(0, 2) %}
-						<li class="border-bottom">
-							<p>{{ carro.Producto.Nombre }}</p>
-							<p>Cantida: {{ carro.Cantidad }} Precio: {{carro.Producto.Precio}}</p>
-						</li>
-					{% endfor %}
-					{% if carro_num > 2 %}
-						<li class="border-bottom">Y más...</li>
-					{% endif %}
-					<a href="{{ path('carrito_online') }}" class="px-2">Ver Carrito</a>
-				</ul>
-			</div>
-		</div>
-		
-		<div class="mx-2" id="dropbox-sesion">
-			<button class="m-0 border-0 btn button_menu ">
-				<img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Icono_Usuario" class="img-fluid m-0 p-0" style="max-width: 20px">
-            	<span><b class="font-weight-bold" >{{ app.user.Nombre }} {{ app.user.Apellidos|slice(0,1) }}. </b></span>
-			</button>
-			<ul class="menu__sesion">
-				{% if mostrarBoton %}
-					<li class="border-bottom">
-						<a href="{{ path('app_index_crud') }}" class="">Base de Datos</a>
-					</li>
-				{% endif %}
-				<li class="border-bottom"><a href="{{ path('app_cuenta') }}" class="">Tu Cuenta</a></li>
-				<li class="border-bottom"><a href="{{ path('pedidos_online') }}" class="">Tus Pedidos</a></li>
-				<li><a href="{{ path('app_logout') }}" class="logout__sesion">Cerrar sesión</a></li>
-			</ul>
-		</div>
-	</div>
+
+        <div class="collapse navbar-collapse order-4 order-lg-2" id="mainNavbar">
+            <div class="d-flex flex-wrap align-items-center gap-2 w-100">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle p-0" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="ms-1">Categorias</span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="categoriasDropdown">
+                        {% for categoria in categorias %}
+                            <li><a class="dropdown-item" href="{{ path('categoria_online', {id: categoria.id}) }}">{{ categoria.Nombre }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="flex-grow-1">
+                    {{ include('partials/_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
 </nav>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-		{
-			const dropbox = document.getElementById('dropbox-categorias');
-	        const dropbox_2 = document.getElementById('dropbox-carrito');
-			const dropbox_3 = document.getElementById('dropbox-sesion');
-
-	        const menuList = dropbox.querySelector('.menu__list');
-	        const menuList_2 = dropbox_2.querySelector('.menu__carrito');
-	        const menuList_3 = dropbox_3.querySelector('.menu__sesion');
-	
-			dropbox.addEventListener('click', function(event) {
-	            event.stopPropagation();
-	            menuList_3.style.display = 'none';
-	            menuList_2.style.display = 'none';
-	
-	            menuList.style.display = menuList.style.display === 'block' ? 'none' : 'block';
-	        });
-			dropbox_2.addEventListener('click', function(event) {
-	            event.stopPropagation();
-	            menuList.style.display = 'none';
-	            menuList_3.style.display = 'none';
-	
-	            menuList_2.style.display = menuList_2.style.display === 'block' ? 'none' : 'block';
-	        });
-			dropbox_3.addEventListener('click', function(event) {
-	            event.stopPropagation();
-	            menuList.style.display = 'none';
-	            menuList_2.style.display = 'none';
-	
-	            menuList_3.style.display = menuList_3.style.display === 'block' ? 'none' : 'block';
-	        });
-	
-	
-	        document.addEventListener('click', function() {
-	            menuList.style.display = 'none';
-	            menuList_2.style.display = 'none';
-	            menuList_3.style.display = 'none';
-	        });
-			console.log("Cargado");
-		}
-    });
-</script>

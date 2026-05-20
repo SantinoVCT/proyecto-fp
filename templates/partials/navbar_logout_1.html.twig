@@ -1,4 +1,36 @@
-<nav class="navbar border-bottom border-2 border-black bg-white">
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom border-2 border-black">
+    <div class="container-fluid">
+        <a class="navbar-brand logo" href="{{ path('app_index') }}">PC GAMING</a>
+
+        <button class="navbar-toggler order-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="d-flex align-items-center gap-3 ms-auto order-3">
+            <a href="{{ path('app_login') }}" class="btn btn-success">Iniciar Sesión</a>
+        </div>
+
+        <div class="collapse navbar-collapse order-4 order-lg-2" id="mainNavbar">
+            <div class="d-flex flex-wrap align-items-center gap-2 w-100">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle p-0" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="ms-1">Categorias</span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="categoriasDropdown">
+                        {% for categoria in categorias %}
+                            <li><a class="dropdown-item" href="{{ path('categoria_offline', {id: categoria.id}) }}">{{ categoria.Nombre }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="flex-grow-1">
+                    {{ include('partials/_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+{# <nav class="navbar border-bottom border-2 border-black bg-white">
     <div class="container-fluid m-3">
         <a class="logo" href="{{ path('app_index') }}">PC GAMING</a>
         <div class="m-2 mx-5" id="dropbox-categorias">
@@ -33,4 +65,4 @@
             menuList.style.display = 'none';
         });
     });
-</script>
+</script> #}

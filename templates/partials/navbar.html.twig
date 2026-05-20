@@ -1,83 +1,43 @@
-<nav class="navbar border-bottom border-2 border-black bg-white">
-	<div class="container-fluid">
-		<div class="m-3">
-			<a class="logo" href="{{ path('app_homepage') }}">PC GAMING</a>
-		</div>
-		<div class="flex-grow-1 m-3 text-black">
-		</div>
-		<div class="m-3 d-flex">
-			<div class="my-2 mx-0" id="dropbox-carrito">
-				<button class="btn bg-transparent border-0">
-					<img src="https://cdn-icons-png.flaticon.com/512/287/287581.png" alt="Icono_Carrito" class="img-fluid m-0 p-0" style="max-width: 20px"> 
-					{% if carro_num > 0 %}
-						<b class="num_carro">{{ carro_num }}</b>
-					{% endif %}
-				</button>
-				<ul class="menu__carrito">	
-					{% for carro in carritos|slice(0, 3) %}
-						<li class="border-bottom">
-							<p>{{ carro.Producto.Nombre }}</p>
-							<p>Cantida: {{ carro.Cantidad }} Precio: {{carro.Producto.Precio}}</p>
-						</li>
-					{% endfor %}
-					{% if carro_num > 3 %}
-						<li class="border-bottom">Y más...</li>
-					{% endif %}
-					<a href="{{ path('carrito_online') }}" class="px-2">Ver Carrito</a>
-				</ul>
-			</div>
-		</div>
-		
-		<div class="mx-2" id="dropbox-sesion">
-			<button class="m-0 border-0 btn button_menu ">
-				<img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Icono_Usuario" class="img-fluid m-0 p-0" style="max-width: 20px">
-            	<span><b class="font-weight-bold" >{{ app.user.Nombre }} {{ app.user.Apellidos|slice(0,1) }}. </b></span>
-			</button>
-			<ul class="menu__sesion">
-				{% if mostrarBoton %}
-					<li class="border-bottom">
-						<a href="{{ path('app_index_crud') }}" class="">Base de Datos</a>
-					</li>
-				{% endif %}
-				<li class="border-bottom"><a href="{{ path('app_cuenta') }}" class="">Tu Cuenta</a></li>
-				<li class="border-bottom"><a href="{{ path('pedidos_online') }}" class="">Tus Pedidos</a></li>
-				<li><a href="{{ path('app_logout') }}" class="logout__sesion">Cerrar sesión</a></li>
-			</ul>
-		</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom border-2 border-black">
+    <div class="container-fluid">
+        <a class="navbar-brand logo" href="{{ path('app_homepage') }}">PC GAMING</a>
 
-		{# <div class="mx-2">
-			<a href="{{ path('app_logout') }}" class="link-danger">Cerrar sesión</a>
-		</div> #}
-	</div>
+        <div class="d-flex align-items-center gap-3 ms-auto order-3">
+            <div class="nav-item dropdown" id="dropbox-carrito">
+                <button class="btn btn-link position-relative p-0" id="carritoDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://cdn-icons-png.flaticon.com/512/287/287581.png" alt="Carrito" class="img-fluid" style="max-width: 20px;">
+                    {% if carro_num > 0 %}
+                        <span class="badge bg-warning text-dark rounded-pill position-absolute top-0 start-100 translate-middle">{{ carro_num }}</span>
+                    {% endif %}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="carritoDropdown">
+                    {% for carro in carritos|slice(0, 2) %}
+                        <li class="border-bottom pb-2 mb-2">
+                            <p class="mb-1">{{ carro.Producto.Nombre }}</p>
+                            <p class="mb-0 small">Cantidad: {{ carro.Cantidad }} · {{ carro.Producto.Precio }}€</p>
+                        </li>
+                    {% endfor %}
+                    {% if carro_num > 2 %}
+                        <li class="border-bottom pb-2 mb-2">Y más...</li>
+                    {% endif %}
+                    <li><a class="dropdown-item px-0" href="{{ path('carrito_online') }}">Ver Carrito</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-item dropdown" id="dropbox-sesion">
+                <button class="btn btn-link nav-link dropdown-toggle d-flex align-items-center p-0" id="sesionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Icono_Usuario" class="img-fluid" style="max-width: 20px;">
+                    <span class="ms-2"><b class="font-weight-bold">{{ app.user.Nombre }} {{ app.user.Apellidos|slice(0,1) }}.</b></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sesionDropdown">
+                    {% if mostrarBoton %}
+                        <li><a class="dropdown-item" href="{{ path('app_index_crud') }}">Base de Datos</a></li>
+                    {% endif %}
+                    <li><a class="dropdown-item" href="{{ path('app_cuenta') }}">Tu Cuenta</a></li>
+                    <li><a class="dropdown-item" href="{{ path('pedidos_online') }}">Tus Pedidos</a></li>
+                    <li><a class="dropdown-item text-danger" href="{{ path('app_logout') }}">Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </nav>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-		{
-        	const dropbox_2 = document.getElementById('dropbox-carrito');
-        	const menuList_2 = dropbox_2.querySelector('.menu__carrito');
-
-        	const dropbox_3 = document.getElementById('dropbox-sesion');
-        	const menuList_3 = dropbox_3.querySelector('.menu__sesion');
-
-			dropbox_2.addEventListener('click', function(event) {
-        	    event.stopPropagation();
-        	    menuList_3.style.display = 'none';
-        	    menuList_2.style.display = menuList_2.style.display === 'block' ? 'none' : 'block';
-        	});
-
-        	document.addEventListener('click', function() {
-        	    menuList_2.style.display = 'none';
-        	    menuList_3.style.display = 'none';
-        	});
-
-			dropbox_3.addEventListener('click', function(event) {
-        	    event.stopPropagation();
-				menuList_2.style.display = 'none';
-        	    menuList_3.style.display = menuList_3.style.display === 'block' ? 'none' : 'block';
-        	});
-			console.log("Cargado");
-
-		}
-	});
-</script>

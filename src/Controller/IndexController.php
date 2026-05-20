@@ -68,6 +68,7 @@ final class IndexController extends AbstractController
                 return $this->render('index/buscar.html.twig', [
                     'productos' => $productos,
                     'busqueda' => $Producto,
+                    'destacados' => $productoRepository->findBy(['Destacado' => true]),
                     'form' => $form,
                     'categorias' => $categoriaRepository->findAll(),
                 ]);
@@ -112,6 +113,7 @@ final class IndexController extends AbstractController
                     'productos' => $productos,
                     'busqueda' => $Producto,
                     'form' => $form,
+                    'destacados' => $productoRepository->findBy(['Destacado' => true]),
                     'categorias' => $categoriaRepository->findAll(),
                 ]);
             }
@@ -120,6 +122,7 @@ final class IndexController extends AbstractController
                 'productos' => $productoRepository->findBy(['Categoria' => $categoria->getId()]),
                 'categoria' => $categoria,
                 'categorias' => $categoriaRepository->findAll(),
+                'destacados' => $productoRepository->findBy(['Destacado' => true]),
                 'form' => $form,
             ]);
         }
@@ -164,6 +167,7 @@ final class IndexController extends AbstractController
                     'busqueda' => $Producto,
                     'mostrarBoton' => $mostrarBoton,
                     'categorias' => $categoriaRepository->findAll(),
+                    'destacados' => $productoRepository->findBy(['Destacado' => true]),
                     'carro_num' => $numero_carro,
                     'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
                 ]);
@@ -328,6 +332,7 @@ final class IndexController extends AbstractController
                     'busqueda' => $Producto,
                     'form' => $form,
                     'mostrarBoton' => $mostrarBoton,
+                    'destacados' => $productoRepository->findBy(['Destacado' => true]),
                     'categorias' => $categoriaRepository->findAll(),
                     'carro_num' => $numero_carro,
                     'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
@@ -340,6 +345,7 @@ final class IndexController extends AbstractController
                 'categorias' => $categoriaRepository->findAll(),
                 'mostrarBoton' => $mostrarBoton,
                 'form' => $form,
+                'destacados' => $productoRepository->findBy(['Destacado' => true]),
                 'carro_num' => $numero_carro,
                 'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
             ]);

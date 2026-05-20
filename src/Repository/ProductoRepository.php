@@ -30,6 +30,7 @@ class ProductoRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->where('p.Descuento IS NOT NULL')
             ->orderBy('p.Descuento', 'DESC')
+            ->setMaxResults(5)
             ->getQuery()
             ->getResult();
     }

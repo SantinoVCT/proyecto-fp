@@ -133,7 +133,7 @@
 			}
 		</style>
 	</head>
-	<body {{stimulus_controller('cookie-consent')}} class="bg-white d-flex flex-column min-vh-100" data-turbo="false"> 
+	<body class="bg-white d-flex flex-column min-vh-100" data-turbo="false"> 
 		{% block body %}{% endblock %}
 		<div id="cookieModal" class="d-none position-fixed bottom-0 start-0 text-black bg-white p-4 shadow-lg rounded m-3" style="z-index: 9999; max-width: 400px;">
 			<div>
@@ -145,8 +145,29 @@
 				programa de bienestar en línea, de forma sencilla y en pocos pasos. No vendemos ni compartimos sus datos bajo ninguna circunstancia.
 			</div>
 			<div>
-				<button type="button" class="btn btn-primary fw-bold w-100">Aceptar</button>
+				<button id="cookieConsentButton" type="button" class="btn btn-primary fw-bold w-100">Aceptar</button>
 			</div>
 		</div>
 	</body>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const cookieModal = document.getElementById('cookieModal');
+			const cookieConsentButton = document.getElementById('cookieConsentButton');
+
+			function hasCookie(name) {
+				return document.cookie.split('; ').some(cookie => cookie.startsWith(name + '='));
+			}
+
+			if (!hasCookie('cookieConsent')) {
+				cookieModal.classList.remove('d-none');
+			}
+
+			cookieConsentButton.addEventListener('click', function() {
+				const expires = new Date();
+				expires.setFullYear(expires.getFullYear() + 1);
+				document.cookie = 'cookieConsent=true; expires=' + expires.toUTCString() + '; path=/; SameSite=Lax';
+				cookieModal.classList.add('d-none');
+			});
+		});
+	</script>
 	</html>
