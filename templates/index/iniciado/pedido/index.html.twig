@@ -16,13 +16,33 @@
 		<div class="row g-3 justify-content-center">
 			{% if pedidos %}
 				{% for pedido in pedidos %}
-					<a href="{{ path('pedido_detalle', {id: pedido.id}) }}" class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-sm-6 col-md-4 col-lg-2 mx-5 py-4 border border-gry">
+					{# <a href="{{ path('pedido_detalle', {id: pedido.id}) }}" class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-sm-6 col-md-4 col-lg-2 mx-5 py-4 border border-gry"> #}
+					<div class="dropdown d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-sm-6 col-md-4 col-lg-2 mx-5 py-4 border border-gry" id="dropbox-pedido">
+		                <button class="btn btn-link nav-link dropdown-toggle d-flex align-items-center p-0" id="pedidoDropdown{{ pedido.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+		                    <h4 class="mx-2">Codigo de Pedido: {{ pedido.codigo }}</h4>
+		                </button>
+							<p class="mx-2">Fecha de compra: {{ pedido.fecha.format('d-m-Y') }}</p>
+							<h5 class="precio"> Estado: {{ pedido.estado == 0 ? 'Preparando' : pedido.Estado == 1 ? 'En Reparto' : 'Enviado'  }}</h5>
+						<br>
+		                <ul class="dropdown-menu dropdown-menu-end pedido-dropdown-menu" style="max-height:260px; overflow-y:auto; min-width:220px;" aria-labelledby="pedidoDropdown{{ pedido.id }}">
+		                    {% for pProducto in pedidoProductos %}
+		                        {% if pProducto.CodigoPedidoRelacion.id == pedido.id %}
+		                            <li class="pb-2 mb-2 mx-3">
+		                                <p class="mb-1">{{ pProducto.Producto.Nombre }}</p>
+		                                <p class="mb-0 small">Cantidad: {{ pProducto.cantidad }} · {{ pProducto.Producto.Precio - (pProducto.Producto.Precio * pProducto.Producto.Descuento / 100) }}€</p>
+		                            </li>
+		                        {% endif %}
+		                    {% endfor %}
+		                </ul>
+		            </div>
+					
+					{# <a href="" class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-sm-6 col-md-4 col-lg-2 mx-5 py-4 border border-gry">
 						<div class="mx-3">
 							<h4 class="mx-2">Codigo de Pedido: {{ pedido.codigo }}</h4>
 							<p class="mx-2">Fecha de compra: {{ pedido.fecha.format('d-m-Y') }}</p>
 							<h5 class="precio"> Estado: {{ pedido.estado == 0 ? 'Preparando' : pedido.Estado == 1 ? 'En Reparto' : 'Enviado'  }}</h5>
 						</div>
-					</a>
+					</a> #}
 				{% endfor %}
 			{% else %}
 				<div class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center mx-5 py-4 border border-gry">
