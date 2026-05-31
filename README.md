@@ -5,8 +5,10 @@
 # Asegurece de tener Instalado XAMPP, Symfony, Composer, Node
 
 # Para desplegar la Pagina Web
-Primero tendrás que usar el siguiente comando para instalar las dependencias:
+Primero tendrás que usar el siguiente comando para instalar todo:
  composer install
+ npm install
+ npm run dev
 
 Luego tendran que usar los siguientes comando en el terminal para levantar la Base de Datos y aplicar la informacion en ella
 (si utilizan otra base de datos vaya al fichero .env y comente la linea 29 y mire cual de las otras lineas corresponden a su database y descomentela)
@@ -23,3 +25,6 @@ Luego tendran que usar los siguientes comando en el terminal para levantar la Ba
  symfony console doctrine:schema:drop --force
  symfony console doctrine:schema:update --force
  symfony console doctrine:fixtures:load -n
+
+# Para encender el servicio de forma local
+ symfony serve -d
