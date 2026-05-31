@@ -21,7 +21,7 @@
 			{% endfor %}
 		{% endfor %}
 		<div class="row mx-4 my-2">
-			<div class="col row g-3 justify-content-right m-0 p-0 overflow-auto" style="height:550px;">
+			<div class="col row g-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 justify-content-start">
 			{% if carritos is empty%}
 				<div class="bg-white rounded shadow overflow-hidden relative my-3">
 					<div class="px-6 py-4">
@@ -30,29 +30,33 @@
 				</div>
 			{% else %}
 				{% for carrito in carritos %}
-					<div class="bg-white p-5 rounded shadow text-center py-4 border border-gry col g-3 justify-content-center">
-						<h4>{{ carrito.Producto.Nombre }}</h4>
-						<img src="{{ asset('uploads/images/' ~ carrito.Producto.Imagen) }}" alt="{{ carrito.Producto.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
-						{% if carrito.Producto.Descuento %}
-						<p class="mx-2">
-							Precio: <b class="precio">{{ (carrito.Producto.Precio *(1-(carrito.Producto.Descuento/100)))| number_format(2) }}€</b> 
-						</p>
-						{% else %}
-							<p class="mx-2">
-								Precio: <b class="precio">{{ carrito.Producto.Precio }}€</b>
-							</p>
-						{% endif %}
-						<h6>Cantidad: {{ carrito.Cantidad }}
-						<div class="flex justify-center my-3">
-							<a href="{{path('app_cambiar', {id: carrito.id})}}" class="btn btn-light border-black">
-								Añadir/Reducir
-							</a>
-							<form method="post" action="{{ path('app_quitar', {'id': carrito.id}) }}" onsubmit="return confirm('Estas seguro de quitar este producto del carrito?');" class="m-1">
-								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ carrito.id) }}">
-								<button class="btn btn-light border-black">
-									Quitar
-								</button>
-							</form>
+					<div class="col" style="min-width: 300px;  max-height: 450px;" >
+						<div class="d-flex flex-column h-100 bg-white p-3 bg-white rounded shadow text-start py-4 border border-gry">
+							<div>
+								<h4>{{ carrito.Producto.Nombre }}</h4>
+								<img src="{{ asset('uploads/images/' ~ carrito.Producto.Imagen) }}" alt="{{ carrito.Producto.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
+								{% if carrito.Producto.Descuento %}
+								<p class="mx-2">
+									Precio: <b class="precio">{{ (carrito.Producto.Precio *(1-(carrito.Producto.Descuento/100)))| number_format(2) }}€</b> 
+								</p>
+								{% else %}
+									<p class="mx-2">
+										Precio: <b class="precio">{{ carrito.Producto.Precio }}€</b>
+									</p>
+								{% endif %}
+								<h6>Cantidad: {{ carrito.Cantidad }}
+								<div class="flex justify-center my-3">
+									<a href="{{path('app_cambiar', {id: carrito.id})}}" class="btn btn-light border-black">
+										Añadir/Reducir
+									</a>
+									<form method="post" action="{{ path('app_quitar', {'id': carrito.id}) }}" onsubmit="return confirm('Estas seguro de quitar este producto del carrito?');" class="mt-1">
+										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ carrito.id) }}">
+										<button class="btn btn-light border-black">
+											Quitar
+										</button>
+									</form>
+								</div>
+							</div>
 						</div>
 					</div>
 				{% endfor %}
