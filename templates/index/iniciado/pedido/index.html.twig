@@ -5,7 +5,60 @@
 
 {% block body %}
 	{% include 'partials/navbar.html.twig' %}
-	<div class="bg-info py-4">
+
+	<main class="container-fluid p-0 m-0">
+		<div class="mx-4 my-2">
+			<h1 class="text-4xl font-bold mb-4">Informacion del Pedido</h1>
+			<div class="row g-3 row-1 row-sm-2 row-md-3 row-lg-5 justify-content-start">
+			{% if pedidos is empty%}
+				<div class="bg-white rounded shadow overflow-hidden relative my-3">
+					<div class="px-6 py-4">
+						<div class="font-bold text-xl mx-2">No hay pedidos hechos</div>
+					</div>
+				</div>
+			{% else %}
+				{% for pedido in pedidos %}
+					<div class="dropdown d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center row-sm-6 row-md-4 row-lg-2 py-4 border border-gry" id="dropbox-pedido">
+		                <button class="btn btn-link nav-link dropdown-toggle d-flex align-items-center p-0" id="pedidoDropdown{{ pedido.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+		                    <h4 class="mx-2">Pedido: {{ pedido.codigo }}</h4>
+		                </button>
+							<p class="mx-2">Fecha de compra: {{ pedido.fecha.format('d-m-Y') }}</p>
+							<h5 class="precio"> Estado: {{ pedido.estado == 0 ? 'Preparando' : pedido.Estado == 1 ? 'En Reparto' : 'Enviado'  }}</h5>
+						<br>
+						<div class="dropdown-menu dropdown-menu-end pedido-dropdown-menu " style="overflow-y:auto;" aria-labelledby="pedidoDropdown{{ pedido.id }}">
+		                    <div class="flex-column">
+								{% for pProducto in pedidoProductos %}
+		                    	    {% if pProducto.CodigoPedidoRelacion.id == pedido.id %}
+		                    	        <div class="col-1" style="min-width: 300px;  max-height: 300px;" >
+											<div class="d-flex flex-column h-100 bg-white p-3 bg-white rounded shadow text-start py-4 border border-gry">
+												<div>
+													<h4>{{ pProducto.Producto.Nombre }}</h4>
+													<img src="{{ asset('uploads/images/' ~ pProducto.Producto.Imagen) }}" alt="{{ pProducto.Producto.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
+													{% if pProducto.Producto.Descuento %}
+													<p class="mx-2">
+														Precio: <b class="precio">{{ (pProducto.Producto.Precio *(1-(pProducto.Producto.Descuento/100)))| number_format(2) }}€</b> 
+													</p>
+													{% else %}
+														<p class="mx-2">
+															Precio: <b class="precio">{{ pProducto.Producto.Precio }}€</b>
+														</p>
+													{% endif %}
+													<h6>Cantidad: {{ pProducto.Cantidad }}
+												</div>
+											</div>
+										</div>
+		                    	    {% endif %}
+		                    	{% endfor %}
+							</div>
+		                </div>
+		            </div>
+				{% endfor %}
+			{% endif %}
+			</div>
+		</div>
+	</main>
+
+	{# <div class="bg-info py-4">
 		<div class="container mx-auto px-4">
 			<h1 class="text-6xl text-white text-center">
 				Pedidos
@@ -16,7 +69,6 @@
 		<div class="row g-3 justify-content-center">
 			{% if pedidos %}
 				{% for pedido in pedidos %}
-					{# <a href="{{ path('pedido_detalle', {id: pedido.id}) }}" class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-sm-6 col-md-4 col-lg-2 mx-5 py-4 border border-gry"> #}
 					<div class="dropdown d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-sm-6 col-md-4 col-lg-2 mx-5 py-4 border border-gry" id="dropbox-pedido">
 		                <button class="btn btn-link nav-link dropdown-toggle d-flex align-items-center p-0" id="pedidoDropdown{{ pedido.id }}" data-bs-toggle="dropdown" aria-expanded="false">
 		                    <h4 class="mx-2">Codigo de Pedido: {{ pedido.codigo }}</h4>
@@ -35,14 +87,6 @@
 		                    {% endfor %}
 		                </ul>
 		            </div>
-					
-					{# <a href="" class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-sm-6 col-md-4 col-lg-2 mx-5 py-4 border border-gry">
-						<div class="mx-3">
-							<h4 class="mx-2">Codigo de Pedido: {{ pedido.codigo }}</h4>
-							<p class="mx-2">Fecha de compra: {{ pedido.fecha.format('d-m-Y') }}</p>
-							<h5 class="precio"> Estado: {{ pedido.estado == 0 ? 'Preparando' : pedido.Estado == 1 ? 'En Reparto' : 'Enviado'  }}</h5>
-						</div>
-					</a> #}
 				{% endfor %}
 			{% else %}
 				<div class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center mx-5 py-4 border border-gry">
@@ -50,6 +94,6 @@
 				</div>
 			{% endif %}
 		</div>
-	</main>
+	</main> #}
 	{% include 'partials/footer.html.twig' %}
 {% endblock %}
