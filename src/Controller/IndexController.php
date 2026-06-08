@@ -436,21 +436,8 @@ final class IndexController extends AbstractController
         $idUser = $user->getId();
 
         $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
-        $itemsPerPage = 6;
-        $currentPage = max(1, (int) $request->query->get('page', 1));
 
-        $totalPedidos = $CodigoPedidoRepository->count(['Cliente' => $idUser]);
-        $totalPages = $totalPedidos > 0 ? (int) ceil($totalPedidos / $itemsPerPage) : 1;
-        if ($currentPage > $totalPages) {
-            $currentPage = $totalPages;
-        }
-
-        $pedidos = $CodigoPedidoRepository->findBy(
-            ['Cliente' => $idUser],
-            ['fecha' => 'DESC'],
-            $itemsPerPage,
-            ($currentPage - 1) * $itemsPerPage
-        );
+        $pedidos = $CodigoPedidoRepository->findBy(['Cliente' => $idUser]);
         
         return $this->render('index/iniciado/pedido/index.html.twig', [
             'pedidos' => $pedidos,
@@ -458,8 +445,6 @@ final class IndexController extends AbstractController
             'mostrarBoton' => $mostrarBoton,
             'carro_num' => $numero_carro,
             'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
-            'currentPage' => $currentPage,
-            'totalPages' => $totalPages,
         ]);
     }
     // #[Route('/homepage/pedidos/{id}', name: 'pedido_detalle', methods: ['GET'])]
