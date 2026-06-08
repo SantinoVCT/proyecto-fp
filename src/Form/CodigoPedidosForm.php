@@ -42,6 +42,11 @@ class CodigoPedidosForm extends AbstractType
                 'attr' => [
                     'class' => $textInputCss,
                 ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Fecha no pueden estar vacías.',
+                    ]),
+                ],
             ])
             ->add('codigo', IntegerType::class, [
                 'label' => 'Código',
@@ -55,7 +60,7 @@ class CodigoPedidosForm extends AbstractType
                     ]),
                     new Regex([
                         'pattern' => '/^[0-9]{4}$/',
-                        'message' => 'El código debe ser un número entero positivo y menor o igual a 9999999999.',
+                        'message' => 'El código debe ser un número entero positivo y menor o igual a 9999.',
                     ]),
                 ],
             ])

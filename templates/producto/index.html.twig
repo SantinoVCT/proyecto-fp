@@ -5,55 +5,122 @@
 
 {% block body %}
 	{% include 'partials/navbar.html.twig' %}
-	<main class="container-fluid p-0 m-0" style="min-height:80vh;">
-		<div class="bg-dark py-4">
-			<div class="container mx-auto px-4">
-				<h1 class="text-6xl text-white text-center">
-					Producto
-				</h1>
+	<div class="bg-dark py-4">
+		<div class="container mx-auto px-4">
+			<h1 class="text-6xl text-white text-center">
+				Producto
+			</h1>
+		</div>
+	</div>
+	{# Este bloque es para el mensaje de error #}
+	{% for label, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="bg-white rounded shadow overflow-hidden relative">
+				<div class="px-6 py-4 mx-2">
+					<p class="text-gray-700 text-base">
+						{{ message }}
+					</p>
+				</div>
+			</div>
+		{% endfor %}
+	{% endfor %}
+
+	<main class="container py-4 mb-5">
+		<div class="container mx-auto px-3">
+			<div class="col">
+				<a href="{{ path('app_producto_new') }}" class="product-card d-flex flex-column h-100 bg-white p-3 btn btn-light rounded shadow text-center py-4 border border-gry text-decoration-none text-reset">
+					<h4 class="text-primary mb-3">Añadir +</h4>
+				</a>
+			</div>
+			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 my-3">
+				{% if productos is empty %}
+					<div class="col">
+						<div class="bg-white rounded shadow overflow-hidden relative p-3">
+							<div class="font-bold h5">Productos no encontrados</div>
+							<p class="text-gray-700 mb-0">
+								No hay productos en la base de datos.
+							</p>
+						</div>
+					</div>
+				{% else %}
+					{% for producto in productos %}
+						<div class="col">
+							<a href="{{ path('app_producto_show', {id: producto.id}) }}" class="product-card d-flex flex-column h-100 bg-white p-3 btn btn-light rounded shadow text-center py-4 border border-gry text-decoration-none text-reset">
+								<h4 class="mb-2">{{ producto.Nombre }}</h4>
+								<img src="{{ asset('uploads/images/' ~ producto.Imagen) }}" alt="{{ producto.Nombre }}" class="product-image img-fluid mx-auto my-2" loading="lazy">
+								<p class="flex-grow-1 mb-3">{{ producto.Descripcion|slice(0,100) }}...</p>
+								<h5 class="precio mb-0">{{ producto.Precio }}€</h5>
+							</a>
+						</div>
+					{% endfor %}
+				{% endif %}
+			</div>
+
+			<div class="d-flex justify-content-center mt-4">
+				<nav aria-label="Paginacion productos">
+					<ul class="pagination" id="productPagination"></ul>
+				</nav>
 			</div>
 		</div>
-		{# Este bloque es para el mensaje de error #}
-		{% for label, messages in app.flashes %}
-			{% for message in messages %}
-				<div class="bg-white rounded shadow overflow-hidden relative">
-					<div class="px-6 py-4 mx-2">
-						<p class="text-gray-700 text-base">
-							{{ message }}
-						</p>
-					</div>
-				</div>
-			{% endfor %}
-		{% endfor %}
-
-		<div class="row g-3 justify-content-center my-3 mx-0">
-			{% if productos is empty%}
-				<div class="bg-white rounded shadow overflow-hidden relative">
-					<div class="px-6 py-4">
-						<div class="font-bold text-xl mx-2">Productos no encontrados</div>
-						<p class="text-gray-700 text-base">
-							No hay productos en la base de datos.
-						</p>
-					</div>
-				</div>
-				<a href="{{ path('app_producto_new') }}" class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
-					<h4>Add One +</h4>
-				</a>
-
-			{% else %}
-				<a href="{{ path('app_producto_new') }}" class="bg-white p-3 btn btn-light rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
-					<h4 class="text-primary">Add One +</h4>
-				</a>
-				{% for producto in productos %}
-					<a href="{{path('app_producto_show', {id: producto.id})}}" class="bg-white p-3 btn btn-light rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
-						<h4>{{ producto.Nombre }}</h4>
-						<img src="{{ asset('uploads/images/' ~ producto.Imagen) }}" alt="{{ producto.Nombre }}" class="img-fluid my-2" style="max-height: 150px; object-fit: contain;">
-						<p>{{ producto.Descripcion|slice(0,100) }}...</p>
-						<h5 class="precio">{{ producto.Precio }}€</h5>
-					</a>
-				{% endfor %}
-			{% endif %}
-		</div>
 	</main>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const items = Array.from(document.querySelectorAll('.row .col'));
+			const itemsPerPage = 8;
+			const paginationEl = document.getElementById('productPagination');
+			if (! paginationEl) 
+				return;
+
+
+			const productItems = items.filter(el => el.closest('.row') !== null && el.querySelector('.product-card'));
+			const totalItems = productItems.length;
+			const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
+			let currentPage = 1;
+
+			function showPage(page) {
+				currentPage = page;
+				productItems.forEach((el, idx) => {
+					const pageIndex = Math.floor(idx / itemsPerPage) + 1;
+					el.style.display = (pageIndex === page) ? '' : 'none';
+				});
+				renderPagination();
+			}
+
+			function renderPagination() {
+				paginationEl.innerHTML = '';
+
+				function makeItem(label, page, disabled, active) {
+					const li = document.createElement('li');
+					li.className = 'page-item' + (
+					disabled ? ' disabled' : ''
+					) + (active ? ' active' : '');
+					const a = document.createElement('a');
+					a.className = 'page-link';
+					a.href = '#';
+					a.innerText = label;
+					a.addEventListener('click', function (e) {
+						e.preventDefault();
+						if (! disabled) 
+						showPage(page);
+					});
+					li.appendChild(a);
+					return li;
+				}
+
+				paginationEl.appendChild(makeItem('«', Math.max(1, currentPage - 1), currentPage === 1, false));
+				for (let p = 1; p <= totalPages; p++) {
+					paginationEl.appendChild(makeItem(p, p, false, p === currentPage));
+				}
+				paginationEl.appendChild(makeItem('»', Math.min(totalPages, currentPage + 1), currentPage === totalPages, false));
+			}
+
+			if (totalPages > 1) {
+				showPage(1);
+			} else {
+				productItems.forEach(el => el.style.display = '');
+			}
+		});
+	</script>
 	{% include 'partials/footer.html.twig' %}
 {% endblock %}

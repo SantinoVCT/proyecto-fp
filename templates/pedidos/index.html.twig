@@ -37,12 +37,12 @@
 					</div>
 				</div>
 				<a href="{{ path('app_pedidos_new') }}" class="d-flex flex-column bg-white p-3 btn btn-light rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
-					<h4>Add One +</h4>
+					<h4>Añadir +</h4>
 				</a>
 
 			{% else %}
 				<a href="{{ path('app_pedidos_new') }}" class="bg-white p-3 btn btn-light rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">
-					<h4 class="text-primary">Add One +</h4>
+					<h4 class="text-primary">Añadir +</h4>
 				</a>
 				{% for pedido in pedidos %}
 					<a href="{{path('app_pedidos_show', {id: pedido.id})}}" class="bg-white p-3 btn btn-light rounded shadow text-center col-12 col-sm-6 col-md-4 col-lg-2 mx-2 py-4 border border-gry">

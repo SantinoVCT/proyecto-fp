@@ -74,6 +74,7 @@ final class PedidosController extends AbstractController
             'form' => $form,
             'mostrarBoton' => $mostrarBoton,
             'carro_num' => $numero_carro,
+            'codigoPedido' => $codigoPedido,
             'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }

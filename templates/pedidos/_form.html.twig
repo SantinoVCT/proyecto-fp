@@ -8,6 +8,6 @@
     {% endif %}
     {{ form_widget(form) }}
     
-    <a class="btn btn-warning" href="{{ path('app_pedidos_show', {id: pedido.id}) }}">Volver</a>
+    <a class="btn btn-warning" href="{{ path('app_codigo_pedidos_show', {id: codigoPedido.id}) }}">Volver</a>
     <button class="btn btn-success">{{ button_label|default('Guardar') }}</button>
 {{ form_end(form) }}

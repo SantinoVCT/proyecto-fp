@@ -36,9 +36,14 @@ class ProductoForm extends AbstractType
             ])
             ->add('Descripcion', TextType::class, [
                 'label' => 'Descripcion',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Las características no pueden estar vacías.',
+                    ]),
                 ],
             ])
             ->add('imagen', FileType::class, [
@@ -55,9 +60,14 @@ class ProductoForm extends AbstractType
             ])
             ->add('Caracteristicas', TextType::class, [
                 'label' => 'Caracteristicas',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => $textInputCss,
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Las características no pueden estar vacías.',
+                    ]),
                 ],
             ])
             ->add('Requisitos', TextType::class, [
@@ -106,6 +116,9 @@ class ProductoForm extends AbstractType
                     'class' => $textInputCss,
                 ],
                 'constraints' => [
+                    new NotBlank([
+                        'message' => 'El Stock no puede estar vacío.',
+                    ]),
                     new Regex([
                         'pattern' => '/^[0-9][0-9]?$/',
                         'message' => 'El Stock debe ser un número válido.',

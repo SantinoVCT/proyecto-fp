@@ -52,6 +52,42 @@
 				color: white;
 				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 			}
+			.codigo-pedido-card {
+				min-height: 170px;
+				transition: transform 0.15s ease, box-shadow 0.15s ease;
+			}
+			.codigo-pedido-card:hover {
+				transform: translateY(-3px);
+				box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.08);
+			}
+			.codigo-pedido-card h4,
+			.codigo-pedido-card p,
+			.codigo-pedido-card h5 {
+				margin-bottom: 0.75rem;
+			}
+			.pedido-item-card {
+				min-height: 240px;
+				transition: transform 0.15s ease, box-shadow 0.15s ease;
+			}
+			.pedido-item-card:hover {
+				transform: translateY(-3px);
+				box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.08);
+			}
+			.pedido-image {
+				max-height: 160px;
+				width: auto;
+				object-fit: contain;
+			}
+			@media (max-width: 575.98px) {
+				.codigo-pedido-card,
+				.pedido-item-card {
+					min-height: auto;
+					padding: 1rem;
+				}
+				.pedido-image {
+					max-height: 120px;
+				}
+			}
 			.menu__list {
 				display: none;
 				list-style: none;
@@ -127,6 +163,32 @@
 
 			.button_menu:hover {
 				background-color: rgb(231, 231, 231);
+			}
+			.product-card {
+				min-height: 100%;
+				transition: transform 0.15s ease, box-shadow 0.15s ease;
+			}
+			.product-card:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 0.75rem 1.25rem rgba(0, 0, 0, 0.08);
+			}
+			.product-card h4,
+			.product-card p,
+			.product-card h5 {
+				margin-bottom: 0.75rem;
+			}
+			.product-image {
+				max-height: 150px;
+				width: 100%;
+				object-fit: contain;
+			}
+			@media (max-width: 767.98px) {
+				.product-card {
+					padding: 1.25rem;
+				}
+				.product-image {
+					max-height: 120px;
+				}
 			}
 			footer {
 				margin-top: auto;
