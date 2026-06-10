@@ -447,39 +447,7 @@ final class IndexController extends AbstractController
             'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
         ]);
     }
-    // #[Route('/homepage/pedidos/{id}', name: 'pedido_detalle', methods: ['GET'])]
-    // public function showDetalle(CodigoPedido $codigoPedido, CarritoRepository $carritoRepository, PedidosRepository $pedidoRepository): Response
-    // {
-    //     $user = $this->getUser();
-    //     $mostrarBoton = false;
 
-    //     $idUser = $user->getId();
-
-    //     $numero_carro = count($carritoRepository->findBy(['Usuario' => $idUser]));
-
-    //     if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_GESTOR', $user->getRoles()))) {
-    //         $mostrarBoton = true;
-    //     }
-
-    //     $pedidos = $pedidoRepository->findBy(['CodigoPedidoRelacion' => $codigoPedido->getId()]);
-
-    //     $TotalPrecio = 0;
-    //     foreach ($pedidos as $pedido) {
-    //         if($pedido->getProducto()->getDescuento()){
-    //             $TotalPrecio+= $pedido->getCantidad()*($pedido->getProducto()->getPrecio()*(1-($pedido->getProducto()->getDescuento()/100)));
-    //         }else{
-    //             $TotalPrecio+= $pedido->getCantidad()*$pedido->getProducto()->getPrecio();
-    //         }
-    //     }
-
-    //     return $this->render('index/iniciado/pedido/pedidos.html.twig', [
-    //         'pedidos' => $pedidos,
-    //         'mostrarBoton' => $mostrarBoton,
-    //         'TotalPrecio' => $TotalPrecio,
-    //         'carro_num' => $numero_carro,
-    //         'carritos' => $carritoRepository->findBy(['Usuario' => $idUser]),
-    //     ]);
-    // }
 
     
     #[Route('/homepage/carrito/cambiar/{id}', name: 'app_cambiar', methods: ['GET', 'POST'])]
