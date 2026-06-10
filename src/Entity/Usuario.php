@@ -49,6 +49,18 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTime $FechaUpdate = null;
 
     /**
+     * @var Collection<int, Carrito>
+     */
+    #[ORM\OneToMany(targetEntity: Carrito::class, mappedBy: 'Usuario')]
+    private Collection $carritos;
+
+    /**
+     * @var Collection<int, Pedidos>
+     */
+    #[ORM\OneToMany(targetEntity: Pedidos::class, mappedBy: 'Usuario')]
+    private Collection $pedidos;
+
+    /**
      * @var Collection<int, CodigoPedido>
      */
     #[ORM\OneToMany(targetEntity: CodigoPedido::class, mappedBy: 'Cliente')]
@@ -56,6 +68,8 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
+        $this->carritos = new ArrayCollection();
+        $this->pedidos = new ArrayCollection();
         $this->codigoPedidos = new ArrayCollection();
     }
 
@@ -188,6 +202,64 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFechaUpdate(?\DateTime $FechaUpdate): static
     {
         $this->FechaUpdate = $FechaUpdate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Carrito>
+     */
+    public function getCarritos(): Collection
+    {
+        return $this->carritos;
+    }
+
+    public function addCarrito(Carrito $carrito): static
+    {
+        if (!$this->carritos->contains($carrito)) {
+            $this->carritos->add($carrito);
+            $carrito->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCarrito(Carrito $carrito): static
+    {
+        if ($this->carritos->removeElement($carrito)) {
+            if ($carrito->getUsuario() === $this) {
+                $carrito->setUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Pedidos>
+     */
+    public function getPedidos(): Collection
+    {
+        return $this->pedidos;
+    }
+
+    public function addPedido(Pedidos $pedido): static
+    {
+        if (!$this->pedidos->contains($pedido)) {
+            $this->pedidos->add($pedido);
+            $pedido->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removePedido(Pedidos $pedido): static
+    {
+        if ($this->pedidos->removeElement($pedido)) {
+            if ($pedido->getUsuario() === $this) {
+                $pedido->setUsuario(null);
+            }
+        }
 
         return $this;
     }
