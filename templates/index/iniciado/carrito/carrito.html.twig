@@ -58,11 +58,78 @@
 			<div class="col-3">
 				<h1 class="text-4xl font-bold mb-4">Informacion del Carrito</h1>
 				<p class="mx-2 text-secondary">Total de productos {{ carro_num }}</p>
-				<h4 class="font-bold mb-4">Precio Total</h4>
-				<h5 class="precio">{{ Total_precio_carrito }}€</h5>
-				<a href="{{ path('app_comprar') }}" class="btn btn-success mx-2 px-4 py-2">Comprar</a>
+				{% if carritos%}
+					<h4 class="font-bold mb-4">Precio Total</h4>
+					<h5 class="precio">{{ Total_precio_carrito|number_format(2) }}€</h5>
+
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miVentanaModal">
+  						Pasae a pago
+					</button>
+
+					<div class="modal fade" id="miVentanaModal" tabindex="-1" aria-hidden="true">
+  						<div class="modal-dialog">
+    						<div class="modal-content">
+							    <div class="modal-header">
+							        <h5 class="modal-title">Informacion de Pago</h5>
+							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+							    </div>
+								<div class="modal-body">
+									<form method="post" action="{{ path('app_comprar') }}">
+							    	
+					        			<div class="mb-3">
+											<label for="cardNumber" class="form-label">Numero de Tarjeta</label>
+											<input type="text" class="form-control" maxlength="19" inputmode="numeric" pattern="[0-9]{13,19}" title="El número de tarjeta debe tener entre 13 y 19 dígitos, sin espacios." id="cardNumber" name="cardNumber" required>
+										</div>
+										<div class="mb-3">
+											<label for="expiryDate" class="form-label">Fecha de Expiracion</label>
+											<input type="tel" class="form-control" id="cardExpiry" name="cardExpiry" placeholder="MM/AA" maxlength="5" pattern="(0[1-9]|1[0-2])\/[0-9]{2}" title="Inserte una fecha válida en formato MM/AA (Ej: 05/28)" inputmode="numeric" autocomplete="cc-exp" required>	
+										</div>
+										<div class="mb-3">
+											<label for="cvv" class="form-label">CVV</label>
+											<input type="text" class="form-control" minlength="3" maxlength="3" pattern="^[0-9]{3}$" title="El CVV debe tener exactamente 3 dígitos numéricos." inputmode="numeric" id="cvv" name="cvv" required>
+										</div>
+										<button type="submit" class="btn btn-success">Comprar</button>
+									</form>
+					    		</div>
+					    	</div>
+					  	</div>
+					</div>
+				{% endif %}
 			</div>
 		</div>
 	</main>
+	<script>
+		document.querySelectorAll('.precio').forEach(element => {
+			element.textContent = element.textContent.replace('.', ',');
+		});
+	</script>
+	<script>
+		document.getElementById('cardNumber').addEventListener('input', function (e) {
+  			// Borra cualquier caracter que NO sea un número
+  			e.target.value = e.target.value.replace(/\D/g, '');
+		});
+		document.getElementById('cardExpiry').addEventListener('input', function (e) {
+	  		// Borra cualquier caracter que NO sea un número
+	  		e.target.value = e.target.value.replace(/\D/g, '');
+			// Agrega una barra despues de los primeros dos dígitos
+			if (e.target.value.length > 2) {
+				e.target.value = e.target.value.slice(0, 2) + '/' + e.target.value.slice(2);
+			}
+			// El MM que sea entre 01 y 12
+			const month = parseInt(e.target.value.slice(0, 2));
+			if (month < 1) {
+				e.target.value = '01' + e.target.value.slice(2);
+			} else if (month > 12) {
+				e.target.value = '12' + e.target.value.slice(2);
+			}
+		});
+		document.getElementById('cvv').addEventListener('input', function (e) {
+	  		// Borra cualquier caracter que NO sea un número
+  			e.target.value = e.target.value.replace(/\D/g, '');
+		});	
+		document.addEventListener('DOMContentLoaded', function () {
+			
+		});
+	</script>
 	{% include 'partials/footer.html.twig' %}
 {% endblock %}
