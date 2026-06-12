@@ -20,8 +20,9 @@
     - Crear una columna int llamado Descuento que puede ser Null  [Done]
 -> Gestion de Cockies [Done]
 -> crear una funcion Stock [Done]
--> Añadir una funcion de validacion de compra (Validar tarjeta de credito) [Working_on_it]
--> Mejorar Menu principal [Waiting]
+-> Añadir una funcion de validacion de compra (Validar tarjeta de credito) [Done]
+-> Mejorar Menu principal [Done]
+    - SideBar para categorias [Done]
 
 Opcional
 -> Remover el "Invalid credentials." del login [Seing]

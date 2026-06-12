@@ -2,9 +2,15 @@
     <div class="container-fluid">
         <a class="navbar-brand logo" href="{{ path('app_index') }}">PC GAMING</a>
 
+        
+        
         <button class="navbar-toggler order-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        
+
+
+        
 
         <div class="d-flex align-items-center gap-3 ms-auto order-3">
             <a href="{{ path('app_login') }}" class="btn btn-success">Iniciar Sesión</a>
@@ -12,13 +18,13 @@
 
         <div class="collapse navbar-collapse order-4 order-lg-2" id="mainNavbar">
             <div class="d-flex flex-wrap align-items-center gap-2 w-100">
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle p-0" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="ms-1">Categorias</span>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="categoriasDropdown">
+                <button id="abrir-btn" class="nav-link">☰ Categorias</button>
+                <div id="overlay" class="overlay"></div>
+                <div id="mi-sidebar" class="sidebar" overflow-y-auto>
+                    <button id="cerrar-btn" class="boton-cerrar">Categorias</button>
+                    <ul class="list-unstyled mt-4">
                         {% for categoria in categorias %}
-                            <li><a class="dropdown-item" href="{{ path('categoria_offline', {id: categoria.id}) }}">{{ categoria.Nombre }}</a></li>
+                            <li class="text-white"><a class="c" href="{{ path('categoria_offline', {id: categoria.id}) }}">{{ categoria.Nombre }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -30,39 +36,95 @@
         </div>
     </div>
 </nav>
-{# <nav class="navbar border-bottom border-2 border-black bg-white">
-    <div class="container-fluid m-3">
-        <a class="logo" href="{{ path('app_index') }}">PC GAMING</a>
-        <div class="m-2 mx-5" id="dropbox-categorias">
-			<button class="m-0 border-0 btn button_menu ">
-				<img src="https://img.icons8.com/?size=100&id=120374&format=png&color=000000" alt="Categorias" style="width: 20px; height: 20px;">
-            	<span>Categorias</span>
-			</button>
-			<ul class="menu__list">
-				{% for categoria in categorias %}
-					<li><a href="{{ path('categoria_offline', {id: categoria.id}) }}" class="">{{ categoria.Nombre }}</a></li>
-				{% endfor %}
-			</ul>
-		</div>
-        <div class="flex-grow-1 m-2 mx-5">
-            {{ include('partials/_form.html.twig') }}
-        </div>
-        <a href="{{ path('app_login') }}" class="btn btn-success">Iniciar Sesión</a>
-    </div>
-</nav>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const dropbox = document.getElementById('dropbox-categorias');
-        const menuList = dropbox.querySelector('.menu__list');
+    // Seleccionamos los elementos
+    const abrirBtn = document.getElementById('abrir-btn');
+    const cerrarBtn = document.getElementById('cerrar-btn');
+    const sidebar = document.getElementById('mi-sidebar');
+    const overlay = document.getElementById('overlay');
 
-        dropbox.addEventListener('click', function(event) {
-            event.stopPropagation();
-            menuList.style.display = menuList.style.display === 'block' ? 'none' : 'block';
-        });
+    // Función para abrir el sidebar
+    function abrirSidebar() {
+        sidebar.classList.add('activo');
+        overlay.classList.add('activo');
+    }
 
-        document.addEventListener('click', function() {
-            menuList.style.display = 'none';
-        });
-    });
-</script> #}
+    // Función para cerrar el sidebar
+    function cerrarSidebar() {
+        sidebar.classList.remove('activo');
+        overlay.classList.remove('activo');
+    }
+
+    // Eventos de clic
+    abrirBtn.addEventListener('click', abrirSidebar);
+    cerrarBtn.addEventListener('click', cerrarSidebar);
+
+    // Opcional: Cerrar al hacer clic en el overlay (fondo oscuro)
+    overlay.addEventListener('click', cerrarSidebar);
+</script>
+
+<style>
+	/* --- Sidebar --- */
+	.sidebar {
+	    height: 100%;
+	    width: 0;
+	    position: fixed;
+	    z-index: 1000;
+	    top: 0;
+	    left: 0;
+	    background-color: #111;
+	    overflow-x: hidden;
+	    transition: 0.3s; /* Efecto de deslizamiento */
+	    padding-top: 60px;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+	}
+	
+	.sidebar a {
+	    padding: 15px 25px;
+        color: #818181;
+	    text-decoration: none;
+	    font-size: 25px;
+	    color: #818181;
+	    display: block;
+	    transition: 0.3s;
+	}
+	
+	.sidebar a:hover {
+	    color: #f1f1f1;
+	}
+	
+	.sidebar .boton-cerrar {
+	    position: absolute;
+	    top: 20px;
+	    right: 25px;
+	    font-size: 36px;
+	    background: none;
+	    border: none;
+	    color: #818181;
+	    cursor: pointer;
+	}
+	
+	/* --- Overlay (Fondo oscuro) --- */
+	.overlay {
+	    display: none;
+	    position: fixed;
+	    width: 100%;
+	    height: 100%;
+	    top: 0;
+	    left: 0;
+	    background-color: rgba(0,0,0,0.5);
+	    z-index: 999;
+	}
+	
+	/* --- Clases activas (JavaScript las añadirá) --- */
+	.sidebar.activo {
+	    width: 250px; /* Ancho del sidebar al abrirse */
+	}
+	
+	.overlay.activo {
+	    display: block;
+	}
+</style>

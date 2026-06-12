@@ -46,7 +46,17 @@
 
         <div class="collapse navbar-collapse order-4 order-lg-2" id="mainNavbar">
             <div class="d-flex flex-wrap align-items-center gap-2 w-100">
-                <div class="nav-item dropdown">
+                <button id="abrir-btn" class="nav-link">☰ Categorias</button>
+                <div id="overlay" class="overlay"></div>
+                <div id="mi-sidebar" class="sidebar" overflow-y-auto>
+                    <button id="cerrar-btn" class="boton-cerrar">Categorias</button>
+                    <ul class="list-unstyled mt-4">
+                        {% for categoria in categorias %}
+                            <li class="text-white"><a class="c" href="{{ path('categoria_online', {id: categoria.id}) }}">{{ categoria.Nombre }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {# <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle p-0" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="ms-1">Categorias</span>
                     </a>
@@ -55,7 +65,7 @@
                             <li><a class="dropdown-item" href="{{ path('categoria_online', {id: categoria.id}) }}">{{ categoria.Nombre }}</a></li>
                         {% endfor %}
                     </ul>
-                </div>
+                </div> #}
 
                 <div class="flex-grow-1">
                     {{ include('partials/_form.html.twig') }}
@@ -64,3 +74,95 @@
         </div>
     </div>
 </nav>
+
+<script>
+    // Seleccionamos los elementos
+    const abrirBtn = document.getElementById('abrir-btn');
+    const cerrarBtn = document.getElementById('cerrar-btn');
+    const sidebar = document.getElementById('mi-sidebar');
+    const overlay = document.getElementById('overlay');
+
+    // Función para abrir el sidebar
+    function abrirSidebar() {
+        sidebar.classList.add('activo');
+        overlay.classList.add('activo');
+    }
+
+    // Función para cerrar el sidebar
+    function cerrarSidebar() {
+        sidebar.classList.remove('activo');
+        overlay.classList.remove('activo');
+    }
+
+    // Eventos de clic
+    abrirBtn.addEventListener('click', abrirSidebar);
+    cerrarBtn.addEventListener('click', cerrarSidebar);
+
+    // Opcional: Cerrar al hacer clic en el overlay (fondo oscuro)
+    overlay.addEventListener('click', cerrarSidebar);
+</script>
+
+<style>
+	/* --- Sidebar --- */
+	.sidebar {
+	    height: 100%;
+	    width: 0;
+	    position: fixed;
+	    z-index: 1000;
+	    top: 0;
+	    left: 0;
+	    background-color: #111;
+	    overflow-x: hidden;
+	    transition: 0.3s; /* Efecto de deslizamiento */
+	    padding-top: 60px;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+	}
+	
+	.sidebar a {
+	    padding: 15px 25px;
+        color: #818181;
+	    text-decoration: none;
+	    font-size: 25px;
+	    color: #818181;
+	    display: block;
+	    transition: 0.3s;
+	}
+	
+	.sidebar a:hover {
+	    color: #f1f1f1;
+	}
+	
+	.sidebar .boton-cerrar {
+	    position: absolute;
+	    top: 20px;
+	    right: 25px;
+	    font-size: 36px;
+	    background: none;
+	    border: none;
+	    color: #818181;
+	    cursor: pointer;
+	}
+	
+	/* --- Overlay (Fondo oscuro) --- */
+	.overlay {
+	    display: none;
+	    position: fixed;
+	    width: 100%;
+	    height: 100%;
+	    top: 0;
+	    left: 0;
+	    background-color: rgba(0,0,0,0.5);
+	    z-index: 999;
+	}
+	
+	/* --- Clases activas (JavaScript las añadirá) --- */
+	.sidebar.activo {
+	    width: 250px; /* Ancho del sidebar al abrirse */
+	}
+	
+	.overlay.activo {
+	    display: block;
+	}
+</style>
