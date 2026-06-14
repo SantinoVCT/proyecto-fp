@@ -18,16 +18,16 @@ class AnuncioFixture extends Fixture
         $anuncio2 = new Anuncio(); 
         $anuncio3 = new Anuncio();
 
-        $anuncio1->setNombre('Anuncio 1');
-        $anuncio1->setImagen('anuncio1.png');
+        $anuncio1->setNombre('AMD Anuncio');
+        $anuncio1->setImagen('AMD_Anuncio.png');
         $anuncio1->setActivo(true);
 
-        $anuncio2->setNombre('Anuncio 2');
-        $anuncio2->setImagen('anuncio2.png');
+        $anuncio2->setNombre('Corsair Anuncio');
+        $anuncio2->setImagen('Corsair_Anuncio.png');
         $anuncio2->setActivo(true);
 
-        $anuncio3->setNombre('Anuncio 3');
-        $anuncio3->setImagen('anuncio3.png');
+        $anuncio3->setNombre('El Gato Anuncio');
+        $anuncio3->setImagen('Elgato_Anuncio.png');
         $anuncio3->setActivo(true);
 
 
