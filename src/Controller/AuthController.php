@@ -32,12 +32,24 @@ class AuthController extends AbstractController
         // }
 
         // get the login error if there is one
-        // $error = "Email y/o contraseña incorrectas intente de nuevo"; // $authenticationUtils->getLastAuthenticationError();
         $error = $authenticationUtils->getLastAuthenticationError();
+        $errorMessage = null;
+
+        if ($error) {
+            $errorMessage = match ($error->getMessageKey()) {
+                'Invalid credentials.' => 'Correo electrónico o contraseña incorrectos. Inténtalo de nuevo.',
+                'User account is disabled.' => 'Esta cuenta está deshabilitada.',
+                default => 'Correo electrónico o contraseña incorrectos. Inténtalo de nuevo.',
+            };
+        }
+
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error_message' => $errorMessage,
+        ]);
     }
 
     #[Route('/register', name: 'app_registrar', methods: ['GET', 'POST'])]

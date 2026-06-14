@@ -20,8 +20,8 @@
 							</div>
 						{% endfor %}
 					{% endfor %}
-					{% if error %}
-						<div class="alert alert-danger">Credenciales inválidas.</div>
+					{% if error_message %}
+						<div class="alert alert-danger">{{ error_message }}</div>
 					{% endif %}
 
 					{% if app.user %}

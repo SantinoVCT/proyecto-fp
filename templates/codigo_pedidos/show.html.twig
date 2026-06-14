@@ -22,6 +22,21 @@
 			<a href="{{ path('app_codigo_pedidos_edit', {id: codigo_pedido.id}) }}" class="btn btn-light border-info">
 				Editar
 			</a>
+
+			<div class="btn btn-light border-danger m-0 p-0" id="borrarCelda">
+				<button class="btn mx-o">
+	            	<span>Borrar</span>
+				</button>
+				<div class="rounded border border-gry p-3 borrarCelda" style="z-index: 10; min-width: 220px;">
+					<p class="mx-2"> Estas seguro de borrar este elemento</p>
+					<form method="post" action="{{  path('app_codigo_pedidos_delete', {'id': codigo_pedido.id})  }}"class="m-0 p-0">
+						<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ codigo_pedido.id) }}">
+						<button class="btn btn-light border-danger mx-1">Estoy Seguro</button>
+					</form> 
+				</div>
+			</div>
+
+			{# 			
 			<div class="position-relative" id="borrarCelda">
 				<button type="button" class="btn btn-light border-danger" id="borrarCeldaToggle">
 	            	<span>Borrar</span>
@@ -33,7 +48,7 @@
 						<button class="btn btn-light border-danger mx-1">Estoy Seguro</button>
 					</form> 
 				</div>
-			</div>
+			</div> #}
 		</div>
 		<div class="row gx-4 gy-4">
 			<div class="col-12 col-lg-4">
