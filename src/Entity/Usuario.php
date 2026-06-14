@@ -48,6 +48,12 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTime $FechaUpdate = null;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $isVerified = false;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $emailVerificationToken = null;
+
     /**
      * @var Collection<int, CodigoPedido>
      */
@@ -188,6 +194,30 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFechaUpdate(?\DateTime $FechaUpdate): static
     {
         $this->FechaUpdate = $FechaUpdate;
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getEmailVerificationToken(): ?string
+    {
+        return $this->emailVerificationToken;
+    }
+
+    public function setEmailVerificationToken(?string $emailVerificationToken): static
+    {
+        $this->emailVerificationToken = $emailVerificationToken;
 
         return $this;
     }
