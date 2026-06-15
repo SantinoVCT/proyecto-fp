@@ -38,7 +38,7 @@ class AuthController extends AbstractController
         if ($error) {
             $errorMessage = match ($error->getMessageKey()) {
                 'Invalid credentials.' => 'Correo electrónico o contraseña incorrectos. Inténtalo de nuevo.',
-                'User account is disabled.' => 'Esta cuenta está deshabilitada.',
+                'Debes confirmar tu correo electrónico antes de iniciar sesión.' => 'Debes confirmar tu correo electrónico antes de iniciar sesión.',
                 default => 'Correo electrónico o contraseña incorrectos. Inténtalo de nuevo.',
             };
         }
