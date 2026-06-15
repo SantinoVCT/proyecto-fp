@@ -42,12 +42,23 @@
 									<a href="{{path('app_cambiar', {id: carrito.id})}}" class="btn btn-light border-black">
 										Añadir/Reducir
 									</a>
-									<form method="post" action="{{ path('app_quitar', {'id': carrito.id}) }}" onsubmit="return confirm('Estas seguro de quitar este producto del carrito?');" class="mt-1">
+									<div class="btn btn-light border-danger m-0 p-0 position-relative borrarCeldaToggle">
+										<button type="button" class="btn mx-o">
+							            	<span>Borrar</span>
+										</button>
+										<div class="rounded border border-gry p-3 borrarCelda">
+											<form method="post" action="{{ path('app_quitar', {'id': carrito.id}) }}"class="m-0 p-0">
+												<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ carrito.id) }}">
+												<button class="btn btn-light border-danger mx-1">Estoy Seguro</button>
+											</form> 
+										</div>
+									</div>
+									{# <form method="post" action="{{ path('app_quitar', {'id': carrito.id}) }}" onsubmit="return confirm('Estas seguro de quitar este producto del carrito?');" class="mt-1">
 										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ carrito.id) }}">
 										<button class="btn btn-light border-black">
 											Quitar
 										</button>
-									</form>
+									</form> #}
 								</div>
 							</div>
 						</div>
@@ -63,7 +74,7 @@
 					<h5 class="precio">{{ Total_precio_carrito|number_format(2) }}€</h5>
 
 					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miVentanaModal">
-  						Pasae a pago
+  						Pasar a pago
 					</button>
 
 					<div class="modal fade" id="miVentanaModal" tabindex="-1" aria-hidden="true">
@@ -127,9 +138,42 @@
 	  		// Borra cualquier caracter que NO sea un número
   			e.target.value = e.target.value.replace(/\D/g, '');
 		});	
-		document.addEventListener('DOMContentLoaded', function () {
-			
-		});
+	
 	</script>
+
+	<script>
+    	document.addEventListener('DOMContentLoaded', function() {
+	        document.querySelectorAll('.borrarCeldaToggle').forEach(function(toggle) {
+	            const borrarPregunta = toggle.querySelector('.borrarCelda');
+	            const boton = toggle.querySelector('button');
+	            if (!borrarPregunta || !boton) {
+	                return;
+	            }
+
+	            boton.addEventListener('click', function(event) {
+	                event.stopPropagation();
+	                borrarPregunta.style.display = borrarPregunta.style.display === 'block' ? 'none' : 'block';
+	            });
+
+	            borrarPregunta.addEventListener('click', function(event) {
+	                event.stopPropagation();
+	            });
+	        });
+	        document.addEventListener('click', function() {
+	            document.querySelectorAll('.borrarCelda').forEach(function(popup) {
+	                popup.style.display = 'none';
+	            });
+	        });
+	    });
+	</script>
+	<style>
+	    .borrarCelda {
+			display: none;
+	        cursor: default;
+			position: absolute;
+			background-color: white;
+			margin-top: 5px;
+		}
+	</style>
 	{% include 'partials/footer.html.twig' %}
 {% endblock %}
